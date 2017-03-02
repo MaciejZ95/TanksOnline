@@ -28,8 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Infrastructure.SFMLRenderControl();
+            this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
+            this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
             this.SuspendLayout();
+            // 
+            // PauseMenu
+            // 
+            this.PauseMenu.Location = new System.Drawing.Point(310, 208);
+            this.PauseMenu.Name = "PauseMenu";
+            this.PauseMenu.Size = new System.Drawing.Size(150, 125);
+            this.PauseMenu.TabIndex = 1;
+            this.PauseMenu.Visible = false;
             // 
             // SFMLRenderControl
             // 
@@ -45,6 +54,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.PauseMenu);
             this.Controls.Add(this.SFMLRenderControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "GameWindow";
@@ -55,7 +65,8 @@
 
         #endregion
 
-        private Infrastructure.SFMLRenderControl SFMLRenderControl;
+        private Controls.SFMLRenderControl SFMLRenderControl;
+        private Controls.PauseMenu PauseMenu;
     }
 }
 

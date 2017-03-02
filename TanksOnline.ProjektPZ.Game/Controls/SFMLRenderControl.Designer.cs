@@ -1,4 +1,4 @@
-﻿namespace TanksOnline.ProjektPZ.Game.Infrastructure
+﻿namespace TanksOnline.ProjektPZ.Game.Controls
 {
     partial class SFMLRenderControl
     {

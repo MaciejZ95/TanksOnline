@@ -1,0 +1,61 @@
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TanksOnline.ProjektPZ.Game.Drawables
+{
+    public class TankWheels : Shape
+    {
+        private float myRadius;
+        private uint myPointCount;
+
+        public float Radius {
+            get {
+                return this.myRadius;
+            }
+            set {
+                this.myRadius = value;
+                this.Update();
+            }
+        }
+
+        public TankWheels() : this(0.0f) { }
+
+        public TankWheels(float radius) : this(radius, 60U) { }
+
+        public TankWheels(float radius, uint pointCount)
+        {
+            this.Radius = radius;
+            this.SetPointCount(pointCount);
+        }
+
+        public TankWheels(TankWheels copy) : base((Shape)copy)
+        {
+            this.Radius = copy.Radius;
+            this.SetPointCount(copy.GetPointCount());
+        }
+
+        public override uint GetPointCount()
+        {
+            return this.myPointCount;
+        }
+
+        public void SetPointCount(uint count)
+        {
+            this.myPointCount = count;
+            this.Update();
+        }
+
+        public override Vector2f GetPoint(uint index)
+        {
+            var num = (float)((double)(index * 2U) * Math.PI / (double)this.myPointCount - Math.PI / 2.0);
+            var point = new Vector2f(this.myRadius + (float)Math.Cos((double)num) * this.myRadius, this.myRadius + (float)Math.Sin((double)num) * this.myRadius);
+
+            return point + (index < (myPointCount / 2) ? new Vector2f(this.Radius * 4, 0f) : new Vector2f());
+        }
+    }
+}

@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using TanksOnline.ProjektPZ.Game.Drawables;
 
 namespace TanksOnline.ProjektPZ.Game
 {
     public partial class GameWindow : Form
     {
-        private CircleShape _circle;
+        private TankWheels _tank;
         private byte _color = 0;
         private RenderWindow _renderWindow;
         private DispatcherTimer _timer;
@@ -24,11 +25,11 @@ namespace TanksOnline.ProjektPZ.Game
         {
             InitializeComponent();
 
-            this._circle = new CircleShape(100) { FillColor = Color.Magenta };
+            this._tank = new TankWheels(50f) { FillColor = Color.Green };
             this.CreateRenderWindow();
 
             this._timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60) };
-            this._timer.Tick += Timer_Tick;
+            this._timer.Tick += MainLoop;
             this._timer.Start();
         }
 
@@ -42,7 +43,6 @@ namespace TanksOnline.ProjektPZ.Game
 
             var context = new ContextSettings { DepthBits = 24, AntialiasingLevel = 16 };
             this._renderWindow = new RenderWindow(this.SFMLRenderControl.Handle, context);
-            this._renderWindow.MouseButtonPressed += RenderWindow_MouseButtonPressed;
             this._renderWindow.KeyPressed += RenderWindow_KeyPressed;
             this._renderWindow.SetActive(true);
         }
@@ -52,6 +52,10 @@ namespace TanksOnline.ProjektPZ.Game
             switch (e.Code)
             {
                 case Keyboard.Key.Space: this.ChangeCircleColor(); break;
+                case Keyboard.Key.Escape:
+                    // TODO RK: Trzeba dodać jakieś okno na menu gry
+                    PauseMenu.Visible = true;
+                    break;
             }
         }
 
@@ -59,39 +63,25 @@ namespace TanksOnline.ProjektPZ.Game
         {
             var rand = new Random();
             var color = new Color((byte)rand.Next(), (byte)rand.Next(), (byte)rand.Next());
-            this._circle.FillColor = color;
+            this._tank.FillColor = color;
         }
 
-        private void RenderWindow_MouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            this._circle.Position = new Vector2f(e.X, e.Y);
-        }
-
-        private void DrawSurface_SizeChanged(object sender, EventArgs e)
-        {
-            this.CreateRenderWindow();
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
+        private void MainLoop(object sender, EventArgs e)
         {
             this._renderWindow.DispatchEvents();
-
             this._renderWindow.Clear(new Color(this._color, this._color, this._color));
             this._color = this._color >= 255 ? (byte)0 : (byte)(this._color + 1);
-
             this.GetKeys();
-
-            this._renderWindow.Draw(this._circle);
-
+            this._renderWindow.Draw(this._tank);
             this._renderWindow.Display();
         }
 
         private void GetKeys()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _circle.Position -= new Vector2f(10, 0);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _circle.Position += new Vector2f(10, 0);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _circle.Position -= new Vector2f(0, 10);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _circle.Position += new Vector2f(0, 10);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tank.Position -= new Vector2f(10, 0);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tank.Position += new Vector2f(10, 0);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tank.Position -= new Vector2f(0, 10);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tank.Position += new Vector2f(0, 10);
         }
     }
 }

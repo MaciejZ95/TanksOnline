@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SFML.Graphics;
 
-namespace TanksOnline.ProjektPZ.Game.Infrastructure
+namespace TanksOnline.ProjektPZ.Game.Controls
 {
     public partial class SFMLRenderControl : UserControl
     {
