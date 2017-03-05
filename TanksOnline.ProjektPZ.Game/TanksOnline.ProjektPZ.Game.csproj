@@ -65,7 +65,12 @@
     <Compile Include="Controls\PauseMenu.Designer.cs">
       <DependentUpon>PauseMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Drawables\Tank.cs" />
+    <Compile Include="Drawables\TankCabin.cs" />
+    <Compile Include="Drawables\TankTurret.cs" />
     <Compile Include="Drawables\TankWheel.cs" />
+    <Compile Include="Drawables\TankWheelInner.cs" />
+    <Compile Include="Extensions\MyExtensions.cs" />
     <Compile Include="GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +83,7 @@
     <Compile Include="Controls\SFMLRenderControl.Designer.cs">
       <DependentUpon>SFMLRenderControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\MoveAble.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\PauseMenu.resx">

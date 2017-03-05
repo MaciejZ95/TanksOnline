@@ -1,6 +1,4 @@
-﻿using SFML.Graphics;
-using SFML.System;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,54 +6,58 @@ using System.Threading.Tasks;
 
 namespace TanksOnline.ProjektPZ.Game.Drawables
 {
-    public class TankWheels : Shape
+    using SFML.System;
+    using SFML.Graphics;
+    using Interfaces;
+
+    public class TankWheel : Drawable, MoveAble
     {
-        private float myRadius;
-        private uint myPointCount;
+        private float rad, srad;
+        private Vector2f position;
+        private TankWheelInner InnerPart;
+        private List<CircleShape> InnerCircles;
 
-        public float Radius {
-            get {
-                return this.myRadius;
-            }
+        public Color FillColor {
+            get { return InnerPart.FillColor; }
+            set { InnerPart.FillColor = value; }
+        }
+
+        public Vector2f Position {
+            get { return position; }
             set {
-                this.myRadius = value;
-                this.Update();
+                position = value;
+                InnerPart.Position = value;
+                int i = 0;
+                InnerCircles.ForEach(x => x.Position = value + new Vector2f(rad + rad * i++ * 2 - x.Radius, rad - x.Radius));
             }
         }
 
-        public TankWheels() : this(0.0f) { }
-
-        public TankWheels(float radius) : this(radius, 60U) { }
-
-        public TankWheels(float radius, uint pointCount)
+        public TankWheel(float radius, float smallWheelRadius)
         {
-            this.Radius = radius;
-            this.SetPointCount(pointCount);
+            this.rad = radius;
+            this.srad = smallWheelRadius;
+            InnerPart = new TankWheelInner(radius) {
+                OutlineColor = Color.Black,
+                OutlineThickness = radius * 0.1f
+            };
+
+            InnerCircles = new List<CircleShape>();
+            for (int i = 0; i < 3; i++)
+            {
+                var circle = new CircleShape(srad) {
+                    FillColor = Color.Black,
+                    Position = new Vector2f(rad + rad * i * 2 - srad, rad - srad)
+                };
+                InnerCircles.Add(circle);
+            }
         }
 
-        public TankWheels(TankWheels copy) : base((Shape)copy)
-        {
-            this.Radius = copy.Radius;
-            this.SetPointCount(copy.GetPointCount());
-        }
+        public TankWheel(float radius) : this(radius, radius * 0.4f) { }
 
-        public override uint GetPointCount()
+        public void Draw(RenderTarget target, RenderStates states)
         {
-            return this.myPointCount;
-        }
-
-        public void SetPointCount(uint count)
-        {
-            this.myPointCount = count;
-            this.Update();
-        }
-
-        public override Vector2f GetPoint(uint index)
-        {
-            var num = (float)((double)(index * 2U) * Math.PI / (double)this.myPointCount - Math.PI / 2.0);
-            var point = new Vector2f(this.myRadius + (float)Math.Cos((double)num) * this.myRadius, this.myRadius + (float)Math.Sin((double)num) * this.myRadius);
-
-            return point + (index < (myPointCount / 2) ? new Vector2f(this.Radius * 4, 0f) : new Vector2f());
+            target.Draw(InnerPart);
+            InnerCircles.ForEach(x => target.Draw(x));
         }
     }
 }

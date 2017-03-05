@@ -16,8 +16,7 @@ namespace TanksOnline.ProjektPZ.Game
 {
     public partial class GameWindow : Form
     {
-        private TankWheels _tank;
-        private byte _color = 0;
+        private Tank _tank;
         private RenderWindow _renderWindow;
         private DispatcherTimer _timer;
 
@@ -25,7 +24,7 @@ namespace TanksOnline.ProjektPZ.Game
         {
             InitializeComponent();
 
-            this._tank = new TankWheels(50f) { FillColor = Color.Green };
+            this._tank = new Tank(50f) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) };
             this.CreateRenderWindow();
 
             this._timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60) };
@@ -51,37 +50,41 @@ namespace TanksOnline.ProjektPZ.Game
         {
             switch (e.Code)
             {
-                case Keyboard.Key.Space: this.ChangeCircleColor(); break;
+                case Keyboard.Key.Space: this.RandomTankColor(); break;
                 case Keyboard.Key.Escape:
                     // TODO RK: Trzeba dodać jakieś okno na menu gry
-                    PauseMenu.Visible = true;
+                    PauseMenu.Visible = !PauseMenu.Visible;
                     break;
             }
         }
 
-        private void ChangeCircleColor()
+        private void RandomTankColor()
         {
             var rand = new Random();
-            var color = new Color((byte)rand.Next(), (byte)rand.Next(), (byte)rand.Next());
-            this._tank.FillColor = color;
+            this._tank.FillColor = new Color((byte)rand.Next(), (byte)rand.Next(), (byte)rand.Next());
         }
 
         private void MainLoop(object sender, EventArgs e)
         {
-            this._renderWindow.DispatchEvents();
-            this._renderWindow.Clear(new Color(this._color, this._color, this._color));
-            this._color = this._color >= 255 ? (byte)0 : (byte)(this._color + 1);
-            this.GetKeys();
-            this._renderWindow.Draw(this._tank);
+            if (!PauseMenu.Visible)
+            {
+                this._renderWindow.DispatchEvents();
+                this._renderWindow.Clear(new Color(50, 50, 50));
+                this.GetKeys();
+                this._renderWindow.Draw(this._tank);
+            }
             this._renderWindow.Display();
         }
 
         private void GetKeys()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tank.Position -= new Vector2f(10, 0);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tank.Position += new Vector2f(10, 0);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tank.Position -= new Vector2f(0, 10);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tank.Position += new Vector2f(0, 10);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tank.Move(-new Vector2f(5f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tank.Move(new Vector2f(5f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tank.Move(-new Vector2f(0, 5f));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tank.Move(new Vector2f(0, 5f));
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q)) _tank.TurretAnchor += 2.5f;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.E)) _tank.TurretAnchor -= 2.5f;
         }
     }
 }
