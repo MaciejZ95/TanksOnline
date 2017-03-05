@@ -55,11 +55,11 @@ namespace TanksOnline.ProjektPZ.Game.Drawables
                 OutlineThickness = radius * 0.075f,
                 Position = new Vector2f(radius * 0.25f, radius),
                 Origin = new Vector2f(radius * 0.25f, 0f),
-                Rotation = -90f
+                Rotation = 270f
             };
         }
 
-        public TankTurret(float radius) : this(radius, radius * 3f) { }
+        public TankTurret(float radius) : this(radius, radius * 2f) { }
 
         public void Draw(RenderTarget target, RenderStates states)
         {

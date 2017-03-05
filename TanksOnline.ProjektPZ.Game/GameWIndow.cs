@@ -24,7 +24,7 @@ namespace TanksOnline.ProjektPZ.Game
         {
             InitializeComponent();
 
-            this._tank = new Tank(50f) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) };
+            this._tank = new Tank(10) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) };
             this.CreateRenderWindow();
 
             this._timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60) };
@@ -83,8 +83,14 @@ namespace TanksOnline.ProjektPZ.Game
             if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tank.Move(-new Vector2f(0, 5f));
             if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tank.Move(new Vector2f(0, 5f));
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q)) _tank.TurretAnchor += 2.5f;
-            if (Keyboard.IsKeyPressed(Keyboard.Key.E)) _tank.TurretAnchor -= 2.5f;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+            {
+                if(_tank.TurretAnchor - 2.5f > 85) _tank.TurretAnchor -= 2.5f;
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
+            {
+                if(_tank.TurretAnchor + 2.5f < 275) _tank.TurretAnchor += 2.5f;
+            }
         }
     }
 }
