@@ -1,7 +1,4 @@
-﻿using SFML.System;
-using SFML.Window;
-using SFML.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,12 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using TanksOnline.ProjektPZ.Game.Drawables;
 
-namespace TanksOnline.ProjektPZ.Game
+namespace TanksOnline.ProjektPZ.Game.Views
 {
+    using SFML.System;
+    using SFML.Window;
+    using SFML.Graphics;
+    using Drawables;
+    using Drawables.Tank;
+
     public partial class GameWindow : Form
     {
+        private List<Bullet> _bullets;
         private Tank _tank;
         private RenderWindow _renderWindow;
         private DispatcherTimer _timer;
@@ -25,6 +28,7 @@ namespace TanksOnline.ProjektPZ.Game
             InitializeComponent();
 
             this._tank = new Tank(10) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) };
+            this._bullets = new List<Bullet>();
             this.CreateRenderWindow();
 
             this._timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60) };
@@ -46,24 +50,15 @@ namespace TanksOnline.ProjektPZ.Game
             this._renderWindow.SetActive(true);
         }
 
-        private void RenderWindow_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
+        private void RenderWindow_KeyPressed(object sender, KeyEventArgs e)
         {
             switch (e.Code)
             {
-                case Keyboard.Key.Space: this.RandomTankColor(); break;
-                case Keyboard.Key.Escape:
-                    // TODO RK: Trzeba dodać jakieś okno na menu gry
-                    PauseMenu.Visible = !PauseMenu.Visible;
-                    break;
+                case Keyboard.Key.Escape: PauseMenu.Visible = !PauseMenu.Visible; break;
+                case Keyboard.Key.Space: _tank.Shoot(); break;
             }
         }
-
-        private void RandomTankColor()
-        {
-            var rand = new Random();
-            this._tank.FillColor = new Color((byte)rand.Next(), (byte)rand.Next(), (byte)rand.Next());
-        }
-
+        
         private void MainLoop(object sender, EventArgs e)
         {
             if (!PauseMenu.Visible)

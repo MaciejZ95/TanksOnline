@@ -65,16 +65,18 @@
     <Compile Include="Controls\PauseMenu.Designer.cs">
       <DependentUpon>PauseMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Drawables\Tank.cs" />
-    <Compile Include="Drawables\TankCabin.cs" />
-    <Compile Include="Drawables\TankTurret.cs" />
-    <Compile Include="Drawables\TankWheel.cs" />
-    <Compile Include="Drawables\TankWheelInner.cs" />
+    <Compile Include="Drawables\Bullet.cs" />
+    <Compile Include="Drawables\Tank\Tank.cs" />
+    <Compile Include="Drawables\Tank\TankCabin.cs" />
+    <Compile Include="DrawableBehaviours\TankShooting.cs" />
+    <Compile Include="Drawables\Tank\TankTurret.cs" />
+    <Compile Include="Drawables\Tank\TankWheel.cs" />
+    <Compile Include="Drawables\Tank\TankWheelInner.cs" />
     <Compile Include="Extensions\MyExtensions.cs" />
-    <Compile Include="GameWindow.cs">
+    <Compile Include="Views\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameWindow.Designer.cs">
+    <Compile Include="Views\GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SFMLRenderControl.cs">
@@ -86,10 +88,16 @@
     <Compile Include="Interfaces\MoveAble.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\TestWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\TestWindow.Designer.cs">
+      <DependentUpon>TestWindow.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Controls\PauseMenu.resx">
       <DependentUpon>PauseMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GameWIndow.resx">
+    <EmbeddedResource Include="Views\GameWIndow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -101,6 +109,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\TestWindow.resx">
+      <DependentUpon>TestWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -114,6 +125,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

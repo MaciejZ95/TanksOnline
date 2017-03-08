@@ -1,4 +1,4 @@
-﻿namespace TanksOnline.ProjektPZ.Game
+﻿namespace TanksOnline.ProjektPZ.Game.Views
 {
     partial class GameWindow
     {

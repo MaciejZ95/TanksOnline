@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using TanksOnline.ProjektPZ.Server.Domain.Enums;
+
+namespace TanksOnline.ProjektPZ.Server.Domain.Entities
+{
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public UserStatus Status { get; set; }
+        public TankInfo TankInfo { get; set; }
+        public UserScore UserScore { get; set; }
+    }
+}

@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TanksOnline.ProjektPZ.Game.Drawables
+namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
 {
     using SFML.System;
     using SFML.Graphics;
     using Interfaces;
 
-    public class Tank : Drawable, MoveAble
+    /// <summary>
+    /// Partial związany z wyświetlaniem obiektu
+    /// </summary>
+    public partial class Tank : Drawable, MoveAble
     {
         private Vector2f _pos;
         private TankTurret _turret;

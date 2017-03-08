@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TanksOnline.ProjektPZ.Game.Drawables
+namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
 {
     using SFML.System;
     using TanksOnline.ProjektPZ.Game.Interfaces;

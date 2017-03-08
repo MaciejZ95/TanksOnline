@@ -6,6 +6,8 @@ using System.Windows.Forms;
 
 namespace TanksOnline.ProjektPZ.Game
 {
+    using Views;
+
     static class Program
     {
         /// <summary>
@@ -16,7 +18,8 @@ namespace TanksOnline.ProjektPZ.Game
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameWindow());
+            //Application.Run(new GameWindow());
+            Application.Run(new TestWindow());
         }
     }
 }

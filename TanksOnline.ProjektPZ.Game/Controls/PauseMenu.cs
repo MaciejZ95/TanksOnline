@@ -19,6 +19,7 @@ namespace TanksOnline.ProjektPZ.Game.Controls
 
         private void ExitGame_Click(object sender, EventArgs e)
         {
+            // TODO RK: Docelowo ma to przerzucać do okien od Maćka
             Application.Exit();
         }
 
