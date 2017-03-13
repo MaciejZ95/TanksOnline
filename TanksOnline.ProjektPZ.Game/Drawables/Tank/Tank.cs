@@ -9,6 +9,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
     using SFML.System;
     using SFML.Graphics;
     using Interfaces;
+    using Collision;
 
     /// <summary>
     /// Partial związany z wyświetlaniem obiektu
@@ -19,6 +20,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
         private TankTurret _turret;
         private TankWheel _wheels;
         private Color _col;
+
         public float Rad { get; }
 
         /// <summary>

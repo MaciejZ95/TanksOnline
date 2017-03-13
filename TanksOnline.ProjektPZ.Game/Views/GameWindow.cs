@@ -15,6 +15,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
     using SFML.Graphics;
     using Drawables;
     using Drawables.Tank;
+    using Collision;
 
     public partial class GameWindow : Form
     {
@@ -22,6 +23,8 @@ namespace TanksOnline.ProjektPZ.Game.Views
         private Tank _tank;
         private RenderWindow _renderWindow;
         private DispatcherTimer _timer;
+        private bool justShooted;
+        private FrameCollisionBox _colBox = new FrameCollisionBox();
 
         public GameWindow()
         {
@@ -56,6 +59,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
                 this._renderWindow.DispatchEvents();
                 this._renderWindow.Clear(new Color(50, 50, 50));
                 this.GetKeys();
+                this._renderWindow.Draw(this._colBox);
                 this._bullets.ForEach(x =>
                 {
                     this._renderWindow.Draw(x);
@@ -64,6 +68,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
                 this._renderWindow.Draw(this._tank);
             }
             this.LabelAnchor.Text = $"Turret anchor: {_tank.TurretAngle}";
+            this.LabelTankPos.Text = $"Tank position: {_tank.Position}";
             this._renderWindow.Display();
         }
 
@@ -82,15 +87,17 @@ namespace TanksOnline.ProjektPZ.Game.Views
             {
                 if (_tank.TurretAngle + 2.5f < 95) _tank.TurretAngle += 2.5f;
             }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            if (justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) justShooted = false;
+            if (!justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
+                justShooted = true;
                 _bullets.Add(new Bullet(_tank.TurretAngle - 90, 10)
                 {
                     Position = _tank.Position + new Vector2f(
                         _tank.Rad + 2,
                         _tank.Rad + 2
                     ),
-                    FillColor = Color.Red,
+                    FillColor = Color.Blue,
                     Radius = 4
                 });
             }
