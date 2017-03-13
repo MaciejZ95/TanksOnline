@@ -13,19 +13,23 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
     /// <summary>
     /// Partial związany z wyświetlaniem obiektu
     /// </summary>
-    public partial class Tank : Drawable, MoveAble
+    public class Tank : Drawable, MoveAble
     {
         private Vector2f _pos;
         private TankTurret _turret;
         private TankWheel _wheels;
-        private float _rad;
         private Color _col;
+        public float Rad { get; }
 
-        public float TurretAnchor {
-            get { return _turret.TurretAnchor; }
-            set { _turret.TurretAnchor = value; }
+        /// <summary>
+        /// Wartość jest przesunięta o 180 stopni. Wynika to z charakterystyki widoku w SFMl. 
+        /// SFML ma wartość Y jadącą w dół, stąd cały wykres kartezjański jest odwrócony o 180.
+        /// </summary>
+        public float TurretAngle {
+            get { return _turret.TurretAnchor - 180; }
+            set { _turret.TurretAnchor = value + 180; }
         }
-
+        
         public Color FillColor {
             get { return _col; }
             set { _turret.FillColor = _wheels.FillColor = _col = value; }
@@ -36,18 +40,18 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
             set {
                 _pos = value;
                 _turret.Position = value;
-                _wheels.Position = value + new Vector2f(-1.5f * _rad, 2.25f * _rad);
+                _wheels.Position = value + new Vector2f(-1.5f * Rad, 2.25f * Rad);
             }
         }
 
         public Tank(float radius)
         {
-            _rad = radius;
+            Rad = radius;
             _col = Color.Green;
-            _turret = new TankTurret(_rad * 1.5f);
-            _wheels = new TankWheel(_rad)
+            _turret = new TankTurret(Rad * 1.5f);
+            _wheels = new TankWheel(Rad)
             {
-                Position = new Vector2f(-1.5f * _rad, 2.25f * _rad),
+                Position = new Vector2f(-1.5f * Rad, 2.25f * Rad),
             };
         }
 

@@ -46,19 +46,9 @@ namespace TanksOnline.ProjektPZ.Game.Views
 
             var context = new ContextSettings { DepthBits = 24, AntialiasingLevel = 16 };
             this._renderWindow = new RenderWindow(this.SFMLRenderControl.Handle, context);
-            this._renderWindow.KeyPressed += RenderWindow_KeyPressed;
             this._renderWindow.SetActive(true);
         }
 
-        private void RenderWindow_KeyPressed(object sender, KeyEventArgs e)
-        {
-            switch (e.Code)
-            {
-                case Keyboard.Key.Escape: PauseMenu.Visible = !PauseMenu.Visible; break;
-                case Keyboard.Key.Space: _tank.Shoot(); break;
-            }
-        }
-        
         private void MainLoop(object sender, EventArgs e)
         {
             if (!PauseMenu.Visible)
@@ -66,8 +56,14 @@ namespace TanksOnline.ProjektPZ.Game.Views
                 this._renderWindow.DispatchEvents();
                 this._renderWindow.Clear(new Color(50, 50, 50));
                 this.GetKeys();
+                this._bullets.ForEach(x =>
+                {
+                    this._renderWindow.Draw(x);
+                    x.Move();
+                });
                 this._renderWindow.Draw(this._tank);
             }
+            this.LabelAnchor.Text = $"Turret anchor: {_tank.TurretAngle}";
             this._renderWindow.Display();
         }
 
@@ -80,12 +76,25 @@ namespace TanksOnline.ProjektPZ.Game.Views
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
-                if(_tank.TurretAnchor - 2.5f > 85) _tank.TurretAnchor -= 2.5f;
+                if (_tank.TurretAngle - 2.5f > -95) _tank.TurretAngle -= 2.5f;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.E))
             {
-                if(_tank.TurretAnchor + 2.5f < 275) _tank.TurretAnchor += 2.5f;
+                if (_tank.TurretAngle + 2.5f < 95) _tank.TurretAngle += 2.5f;
             }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            {
+                _bullets.Add(new Bullet(_tank.TurretAngle - 90, 10)
+                {
+                    Position = _tank.Position + new Vector2f(
+                        _tank.Rad + 2,
+                        _tank.Rad + 2
+                    ),
+                    FillColor = Color.Red,
+                    Radius = 4
+                });
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) PauseMenu.Visible = !PauseMenu.Visible;
         }
     }
 }

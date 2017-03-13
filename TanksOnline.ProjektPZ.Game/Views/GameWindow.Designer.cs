@@ -30,6 +30,7 @@
         {
             this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
             this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
+            this.LabelAnchor = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // PauseMenu
@@ -49,17 +50,28 @@
             this.SFMLRenderControl.Size = new System.Drawing.Size(785, 560);
             this.SFMLRenderControl.TabIndex = 0;
             // 
+            // LabelAnchor
+            // 
+            this.LabelAnchor.AutoSize = true;
+            this.LabelAnchor.Location = new System.Drawing.Point(12, 9);
+            this.LabelAnchor.Name = "LabelAnchor";
+            this.LabelAnchor.Size = new System.Drawing.Size(71, 13);
+            this.LabelAnchor.TabIndex = 2;
+            this.LabelAnchor.Text = "Turret anchor";
+            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.LabelAnchor);
             this.Controls.Add(this.PauseMenu);
             this.Controls.Add(this.SFMLRenderControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "GameWindow";
             this.Text = "Tanks Online";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -67,6 +79,7 @@
 
         private Controls.SFMLRenderControl SFMLRenderControl;
         private Controls.PauseMenu PauseMenu;
+        private System.Windows.Forms.Label LabelAnchor;
     }
 }
 

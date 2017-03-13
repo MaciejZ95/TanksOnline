@@ -94,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Db.cs" />
     <Compile Include="Domain\Entities\TankInfo.cs" />
     <Compile Include="Domain\Entities\User.cs" />
@@ -105,6 +107,10 @@
     <Compile Include="Migrations\201703082232112_Migration001_Users.cs" />
     <Compile Include="Migrations\201703082232112_Migration001_Users.Designer.cs">
       <DependentUpon>201703082232112_Migration001_Users.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703101337042_Migration001_User-Password.cs" />
+    <Compile Include="Migrations\201703101337042_Migration001_User-Password.Designer.cs">
+      <DependentUpon>201703101337042_Migration001_User-Password.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -120,12 +126,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703082232112_Migration001_Users.resx">
       <DependentUpon>201703082232112_Migration001_Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703101337042_Migration001_User-Password.resx">
+      <DependentUpon>201703101337042_Migration001_User-Password.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -14,5 +14,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public UserStatus Status { get; set; }
         public TankInfo TankInfo { get; set; }
         public UserScore UserScore { get; set; }
+        public string Password { get; set; }
     }
 }
