@@ -10,7 +10,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
     using SFML.Graphics;
     using Interfaces;
 
-    public class TankWheel : Drawable, MoveAble
+    public class TankWheel : Drawable, IMoveAble
     {
         private float rad, srad;
         private Vector2f position;

@@ -18,12 +18,12 @@ namespace TanksOnline.ProjektPZ.Game
             obj.Position += vec;
         }
 
-        public static void Move(this MoveAble obj, Vector2f vec)
+        public static void Move(this IMoveAble obj, Vector2f vec)
         {
             obj.Position += vec;
         }
 
-        public static void Move(this MoveAbleWithAngle obj)
+        public static void Move(this IMoveAbleWithAngle obj)
         {
             obj.Position += new Vector2f(
                 10000f * obj.Speed * (float)Math.Cos(DEG_TO_RAD * obj.Angle) / 10000f,

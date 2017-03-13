@@ -62,13 +62,22 @@ namespace TanksOnline.ProjektPZ.Game.Views
                 this._renderWindow.Draw(this._colBox);
                 this._bullets.ForEach(x =>
                 {
-                    this._renderWindow.Draw(x);
-                    x.Move();
+                    if (this._colBox.CheckCollisionWithBullet(x))
+                    {
+                        x.Dispose();
+                    }
+                    else
+                    {
+                        this._renderWindow.Draw(x);
+                        x.Move();
+                    }
                 });
+                this._bullets.RemoveAll(x => x.Dead == true);
                 this._renderWindow.Draw(this._tank);
             }
             this.LabelAnchor.Text = $"Turret anchor: {_tank.TurretAngle}";
             this.LabelTankPos.Text = $"Tank position: {_tank.Position}";
+            this.LabelBulletCnt.Text = $"Bullets alive: {_bullets.Count}";
             this._renderWindow.Display();
         }
 
@@ -87,18 +96,19 @@ namespace TanksOnline.ProjektPZ.Game.Views
             {
                 if (_tank.TurretAngle + 2.5f < 95) _tank.TurretAngle += 2.5f;
             }
-            if (justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) justShooted = false;
-            if (!justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            //if (justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) justShooted = false;
+            if (/*!justShooted &&*/ Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
                 justShooted = true;
                 _bullets.Add(new Bullet(_tank.TurretAngle - 90, 10)
                 {
+                    Origin = new Vector2f(2f, 2f),
                     Position = _tank.Position + new Vector2f(
                         _tank.Rad + 2,
                         _tank.Rad + 2
                     ),
                     FillColor = Color.Blue,
-                    Radius = 4
+                    Radius = 4,
                 });
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) PauseMenu.Visible = !PauseMenu.Visible;

@@ -10,7 +10,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
     using TanksOnline.ProjektPZ.Game.Interfaces;
     using SFML.Graphics;
 
-    public class TankTurret : Drawable, MoveAble
+    public class TankTurret : Drawable, IMoveAble
     {
         private float _rad, _len;
         private Vector2f _pos;

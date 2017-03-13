@@ -73,7 +73,8 @@
     <Compile Include="Drawables\Tank\TankWheel.cs" />
     <Compile Include="Drawables\Tank\TankWheelInner.cs" />
     <Compile Include="Extensions\MyExtensions.cs" />
-    <Compile Include="Interfaces\MoveAbleWithAngle.cs" />
+    <Compile Include="Interfaces\ICollidable.cs" />
+    <Compile Include="Interfaces\IMoveAbleWithAngle.cs" />
     <Compile Include="Views\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,7 +87,7 @@
     <Compile Include="Controls\SFMLRenderControl.Designer.cs">
       <DependentUpon>SFMLRenderControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\MoveAble.cs" />
+    <Compile Include="Interfaces\IMoveAble.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\TestWindow.cs">

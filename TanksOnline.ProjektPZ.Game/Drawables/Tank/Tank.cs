@@ -14,7 +14,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
     /// <summary>
     /// Partial związany z wyświetlaniem obiektu
     /// </summary>
-    public class Tank : Drawable, MoveAble
+    public class Tank : Drawable, IMoveAble
     {
         private Vector2f _pos;
         private TankTurret _turret;

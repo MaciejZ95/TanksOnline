@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace TanksOnline.ProjektPZ.Game.Interfaces
 {
-    public interface MoveAble
+    public interface IMoveAbleWithAngle
     {
         Vector2f Position { get; set; }
+        float Angle { get; }
+        float Speed { get; }
     }
 }

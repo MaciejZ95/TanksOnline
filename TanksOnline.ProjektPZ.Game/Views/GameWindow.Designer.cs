@@ -28,11 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
-            this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
             this.LabelAnchor = new System.Windows.Forms.Label();
             this.LabelTankPos = new System.Windows.Forms.Label();
+            this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
+            this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
+            this.LabelBulletCnt = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // LabelAnchor
+            // 
+            this.LabelAnchor.AutoSize = true;
+            this.LabelAnchor.Location = new System.Drawing.Point(12, 9);
+            this.LabelAnchor.Name = "LabelAnchor";
+            this.LabelAnchor.Size = new System.Drawing.Size(71, 13);
+            this.LabelAnchor.TabIndex = 2;
+            this.LabelAnchor.Text = "Turret anchor";
+            // 
+            // LabelTankPos
+            // 
+            this.LabelTankPos.AutoSize = true;
+            this.LabelTankPos.Location = new System.Drawing.Point(12, 22);
+            this.LabelTankPos.Name = "LabelTankPos";
+            this.LabelTankPos.Size = new System.Drawing.Size(27, 13);
+            this.LabelTankPos.TabIndex = 3;
+            this.LabelTankPos.Text = "blah";
             // 
             // PauseMenu
             // 
@@ -51,29 +70,21 @@
             this.SFMLRenderControl.Size = new System.Drawing.Size(785, 560);
             this.SFMLRenderControl.TabIndex = 0;
             // 
-            // LabelAnchor
+            // LabelBulletCnt
             // 
-            this.LabelAnchor.AutoSize = true;
-            this.LabelAnchor.Location = new System.Drawing.Point(12, 9);
-            this.LabelAnchor.Name = "LabelAnchor";
-            this.LabelAnchor.Size = new System.Drawing.Size(71, 13);
-            this.LabelAnchor.TabIndex = 2;
-            this.LabelAnchor.Text = "Turret anchor";
-            // 
-            // LabelTankPos
-            // 
-            this.LabelTankPos.AutoSize = true;
-            this.LabelTankPos.Location = new System.Drawing.Point(13, 26);
-            this.LabelTankPos.Name = "LabelTankPos";
-            this.LabelTankPos.Size = new System.Drawing.Size(27, 13);
-            this.LabelTankPos.TabIndex = 3;
-            this.LabelTankPos.Text = "blah";
+            this.LabelBulletCnt.AutoSize = true;
+            this.LabelBulletCnt.Location = new System.Drawing.Point(12, 35);
+            this.LabelBulletCnt.Name = "LabelBulletCnt";
+            this.LabelBulletCnt.Size = new System.Drawing.Size(33, 13);
+            this.LabelBulletCnt.TabIndex = 4;
+            this.LabelBulletCnt.Text = "blah2";
             // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.LabelBulletCnt);
             this.Controls.Add(this.LabelTankPos);
             this.Controls.Add(this.LabelAnchor);
             this.Controls.Add(this.PauseMenu);
@@ -92,6 +103,7 @@
         private Controls.PauseMenu PauseMenu;
         private System.Windows.Forms.Label LabelAnchor;
         private System.Windows.Forms.Label LabelTankPos;
+        private System.Windows.Forms.Label LabelBulletCnt;
     }
 }
 
