@@ -6,33 +6,33 @@ using System.Net.Http;
 using System.Web.Http;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
 
-namespace TanksOnline.ProjektPZ.Server.Controllers
+namespace TanksOnline.ProjektPZ.Server.Controllers.Game
 {
-    public class UserController : BaseController
+    public class CreateRoomController : ApiController
     {
-        // GET: api/User
+        // GET: api/CreateRoom
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/User/5
-        public User Get(int id)
+        // GET: api/CreateRoom/5
+        public string Get(int id)
         {
-            return ctx.Users.Find(id);
+            return "value";
         }
 
-        // POST: api/User
-        public void Post([FromBody]string value)
+        // POST: api/CreateRoom
+        public void Post([FromBody]GameRoom value)
         {
         }
 
-        // PUT: api/User/5
+        // PUT: api/CreateRoom/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE: api/User/5
+        // DELETE: api/CreateRoom/5
         public void Delete(int id)
         {
         }
