@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
+namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
 {
     using SFML.System;
     using TanksOnline.ProjektPZ.Game.Interfaces;
@@ -53,7 +53,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
                 FillColor = Color.Green,
                 OutlineColor = Color.Black,
                 OutlineThickness = radius * 0.075f,
-                Position = new Vector2f(radius * 0.25f, radius),
+                Position = new Vector2f(radius, radius),
                 Origin = new Vector2f(radius * 0.25f, 0f),
                 Rotation = 270f
             };

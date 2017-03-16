@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collision\FrameCollisionBox.cs" />
+    <Compile Include="Collision\TankCollisionBox.cs" />
     <Compile Include="Controls\PauseMenu.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -73,6 +74,7 @@
       <DependentUpon>TankPreview.cs</DependentUpon>
     </Compile>
     <Compile Include="Drawables\Bullet.cs" />
+    <Compile Include="Drawables\Explosion.cs" />
     <Compile Include="Drawables\Tank\Tank.cs" />
     <Compile Include="Drawables\Tank\TankCabin.cs" />
     <Compile Include="Drawables\Tank\TankTurret.cs" />

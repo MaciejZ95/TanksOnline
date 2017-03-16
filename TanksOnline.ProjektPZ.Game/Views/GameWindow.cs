@@ -14,98 +14,119 @@ namespace TanksOnline.ProjektPZ.Game.Views
     using SFML.Window;
     using SFML.Graphics;
     using Drawables;
-    using Drawables.Tank;
+    using Drawables.TankNs;
     using Collision;
 
     public partial class GameWindow : Form
     {
         private List<Bullet> _bullets;
-        private Tank _tank;
+        private Tank _tank1, _tank2;
         private RenderWindow _renderWindow;
-        private DispatcherTimer _timer;
+        private Timer _timer;
         private bool justShooted;
         private FrameCollisionBox _colBox = new FrameCollisionBox();
+        private List<Explosion> booms;
 
         public GameWindow()
         {
             InitializeComponent();
 
-            this._tank = new Tank(10) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) };
-            this._bullets = new List<Bullet>();
-            this.CreateRenderWindow();
+            booms = new List<Explosion>()
+            {
+                new Explosion(new Vector2f(300, 300))
+            };
 
-            this._timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60) };
-            this._timer.Tick += MainLoop;
-            this._timer.Start();
+            _tank1 = new Tank(20) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) };
+            _tank2 = new Tank(20) { FillColor = Color.Magenta, Position = new Vector2f(650f, 400f), TurretAngle = -90 };
+            _bullets = new List<Bullet>();
+            CreateRenderWindow();
+
+            _timer = new Timer { Interval = 1000 / 60 };
+            _timer.Tick += MainLoop;
+            _timer.Start();
         }
 
         private void CreateRenderWindow()
         {
-            if (this._renderWindow != null)
+            if (_renderWindow != null)
             {
-                this._renderWindow.SetActive(false);
-                this._renderWindow.Dispose();
+                _renderWindow.SetActive(false);
+                _renderWindow.Dispose();
             }
 
             var context = new ContextSettings { DepthBits = 24, AntialiasingLevel = 16 };
-            this._renderWindow = new RenderWindow(this.SFMLRenderControl.Handle, context);
-            this._renderWindow.SetActive(true);
+            _renderWindow = new RenderWindow(SFMLRenderControl.Handle, context);
+            _renderWindow.SetActive(true);
         }
 
         private void MainLoop(object sender, EventArgs e)
         {
             if (!PauseMenu.Visible)
             {
-                this._renderWindow.DispatchEvents();
-                this._renderWindow.Clear(new Color(50, 50, 50));
-                this.GetKeys();
-                this._renderWindow.Draw(this._colBox);
-                this._bullets.ForEach(x =>
+                _renderWindow.DispatchEvents();
+                _renderWindow.Clear(new Color(50, 50, 50));
+                GetKeys();
+                _renderWindow.Draw(_colBox);
+                _bullets.ForEach(x =>
                 {
-                    if (this._colBox.CheckCollisionWithBullet(x))
+                    if (_colBox.CheckCol(x) || _tank1.CheckCol(x) || _tank2.CheckCol(x))
                     {
                         x.Dispose();
                     }
                     else
                     {
-                        this._renderWindow.Draw(x);
+                        _renderWindow.Draw(x);
                         x.Move();
                     }
                 });
-                this._bullets.RemoveAll(x => x.Dead == true);
-                this._renderWindow.Draw(this._tank);
+                _bullets.Where(x => x.Dead).ToList().ForEach(x => {
+                    booms.Add(new Explosion(x.Position));
+                });
+                _bullets.RemoveAll(x =>
+                {
+                    // HELL MODE: Odkomentuj to zobaczysz piekło :D
+                    //booms.Add(new Explosion(x.Position));
+                    return x.Dead == true;
+                });
+                _renderWindow.Draw(_tank1);
+                _renderWindow.Draw(_tank2);
+                booms.RemoveAll(x => x.Dead);
+                booms.ForEach(x => _renderWindow.Draw(x));
             }
-            this.LabelAnchor.Text = $"Turret anchor: {_tank.TurretAngle}";
-            this.LabelTankPos.Text = $"Tank position: {_tank.Position}";
-            this.LabelBulletCnt.Text = $"Bullets alive: {_bullets.Count}";
-            this._renderWindow.Display();
+            LabelAnchor.Text = $"Turret anchor: {_tank1.TurretAngle}";
+            LabelTankPos.Text = $"Tank position: {_tank1.Position}";
+            LabelBulletCnt.Text = $"Bullets alive: {_bullets.Count}";
+            _renderWindow.Display();
         }
 
         private void GetKeys()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tank.Move(-new Vector2f(5f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tank.Move(new Vector2f(5f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tank.Move(-new Vector2f(0, 5f));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tank.Move(new Vector2f(0, 5f));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tank1.Move(-new Vector2f(5f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tank1.Move(new Vector2f(5f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tank1.Move(-new Vector2f(0, 5f));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tank1.Move(new Vector2f(0, 5f));
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
-                if (_tank.TurretAngle - 2.5f > -95) _tank.TurretAngle -= 2.5f;
+                if (_tank1.TurretAngle - 2.5f > -95) _tank1.TurretAngle -= 2.5f;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.E))
             {
-                if (_tank.TurretAngle + 2.5f < 95) _tank.TurretAngle += 2.5f;
+                if (_tank1.TurretAngle + 2.5f < 95) _tank1.TurretAngle += 2.5f;
             }
+            // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
             //if (justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) justShooted = false;
-            if (/*!justShooted &&*/ Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            //if (!justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            if (justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) justShooted = false;
+            if (!justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
                 justShooted = true;
-                _bullets.Add(new Bullet(_tank.TurretAngle - 90, 10)
+                _bullets.Add(new Bullet(_tank1, _tank1.TurretAngle - 90, 10)
                 {
                     Origin = new Vector2f(2f, 2f),
-                    Position = _tank.Position + new Vector2f(
-                        _tank.Rad + 2,
-                        _tank.Rad + 2
+                    Position = _tank1.Position + new Vector2f(
+                        _tank1.Rad + 2,
+                        _tank1.Rad + 2
                     ),
                     FillColor = Color.Blue,
                     Radius = 4,

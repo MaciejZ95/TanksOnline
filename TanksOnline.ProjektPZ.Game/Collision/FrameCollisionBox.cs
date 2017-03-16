@@ -20,7 +20,7 @@ namespace TanksOnline.ProjektPZ.Game.Collision
             frame = new List<RectangleShape>
             {
                 new RectangleShape(new Vector2f(50f, 615f)) { Position = new Vector2f(-45f, -25f) },
-                new RectangleShape(new Vector2f(50f, 50f)) { Position = new Vector2f(200f, 200f) },
+                //new RectangleShape(new Vector2f(50f, 50f)) { Position = new Vector2f(200f, 200f) },
                 new RectangleShape(new Vector2f(50f, 615f)) { Position = new Vector2f(780f, -25f) },
                 new RectangleShape(new Vector2f(780f, 50f)) { Position = new Vector2f(0f, -45f) },
                 new RectangleShape(new Vector2f(780f, 50f)) { Position = new Vector2f(0f, 555f) }
@@ -32,7 +32,7 @@ namespace TanksOnline.ProjektPZ.Game.Collision
             });
         }
 
-        public bool CheckCollisionWithBullet(Bullet obj)
+        public bool CheckCol(Bullet obj)
         {
             frame.ForEach(x =>
             {

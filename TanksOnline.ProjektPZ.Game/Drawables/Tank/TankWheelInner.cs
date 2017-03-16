@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
+namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
 {
     using SFML.Graphics;
     using SFML.System;

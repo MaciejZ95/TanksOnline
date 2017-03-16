@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
+namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
 {
     using SFML.System;
     using SFML.Graphics;
@@ -14,12 +14,13 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
     /// <summary>
     /// Partial związany z wyświetlaniem obiektu
     /// </summary>
-    public class Tank : Drawable, IMoveAble
+    public class Tank : Drawable, IMoveAble, ICollidable
     {
         private Vector2f _pos;
         private TankTurret _turret;
         private TankWheel _wheels;
         private Color _col;
+        private TankCollisionBox _box;
 
         public float Rad { get; }
 
@@ -43,6 +44,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
                 _pos = value;
                 _turret.Position = value;
                 _wheels.Position = value + new Vector2f(-1.5f * Rad, 2.25f * Rad);
+                _box.Position = value;
             }
         }
 
@@ -55,12 +57,23 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.Tank
             {
                 Position = new Vector2f(-1.5f * Rad, 2.25f * Rad),
             };
+            _box = new TankCollisionBox(radius);
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            target.Draw(_box);
             target.Draw(_turret);
             target.Draw(_wheels);
+        }
+
+        public bool CheckCol(Bullet obj)
+        {
+            if (obj.Owner != this)
+            {
+                return _box.CheckCol(obj);
+            }
+            else return false;
         }
     }
 }

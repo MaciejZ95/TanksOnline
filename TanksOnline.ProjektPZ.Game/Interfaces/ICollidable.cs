@@ -9,6 +9,6 @@ namespace TanksOnline.ProjektPZ.Game.Interfaces
 {
     public interface ICollidable
     {
-        bool CheckCollisionWithBullet(Bullet obj);
+        bool CheckCol(Bullet obj);
     }
 }

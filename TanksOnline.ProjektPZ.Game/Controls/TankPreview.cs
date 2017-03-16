@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using SFML.Graphics;
 using SFML.Window;
 using System.Windows.Threading;
-using TanksOnline.ProjektPZ.Game.Drawables.Tank;
+using TanksOnline.ProjektPZ.Game.Drawables.TankNs;
 using SFML.System;
 
 namespace TanksOnline.ProjektPZ.Game.Controls
