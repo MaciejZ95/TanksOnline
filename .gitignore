@@ -3,6 +3,8 @@
 
 #pliki SFML'a
 SFML/
+!SFML/*
+!SFML/lib/*
 
 # User-specific files
 *.suo
