@@ -115,7 +115,6 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\Game\CreateRoomController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Domain\Db.cs" />
     <Compile Include="Domain\Entities\GameRoom.cs" />
@@ -148,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Game\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703150903205_Initial.resx">

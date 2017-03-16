@@ -66,6 +66,12 @@
     <Compile Include="Controls\PauseMenu.Designer.cs">
       <DependentUpon>PauseMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TankPreview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TankPreview.Designer.cs">
+      <DependentUpon>TankPreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Drawables\Bullet.cs" />
     <Compile Include="Drawables\Tank\Tank.cs" />
     <Compile Include="Drawables\Tank\TankCabin.cs" />
