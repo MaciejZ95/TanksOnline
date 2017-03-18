@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
 {
     using SFML.System;
-    using TanksOnline.ProjektPZ.Game.Interfaces;
     using SFML.Graphics;
+    using Infrastructure.Interfaces;
 
     public class TankTurret : Drawable, IMoveAble
     {

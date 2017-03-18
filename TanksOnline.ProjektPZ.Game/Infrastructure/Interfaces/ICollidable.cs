@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TanksOnline.ProjektPZ.Game.Drawables;
 
-namespace TanksOnline.ProjektPZ.Game.Interfaces
+namespace TanksOnline.ProjektPZ.Game.Infrastructure.Interfaces
 {
     public interface ICollidable
     {
-        bool CheckCol(Bullet obj);
+        bool CheckCol(Drawables.Bullet obj);
     }
 }

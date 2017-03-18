@@ -1,15 +1,16 @@
-﻿using SFML.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TanksOnline.ProjektPZ.Game.Drawables;
-using TanksOnline.ProjektPZ.Game.Interfaces;
-using SFML.System;
 
 namespace TanksOnline.ProjektPZ.Game.Collision
 {
+    using SFML.Graphics;
+    using SFML.System;
+    using Drawables;
+    using Infrastructure.Interfaces;
+
     public class TankCollisionBox : ICollidable, IMoveAble, Drawable
     {
         /// <summary>
@@ -27,12 +28,12 @@ namespace TanksOnline.ProjektPZ.Game.Collision
                 new RectangleShape(new Vector2f(6f * radius, 2f * radius))
                 {
                     Position = new Vector2f(-1.5f * radius, radius * 2.25f),
-                    FillColor = new Color(255, 0, 0, 128),
+                    FillColor = new Color(255, 0, 0, 50),
                 },
                 new RectangleShape(new Vector2f(3f * radius, 3f * radius))
                 {
                     Position = new Vector2f(),
-                    FillColor = new Color(255, 0, 0, 128),
+                    FillColor = new Color(255, 0, 0, 50),
                 },
             };
         }

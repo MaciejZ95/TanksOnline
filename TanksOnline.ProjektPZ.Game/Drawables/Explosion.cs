@@ -1,6 +1,4 @@
-﻿using SFML.Graphics;
-using SFML.System;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +7,11 @@ using System.Windows.Forms;
 
 namespace TanksOnline.ProjektPZ.Game.Drawables
 {
-    public class Explosion : Sprite
+    using SFML.Graphics;
+    using SFML.System;
+    using Infrastructure.Interfaces;
+
+    public class Explosion : Sprite, IMoveAble
     {
         private static Random RAND = new Random();
         private static Texture TEXTURE;

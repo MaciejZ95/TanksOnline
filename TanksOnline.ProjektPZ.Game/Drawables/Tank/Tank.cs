@@ -8,7 +8,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
 {
     using SFML.System;
     using SFML.Graphics;
-    using Interfaces;
+    using Infrastructure.Interfaces;
     using Collision;
 
     /// <summary>
@@ -23,6 +23,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
         private TankCollisionBox _box;
 
         public float Rad { get; }
+        public bool Dead { get; set; }
 
         /// <summary>
         /// Wartość jest przesunięta o 180 stopni. Wynika to z charakterystyki widoku w SFMl. 
@@ -71,7 +72,9 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
         {
             if (obj.Owner != this)
             {
-                return _box.CheckCol(obj);
+                var result = _box.CheckCol(obj);
+                this.Dead = result;
+                return result;
             }
             else return false;
         }

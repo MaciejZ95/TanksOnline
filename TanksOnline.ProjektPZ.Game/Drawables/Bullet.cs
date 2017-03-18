@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TanksOnline.ProjektPZ.Game.Drawables
 {
-    using Interfaces;
     using SFML.Graphics;
+    using Infrastructure.Interfaces;
     using TankNs;
 
     public class Bullet : CircleShape, IMoveAbleWithAngle

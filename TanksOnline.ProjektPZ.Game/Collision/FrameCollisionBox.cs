@@ -1,5 +1,4 @@
-﻿using SFML.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TanksOnline.ProjektPZ.Game.Collision
 {
+    using SFML.Graphics;
     using SFML.System;
-    using Interfaces;
+    using Infrastructure.Interfaces;
     using Drawables;
 
     public class FrameCollisionBox : Drawable, ICollidable
@@ -20,7 +20,6 @@ namespace TanksOnline.ProjektPZ.Game.Collision
             frame = new List<RectangleShape>
             {
                 new RectangleShape(new Vector2f(50f, 615f)) { Position = new Vector2f(-45f, -25f) },
-                //new RectangleShape(new Vector2f(50f, 50f)) { Position = new Vector2f(200f, 200f) },
                 new RectangleShape(new Vector2f(50f, 615f)) { Position = new Vector2f(780f, -25f) },
                 new RectangleShape(new Vector2f(780f, 50f)) { Position = new Vector2f(0f, -45f) },
                 new RectangleShape(new Vector2f(780f, 50f)) { Position = new Vector2f(0f, 555f) }

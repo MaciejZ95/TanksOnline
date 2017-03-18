@@ -8,7 +8,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
 {
     using SFML.System;
     using SFML.Graphics;
-    using Interfaces;
+    using Infrastructure.Interfaces;
 
     public class TankWheel : Drawable, IMoveAble
     {

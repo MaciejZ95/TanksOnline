@@ -1,14 +1,15 @@
-﻿using SFML.Graphics;
-using SFML.System;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TanksOnline.ProjektPZ.Game.Interfaces;
 
-namespace TanksOnline.ProjektPZ.Game
+namespace TanksOnline.ProjektPZ.Game.Infrastructure.Extensions
 {
+    using SFML.Graphics;
+    using SFML.System;
+    using Interfaces;
+
     public static class MyExtensions
     {
         public const double DEG_TO_RAD = 0.0174532925D;
