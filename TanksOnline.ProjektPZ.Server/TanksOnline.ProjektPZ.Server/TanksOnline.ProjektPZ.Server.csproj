@@ -195,8 +195,10 @@
       <DependentUpon>201703150903205_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Player\PostPlayerModel.cs" />
     <Compile Include="Models\Player\PutTurretAngleModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\User\PostUserModel.cs" />
+    <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
