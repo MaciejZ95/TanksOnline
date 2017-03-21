@@ -37,10 +37,10 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
             }
         }
 
-        public TankTurret(float radius, float lenght)
+        public TankTurret(float radius, float length)
         {
             _rad = radius;
-            _len = lenght;
+            _len = length;
             _cabin = new TankCabin(radius)
             {
                 FillColor = Color.Green,
@@ -48,7 +48,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
                 OutlineThickness = radius * 0.075f
             };
 
-            _turret = new RectangleShape(new Vector2f(radius * 0.5f, lenght))
+            _turret = new RectangleShape(new Vector2f(radius * 0.5f, length))
             {
                 FillColor = Color.Green,
                 OutlineColor = Color.Black,

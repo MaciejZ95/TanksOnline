@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using TanksOnline.ProjektPZ.Server.Domain;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
 using TanksOnline.ProjektPZ.Server.Models;
+using TanksOnline.ProjektPZ.Server.Models.User;
 
 namespace TanksOnline.ProjektPZ.Server.Controllers
 {
@@ -20,7 +21,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
         // GET: api/Users
         public IQueryable<User> GetUsers()
         {
-            return db.Users;
+            return db.Users.Include(x => x.TankInfo);
         }
 
         // GET: api/Users/5
@@ -73,7 +74,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
 
         // POST: api/Users
         [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> PostUser(UserModel userModel)
+        public async Task<IHttpActionResult> PostUser(PostUserModel userModel)
         {
             if (!ModelState.IsValid)
             {

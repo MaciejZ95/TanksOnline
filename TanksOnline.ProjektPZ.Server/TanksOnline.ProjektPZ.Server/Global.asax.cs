@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
 using System.Web.Routing;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
 using TanksOnline.ProjektPZ.Server.Models;
@@ -16,9 +17,11 @@ namespace TanksOnline.ProjektPZ.Server
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
+            AreaRegistration.RegisterAllAreas();
+
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<UserModel, User>()
+                cfg.CreateMap<PostUserModel, User>()
                     .ForMember(dest => dest.Id, opt => opt.Ignore())
                     .ForMember(dest => dest.Status, opt => opt.Ignore())
                     .ForMember(dest => dest.TankInfo, opt => opt.Ignore())

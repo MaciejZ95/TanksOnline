@@ -2,7 +2,8 @@ namespace TanksOnline.ProjektPZ.Server.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CS1591")]
     public partial class Initial : DbMigration
     {
         public override void Up()

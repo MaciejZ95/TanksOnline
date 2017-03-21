@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Thread = System.Threading.Thread;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
@@ -17,6 +18,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
     using Drawables.TankNs;
     using Collision;
     using Infrastructure.Extensions;
+    using ProjectPZ.HttpListener;
 
     public partial class GameWindow : Form
     {
@@ -25,7 +27,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
         private List<Explosion> _missiles;
         private RenderWindow _renderWindow;
         private Timer _timer;
-        private bool justShooted;
+        private bool _justShooted;
         private FrameCollisionBox _colBox = new FrameCollisionBox();
 
         public GameWindow()
@@ -40,6 +42,19 @@ namespace TanksOnline.ProjektPZ.Game.Views
             _bullets = new List<Bullet>();
 
             CreateRenderWindow();
+
+            var thread = new Thread(() =>
+            {
+                var listener = new HttpListener();
+                //var p = listener.GetPlayer(1).Result;
+
+                //Console.WriteLine($"Jeej mamy playera! Oto dane: user {p.User.Name}, angle {p.TurretAngle}, id {p.Id}");
+
+
+                listener.SetPlayerCanon(1, 170.0f);
+
+            }) { IsBackground = true };
+            thread.Start();
         }
 
         #region Główne Metody
@@ -74,16 +89,22 @@ namespace TanksOnline.ProjektPZ.Game.Views
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
             {
-                if (_tanks[0].TurretAngle - 2.5f > -95) _tanks[0].TurretAngle -= 2.5f;
+                if (_tanks[0].TurretAngle - 2.5f > -95)
+                {
+                    _tanks[0].TurretAngle -= 2.5f;
+                }
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.E))
             {
-                if (_tanks[0].TurretAngle + 2.5f < 95) _tanks[0].TurretAngle += 2.5f;
+                if (_tanks[0].TurretAngle + 2.5f < 95)
+                {
+                    _tanks[0].TurretAngle += 2.5f;
+                }
             }
             // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
             //if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
-            if (justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) justShooted = false;
-            if (!justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
+            if (_justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) _justShooted = false;
+            if (!_justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) PauseMenu.Visible = !PauseMenu.Visible;
         }
         #endregion
@@ -157,7 +178,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
 
         private void LaunchBullet()
         {
-            justShooted = true;
+            _justShooted = true;
             _bullets.Add(new Bullet(_tanks[0], _tanks[0].TurretAngle - 90, 10)
             {
                 Origin = new Vector2f(2f, 2f),
