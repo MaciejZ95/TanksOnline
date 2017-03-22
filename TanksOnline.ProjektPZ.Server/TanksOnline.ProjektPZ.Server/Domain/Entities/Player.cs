@@ -14,9 +14,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public int TankHP { get; set; }
         public User User { get; set; }
         public Match Match { get; set; }
-        /// <summary>
-        /// Specjalne ID w danej rozgrywce. Określa kolejność graczy
-        /// </summary>
         public int IdInMatch { get; set; }
         public float TurretAngle { get; set; }
     }

@@ -51,8 +51,8 @@ namespace TanksOnline.ProjektPZ.Game.Views
                 //Console.WriteLine($"Jeej mamy playera! Oto dane: user {p.User.Name}, angle {p.TurretAngle}, id {p.Id}");
 
 
-                listener.SetPlayerCanon(1, 170.0f);
-
+                //listener.SetPlayerCanon(1, 170.0f);
+                var p = listener.GetPlayerByNameAndEmail().Result;
             }) { IsBackground = true };
             thread.Start();
         }

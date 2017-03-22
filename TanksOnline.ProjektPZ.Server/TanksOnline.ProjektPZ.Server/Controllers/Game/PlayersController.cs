@@ -11,11 +11,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TanksOnline.ProjektPZ.Server.Domain;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
-using TanksOnline.ProjektPZ.Server.Models.Player;
+using TanksOnline.ProjektPZ.Server.Models.PlayerModels;
 
 namespace TanksOnline.ProjektPZ.Server.Controllers.Game
 {
-    [RoutePrefix("api/players")]
+    [RoutePrefix("api/Players")]
     public class PlayersController : BaseController
     {
         [HttpGet, Route("{id:int}"), ResponseType(typeof(Player))]
@@ -30,6 +30,23 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             return Ok(player);
         }
 
+        [HttpGet, Route("User/Name/{name}/Email/{email}"), ResponseType(typeof(PlayerModel))]
+        public async Task<IHttpActionResult> GetPlayerByUserEmailAndName([FromUri] string name, [FromUri] string email)
+        {
+            Player player = await db.Players.Include(u => u.User).Include(m => m.Match)
+                .SingleOrDefaultAsync(x => x.User.Name == name && x.User.Email == email);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(player);
+        }
+
+        /// <summary>
+        /// Operacja dodawania nowego gracza
+        /// </summary>
+        /// <param name="model"></param>
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> PostPlayer([FromBody] PostPlayerModel model)
         {
@@ -39,12 +56,13 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             if (player != null)
             {
                 player.IdInMatch = model.IdInMatch;
-                //player.TankHP = // TODO RK: Jakaś stałą ma być
+                player.TankHP = Consts.DEFAULT_TANK_HP;
+                player.TurretAngle = Consts.DEFAULT_TURRET_ANGLE;
             }
             throw new NotImplementedException();
         }
         
-        [HttpPut, Route("{id:int}/turret/")]
+        [HttpPut, Route("{id:int}/Turret/")]
         public async Task<IHttpActionResult> PutTurretAngle([FromUri] int id, [FromBody] PutTurretAngleModel model)
         {
             var player = await db.Players.FindAsync(id);

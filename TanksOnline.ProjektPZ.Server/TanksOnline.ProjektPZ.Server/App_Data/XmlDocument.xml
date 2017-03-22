@@ -481,14 +481,6 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.PlayersController.PutTurretAngle(System.Int32,TanksOnline.ProjektPZ.Server.Models.Player.PutTurretAngleModel)">
-            <summary>
-            TErefere doc :>
-            </summary>
-            <param name="id">Identyfikator gracza</param>
-            <param name="model">Model z kątem nachylenia działa</param>
-            <returns>HttpStatusCode.NoContent jeżeli wartość zostanie poprawnie wprowadzona</returns>
-        </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Domain.Entities.GameRoom">
             <summary>
             Pokój do którego dołączają gracze. Gdy wszyscy będą połączeni to przechodzą do rzeczywistej gry.
@@ -535,11 +527,6 @@
             Klasa wykorzystywana w trakcie rozgrywki
             </summary>
         </member>
-        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.Player.IdInMatch">
-            <summary>
-            Specjalne ID w danej rozgrywce. Określa kolejność graczy
-            </summary>
-        </member>
         <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Waiting">
             <summary>
             Oczekiwanie na graczy
@@ -553,6 +540,17 @@
         <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Closed">
             <summary>
             Z jakichś powodów pokój został zamknięty // TODO RK: Trza w sumie ogarnąć jakieś wyjątki czy cóś???
+            </summary>
+        </member>
+        <member name="T:TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel">
+            <summary>
+            Klasa do tworzenia gracza w ramach danej rozgrywki
+            </summary>
+        </member>
+        <member name="T:TanksOnline.ProjektPZ.Server.Models.UserModels.UserModel">
+            <summary>
+            Klasa z danymi o użytkowniku (poza hasłem, ono jest przekazywane tylko przy logowaniu).
+            W tym id do zapytań GET.
             </summary>
         </member>
     </members>

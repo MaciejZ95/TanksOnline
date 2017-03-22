@@ -12,7 +12,7 @@ using System.Web.Http.Description;
 using TanksOnline.ProjektPZ.Server.Domain;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
 using TanksOnline.ProjektPZ.Server.Models;
-using TanksOnline.ProjektPZ.Server.Models.User;
+using TanksOnline.ProjektPZ.Server.Models.UserModels;
 
 namespace TanksOnline.ProjektPZ.Server.Controllers
 {

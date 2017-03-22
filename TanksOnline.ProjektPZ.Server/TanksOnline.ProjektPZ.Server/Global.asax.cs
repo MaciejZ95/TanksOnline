@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
 using TanksOnline.ProjektPZ.Server.Models;
+using TanksOnline.ProjektPZ.Server.Models.UserModels;
 
 namespace TanksOnline.ProjektPZ.Server
 {

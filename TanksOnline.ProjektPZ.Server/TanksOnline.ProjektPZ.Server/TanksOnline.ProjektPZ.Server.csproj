@@ -178,6 +178,7 @@
     <Compile Include="Controllers\Game\GameRoomsController.cs" />
     <Compile Include="Controllers\Game\PlayersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Domain\Consts.cs" />
     <Compile Include="Domain\Db.cs" />
     <Compile Include="Domain\Entities\GameRoom.cs" />
     <Compile Include="Domain\Entities\Match.cs" />
@@ -195,10 +196,13 @@
       <DependentUpon>201703150903205_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Player\PostPlayerModel.cs" />
-    <Compile Include="Models\Player\PutTurretAngleModel.cs" />
-    <Compile Include="Models\User\PostUserModel.cs" />
-    <Compile Include="Models\User\UserModel.cs" />
+    <Compile Include="Models\MatchModels\MatchModel.cs" />
+    <Compile Include="Models\PlayerModels\GetPlayerByUserNameAndEmailModel.cs" />
+    <Compile Include="Models\PlayerModels\PlayerModel.cs" />
+    <Compile Include="Models\PlayerModels\PostPlayerModel.cs" />
+    <Compile Include="Models\PlayerModels\PutTurretAngleModel.cs" />
+    <Compile Include="Models\UserModels\PostUserModel.cs" />
+    <Compile Include="Models\UserModels\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

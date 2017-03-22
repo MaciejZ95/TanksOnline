@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TanksOnline.ProjektPZ.Server.Models.Player
+namespace TanksOnline.ProjektPZ.Server.Models.PlayerModels
 {
     public class PutTurretAngleModel
     {

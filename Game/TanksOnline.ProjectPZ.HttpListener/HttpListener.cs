@@ -66,5 +66,16 @@ namespace TanksOnline.ProjectPZ.HttpListener
                 throw new Exception("Something is wrong");
             }
         }
+
+        public async Task<PlayerModel> GetPlayerByNameAndEmail(string name = "RomanCzoug", string email = "mail3@gg.pl")
+        {
+            var response = await client.GetAsync(Uri.EscapeUriString($"api/Players/User/Name/{name}/Email/{email}/"));
+
+            response.EnsureSuccessStatusCode();
+
+            var str = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<PlayerModel>(str);
+        }
     }
 }
