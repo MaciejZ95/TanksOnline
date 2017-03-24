@@ -191,10 +191,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703150903205_Initial.cs" />
-    <Compile Include="Migrations\201703150903205_Initial.Designer.cs">
-      <DependentUpon>201703150903205_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MatchModels\MatchModel.cs" />
     <Compile Include="Models\PlayerModels\GetPlayerByUserNameAndEmailModel.cs" />
@@ -236,11 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703150903205_Initial.resx">
-      <DependentUpon>201703150903205_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

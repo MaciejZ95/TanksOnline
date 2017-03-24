@@ -52,7 +52,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
 
 
                 //listener.SetPlayerCanon(1, 170.0f);
-                var p = listener.GetPlayerByNameAndEmail().Result;
+                //var p = listener.GetPlayerByNameAndEmail().Result;
             }) { IsBackground = true };
             thread.Start();
         }
@@ -102,7 +102,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
                 }
             }
             // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
-            //if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            //if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
             if (_justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) _justShooted = false;
             if (!_justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) PauseMenu.Visible = !PauseMenu.Visible;
@@ -145,7 +145,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
             _bullets.RemoveAll(x =>
             {
                 // HELL MODE: Odkomentuj to zobaczysz piekło :D
-                //booms.Add(new Explosion(x.Position));
+                // _missiles.Add(new Explosion(x.Position));
                 return x.Dead == true;
             });
             _tanks.RemoveAll(x =>

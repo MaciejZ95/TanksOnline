@@ -37,41 +37,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             return Ok(gameRoom);
         }
 
-        // PUT: api/GameRooms/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutGameRoom(int id, GameRoom gameRoom)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != gameRoom.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(gameRoom).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GameRoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
         // POST: api/GameRooms
         [ResponseType(typeof(GameRoom))]
         public async Task<IHttpActionResult> PostGameRoom(GameRoom gameRoom)
@@ -85,22 +50,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = gameRoom.Id }, gameRoom);
-        }
-
-        // DELETE: api/GameRooms/5
-        [ResponseType(typeof(GameRoom))]
-        public async Task<IHttpActionResult> DeleteGameRoom(int id)
-        {
-            GameRoom gameRoom = await db.GameRooms.FindAsync(id);
-            if (gameRoom == null)
-            {
-                return NotFound();
-            }
-
-            db.GameRooms.Remove(gameRoom);
-            await db.SaveChangesAsync();
-
-            return Ok(gameRoom);
         }
 
         protected override void Dispose(bool disposing)

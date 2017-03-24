@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Web;
 using TanksOnline.ProjektPZ.Server.Domain.Enums;
@@ -11,30 +12,24 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
     /// </summary>
     public class GameRoom
     {
-        /// <summary>
-        /// 
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// Limit graczy w ramach pokoju. Ustalany na starcie.
-        /// </summary>
         public int PlayersLimit { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
         public RoomStatus RoomStatus { get; set; }
-        /// <summary>
-        /// Gdy wszyscy się połączą tworzona jest rozgrywka i każdy ma tam przejść.
-        /// Domyślnie null, więc uwaga :>
-        /// </summary>
         public Match Match { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
         public User Owner { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
         public List<Player> Players { get; set; }
+    }
+
+    public class GameRoomMap : EntityTypeConfiguration<GameRoom>
+    {
+        public GameRoomMap()
+        {
+            HasKey(x => x.Id);
+            Property(x => x.PlayersLimit).IsRequired();
+            Property(x => x.RoomStatus).IsRequired();
+            HasOptional(x => x.Match);
+            HasRequired(x => x.Owner);
+            HasMany(gr => gr.Players).WithRequired(p => p.GameRoom);
+        }
     }
 }
