@@ -14,10 +14,19 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public int Id { get; set; }
         public int TankHP { get; set; }
         public User User { get; set; }
-        public Match Match { get; set; }
-        public GameRoom GameRoom { get; set; }
         public int IdInMatch { get; set; }
         public float TurretAngle { get; set; }
+
+        public Player() : this(false) { }
+
+        public Player(bool init)
+        {
+            if (init)
+            {
+                TankHP = Consts.DEFAULT_TANK_HP;
+                TurretAngle = Consts.DEFAULT_TURRET_ANGLE;
+            }
+        }
     }
 
     public class PlayerMap : EntityTypeConfiguration<Player>
@@ -27,8 +36,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
             HasKey(x => x.Id);
             Property(x => x.TankHP).IsRequired();
             HasRequired(x => x.User);
-            HasOptional(x => x.Match);
-            HasRequired(x => x.GameRoom).WithMany(gr => gr.Players);
             Property(x => x.IdInMatch).IsRequired();
             Property(x => x.TurretAngle).IsRequired();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TanksOnline.ProjektPZ.Server.Domain.Entities;
 
 namespace TanksOnline.ProjektPZ.Server.Models.UserModels
 {
@@ -14,5 +15,6 @@ namespace TanksOnline.ProjektPZ.Server.Models.UserModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public TankInfo TankInfo { get; set; }
     }
 }

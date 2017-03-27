@@ -29,30 +29,33 @@ namespace TanksOnline.ProjektPZ.Server.Migrations
             //    );
             //
 
-            var users = new List<User>();
-            for (int i = 0; i < 5; i++)
+            if (!context.Users.Any())
             {
-                users.Add(new User
+                var users = new List<User>();
+                for (int i = 0; i < 5; i++)
                 {
-                    Name = $"test{i}",
-                    Email = $"test@test{i}.pl",
-                    Password = "test",
-                    TankInfo = new TankInfo { Name = "test", ColorR = 100, ColorG = 100, ColorB = 100 },
-                    UserScore = new UserScore(),
+                    users.Add(new User
+                    {
+                        Name = $"test{i}",
+                        Email = $"test@test{i}.pl",
+                        Password = "test",
+                        TankInfo = new TankInfo { Name = "test", ColorR = 100, ColorG = 100, ColorB = 100 },
+                        UserScore = new UserScore(),
+                    });
+                }
+
+                context.Users.AddRange(new List<User>(users)
+                {
+                    new User
+                    {
+                        Name = "test",
+                        Email = "test",
+                        Password = "test",
+                        TankInfo = new TankInfo { Name = "test", ColorR = 100, ColorG = 100, ColorB = 100 },
+                        UserScore = new UserScore(),
+                    }
                 });
             }
-
-            context.Users.AddRange(new List<User>(users)
-            {
-                new User
-                {
-                    Name = "test",
-                    Email = "test",
-                    Password = "test",
-                    TankInfo = new TankInfo { Name = "test", ColorR = 100, ColorG = 100, ColorB = 100 },
-                    UserScore = new UserScore(),
-                }
-            });
         }
     }
 }

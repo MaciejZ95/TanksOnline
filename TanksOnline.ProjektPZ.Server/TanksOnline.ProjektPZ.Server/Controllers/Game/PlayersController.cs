@@ -33,7 +33,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
         [HttpGet, Route("User/Name/{name}/Email/{email}"), ResponseType(typeof(PlayerModel))]
         public async Task<IHttpActionResult> GetPlayerByUserEmailAndName([FromUri] string name, [FromUri] string email)
         {
-            Player player = await db.Players.Include(u => u.User).Include(m => m.Match)
+            Player player = await db.Players.Include(u => u.User)
                 .SingleOrDefaultAsync(x => x.User.Name == name && x.User.Email == email);
             if (player == null)
             {

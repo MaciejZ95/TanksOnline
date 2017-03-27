@@ -16,8 +16,12 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Enums
         /// </summary>
         Ready = 2,
         /// <summary>
-        /// Z jakichś powodów pokój został zamknięty // TODO RK: Trza w sumie ogarnąć jakieś wyjątki czy cóś???
+        /// Gra została kulturalnie zakończona i rozstrzygnięta
         /// </summary>
-        Closed = 3
+        GameEnded = 3,
+        /// <summary>
+        /// Z jakichś powodów pokój został zamknięty w sposób awaryjny
+        /// </summary>
+        Closed = 4
     }
 }

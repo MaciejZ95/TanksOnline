@@ -9,8 +9,9 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Enums
     {
         Offline = 1,
         Logged = 2,
-        InGame = 3,
+        Waiting = 3,
         Ready = 4,
-        Mobile = 5
+        InGame = 5,
+        Mobile = 6
     }
 }

@@ -10,6 +10,9 @@ using TanksOnline.ProjektPZ.Server.Domain.Entities;
 using TanksOnline.ProjektPZ.Server.Models;
 using TanksOnline.ProjektPZ.Server.Models.UserModels;
 
+using System.Reflection;
+using TanksOnline.ProjektPZ.Server.Domain;
+
 namespace TanksOnline.ProjektPZ.Server
 {
     public class WebApiApplication : System.Web.HttpApplication
@@ -22,17 +25,9 @@ namespace TanksOnline.ProjektPZ.Server
 
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<PostUserModel, User>()
-                    .ForMember(dest => dest.Id, opt => opt.Ignore())
-                    .ForMember(dest => dest.Status, opt => opt.Ignore())
-                    .ForMember(dest => dest.TankInfo, opt => opt.Ignore())
-                    .ForMember(dest => dest.UserScore, opt => opt.Ignore())
-                    .AfterMap((src, dest) =>
-                    {
-                        dest.UserScore = new UserScore();
-                        dest.TankInfo = new TankInfo();
-                        dest.Status = Domain.Enums.UserStatus.Offline;
-                    });
+                cfg.CreateMissingTypeMaps = true;
+
+                cfg.AddProfiles(Assembly.GetExecutingAssembly());
             });
         }
     }

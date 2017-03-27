@@ -29,7 +29,7 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
             Property(x => x.RoomStatus).IsRequired();
             HasOptional(x => x.Match);
             HasRequired(x => x.Owner);
-            HasMany(gr => gr.Players).WithRequired(p => p.GameRoom);
+            HasMany(gr => gr.Players);
         }
     }
 }

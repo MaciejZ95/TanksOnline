@@ -22,7 +22,7 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         {
             this.HasKey(x => x.Id);
             this.Property(x => x.ActualPlayer).IsRequired();
-            this.HasMany(x => x.Players).WithOptional(m => m.Match);
+            this.HasMany(x => x.Players);
         }
     }
 }

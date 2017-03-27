@@ -175,6 +175,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CustomActionResults\ErrorResult.cs" />
     <Compile Include="Controllers\Game\GameRoomsController.cs" />
     <Compile Include="Controllers\Game\PlayersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -191,7 +192,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703242354119_Init.cs" />
+    <Compile Include="Migrations\201703242354119_Init.Designer.cs">
+      <DependentUpon>201703242354119_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
+    <Compile Include="Models\GameRoomModels\PutSetMeInGameModel.cs" />
+    <Compile Include="Models\GameRoomModels\PutSetMeReadyModel.cs" />
     <Compile Include="Models\MatchModels\MatchModel.cs" />
     <Compile Include="Models\PlayerModels\GetPlayerByUserNameAndEmailModel.cs" />
     <Compile Include="Models\PlayerModels\PlayerModel.cs" />
@@ -232,6 +240,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201703242354119_Init.resx">
+      <DependentUpon>201703242354119_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

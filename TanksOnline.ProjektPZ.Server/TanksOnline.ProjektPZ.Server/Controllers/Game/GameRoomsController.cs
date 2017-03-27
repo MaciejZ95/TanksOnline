@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,50 +7,151 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
+using TanksOnline.ProjektPZ.Server.Controllers.CustomActionResults;
 using TanksOnline.ProjektPZ.Server.Domain;
 using TanksOnline.ProjektPZ.Server.Domain.Entities;
+using TanksOnline.ProjektPZ.Server.Domain.Enums;
+using TanksOnline.ProjektPZ.Server.Models.GameRoomModels;
 
 namespace TanksOnline.ProjektPZ.Server.Controllers.Game
 {
-    public class GameRoomsController : ApiController
+    [RoutePrefix("api/GameRooms")]
+    public class GameRoomsController : BaseController
     {
-        private Db db = new Db();
-
-        // GET: api/GameRooms
-        public IQueryable<GameRoom> GetGameRooms()
+        /// <summary>
+        /// Zwraca obiekt pokoju jeżeli znajdzie się jakikolwiek z wolnymi miejscami
+        /// </summary>
+        /// <param name="id">Id użytkownika</param>
+        /// <returns></returns>
+        [HttpGet, Route("FindEmptyRoom/ForUser/{id:int}")]
+        public IHttpActionResult FindEmptyRoom(int id)
         {
-            return db.GameRooms;
+            using (var trans = db.Database.BeginTransaction(IsolationLevel.RepeatableRead))
+            {
+                try
+                {
+                    var rooms = db.GameRooms
+                        .Include(room => room.Players)
+                        .Include(room => room.Owner)
+                        .Include(room => room.Match)
+                        .Where(x => x.RoomStatus == RoomStatus.Waiting);
+
+                    if (rooms.Any(x => x.Players.Count < x.PlayersLimit))
+                    {
+                        var room = rooms.First(x => x.Players.Count < x.PlayersLimit);
+                        room.Players.Add(new Player(true)
+                        {
+                            IdInMatch = room.Players.Last().IdInMatch + 1,
+                            User = db.Users.Single(u => u.Id == id)
+                        });
+
+                        db.SaveChanges();
+                        trans.Commit();
+
+                        return Json(room);
+                    }
+
+                    return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak wolnych pokojów - stwórz własny :)");
+                }
+                catch (Exception)
+                {
+                    trans.Rollback();
+                    throw;
+                }
+            }
         }
 
-        // GET: api/GameRooms/5
-        [ResponseType(typeof(GameRoom))]
-        public async Task<IHttpActionResult> GetGameRoom(int id)
+        /// <summary>
+        /// Ustawia gracza w tryb READY co oznacza, że jest gotowy do gry. Jak wszyscy przejdą w ten stan to można rozpocząć rozgrywkę.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut, Route("SetMeReady")]
+        public IHttpActionResult SetMeReady(PutSetMeReadyModel model)
         {
-            GameRoom gameRoom = await db.GameRooms.FindAsync(id);
-            if (gameRoom == null)
+            var room = db.GameRooms.SingleOrDefault(r => r.Id == model.GameRoomId);
+                
+            if (room != null)
             {
-                return NotFound();
-            }
+                var player = room.Players.SingleOrDefault(p => p.Id == model.PlayerId);
 
-            return Ok(gameRoom);
+                if (player == null)
+                {
+                    return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak pokoju z szukanym graczem");
+                }
+
+                player.User.Status = UserStatus.Ready;
+
+                if (room.Players.Count == room.PlayersLimit && !room.Players.Any(p => p.User.Status != UserStatus.Ready))
+                {
+                    room.RoomStatus = RoomStatus.Ready;
+                    room.Match = new Match
+                    {
+                        ActualPlayer = 0,
+                        Players = room.Players,
+                    };
+                }
+                return Ok();
+            }
+            else
+            {
+                return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak szukanego pokoju");
+            }
         }
 
-        // POST: api/GameRooms
-        [ResponseType(typeof(GameRoom))]
-        public async Task<IHttpActionResult> PostGameRoom(GameRoom gameRoom)
+        /// <summary>
+        /// Ustawia flagę informującą, że każdy już dołączył do gry i czeka na ruch kolejnego gracza.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut, Route("SetMeInGame")]
+        public IHttpActionResult SetMeInGame(PutSetMeInGameModel model)
         {
-            if (!ModelState.IsValid)
+            var room = db.GameRooms.SingleOrDefault(r => r.Id == model.GameRoomId);
+
+            if (room != null)
             {
-                return BadRequest(ModelState);
+                var player = room.Players.SingleOrDefault(p => p.Id == model.PlayerId);
+
+                if (player == null)
+                {
+                    return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak pokoju z szukanym graczem");
+                }
+
+                player.User.Status = UserStatus.InGame;
+                
+                return Ok();
             }
+            else
+            {
+                return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak szukanego pokoju");
+            }
+        }
 
-            db.GameRooms.Add(gameRoom);
-            await db.SaveChangesAsync();
+        [HttpPost, Route("CreateRoom/Owner/{id:int}/PlayersLimit/{limit:int}")]
+        public IHttpActionResult CreateRoom(int id, int limit)
+        {
+            var user = db.Users.Include(x => x.TankInfo).Single(x => x.Id == id);
 
-            return CreatedAtRoute("DefaultApi", new { id = gameRoom.Id }, gameRoom);
+            var room = db.GameRooms.Add(new GameRoom
+            {
+                Owner = user,
+                PlayersLimit = limit,
+                RoomStatus = RoomStatus.Waiting,
+                Players = new List<Player>() { new Player(true)
+                {
+                    IdInMatch = 0,
+                    User = user
+                }}
+            });
+
+            db.SaveChanges();
+            return Json(Mapper.Map<GameRoomModel>(room));
         }
 
         protected override void Dispose(bool disposing)

@@ -481,6 +481,13 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.FindEmptyRoom(System.Int32)">
+            <summary>
+            Zwraca obiekt pokoju jeżeli znajdzie się jakikolwiek z wolnymi miejscami
+            </summary>
+            <param name="id">Id użytkownika</param>
+            <returns></returns>
+        </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.PlayersController.PostPlayer(TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel)">
             <summary>
             Operacja dodawania nowego gracza
