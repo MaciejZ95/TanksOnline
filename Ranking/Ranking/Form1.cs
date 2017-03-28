@@ -49,5 +49,10 @@ namespace Ranking
             // dodanie obrazków z bazy danych
             listView1.SmallImageList = list;
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

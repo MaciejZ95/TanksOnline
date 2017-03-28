@@ -18,8 +18,8 @@ namespace TanksOnline.ProjektPZ.Game
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameWindow());
-            //Application.Run(new TestWindow());
+            //Application.Run(new GameWindow());
+            Application.Run(new TestWindow());
         }
     }
 }
