@@ -66,6 +66,29 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             }
         }
 
+        // TODO RK: Trzeba to zastąpić operacami z SignalR
+        [HttpGet, Route("CheckIfEveryoneReady/Room/{id:int}")]
+        public IHttpActionResult CheckIfEveryoneReady(int id)
+        {
+            var room = db.GameRooms
+                .Include(x => x.Players).Include(x => x.Players.Select(p => p.User))
+                .Include(x => x.Owner)
+                .Include(x => x.Match)
+                .SingleOrDefault(r => r.Id == id);
+
+            if (room != null)
+            {
+                if (room.Match != null)
+                {
+                    return Json(room);
+                }
+
+                return new ErrorResult(Request, HttpStatusCode.NoContent);
+            }
+
+            return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak szukanego pokoju");
+        }
+
         /// <summary>
         /// Ustawia gracza w tryb READY co oznacza, że jest gotowy do gry. Jak wszyscy przejdą w ten stan to można rozpocząć rozgrywkę.
         /// </summary>
@@ -74,7 +97,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
         [HttpPut, Route("SetMeReady")]
         public IHttpActionResult SetMeReady(PutSetMeReadyModel model)
         {
-            var room = db.GameRooms.SingleOrDefault(r => r.Id == model.GameRoomId);
+            var room = db.GameRooms.Include(x => x.Players).SingleOrDefault(r => r.Id == model.GameRoomId);
                 
             if (room != null)
             {
@@ -96,6 +119,8 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                         Players = room.Players,
                     };
                 }
+
+                db.SaveChanges();
                 return Ok();
             }
             else

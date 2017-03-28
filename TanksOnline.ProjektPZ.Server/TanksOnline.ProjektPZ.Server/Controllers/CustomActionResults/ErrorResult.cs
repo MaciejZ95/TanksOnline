@@ -17,7 +17,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.CustomActionResults
         private HttpStatusCode statusCode;
         private string message;
 
-        public ErrorResult(HttpRequestMessage request, HttpStatusCode statusCode, string message)
+        public ErrorResult(HttpRequestMessage request, HttpStatusCode statusCode, string message = null)
         {
             this.Request = request;
             this.statusCode = statusCode;
@@ -26,7 +26,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.CustomActionResults
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return Task.FromResult(Request.CreateErrorResponse(statusCode, message));
+            return Task.FromResult(Request.CreateErrorResponse(statusCode, message ?? ""));
         }
     }
 }

@@ -488,6 +488,20 @@
             <param name="id">Id użytkownika</param>
             <returns></returns>
         </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeReady(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeReadyModel)">
+            <summary>
+            Ustawia gracza w tryb READY co oznacza, że jest gotowy do gry. Jak wszyscy przejdą w ten stan to można rozpocząć rozgrywkę.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeInGame(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeInGameModel)">
+            <summary>
+            Ustawia flagę informującą, że każdy już dołączył do gry i czeka na ruch kolejnego gracza.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.PlayersController.PostPlayer(TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel)">
             <summary>
             Operacja dodawania nowego gracza
@@ -519,9 +533,14 @@
             Wszyscy gracze są gotowi - można przejść do rozgrywki
             </summary>
         </member>
+        <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.GameEnded">
+            <summary>
+            Gra została kulturalnie zakończona i rozstrzygnięta
+            </summary>
+        </member>
         <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Closed">
             <summary>
-            Z jakichś powodów pokój został zamknięty // TODO RK: Trza w sumie ogarnąć jakieś wyjątki czy cóś???
+            Z jakichś powodów pokój został zamknięty w sposób awaryjny
             </summary>
         </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel">
