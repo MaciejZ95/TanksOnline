@@ -114,7 +114,9 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
         [HttpPut, Route("SetMeReady")]
         public IHttpActionResult SetMeReady(PutSetMeReadyModel model)
         {
-            var room = db.GameRooms.Include(x => x.Players).SingleOrDefault(r => r.Id == model.GameRoomId);
+            var room = db.GameRooms
+                .Include(x => x.Players).Include(x => x.Players.Select(p => p.User))
+                .SingleOrDefault(r => r.Id == model.GameRoomId);
                 
             if (room != null)
             {

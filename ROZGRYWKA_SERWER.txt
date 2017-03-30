@@ -1,0 +1,47 @@
+------------------------------------DOŁĄCZANIE DO GRY----------------------------------------
+1. Gracz sprawdza czy są wolne pokoje
+    TAK: Dołączanie do wolnego (no to punkt 2.3)
+    NIE: Jedziem dalej
+2. Nie ma wolnego pokoju
+    1. Gracz inicjuje stworzenie nowego pokoju
+        #Określa tylko jego rozmiar (chwilowo stałe 2)
+        #Musi podać swoje ID (będzie właścicielem pokoju)
+        #Zostanie mu zwrócony obiekcik GameRoom wraz z jego modelem gracza
+        #Ten model będzie mu potem potrzebny w grze
+    2. Gracz oczekuje teraz na dołączenie pozostałych graczy
+        #Co chwila będzie spamował zapytaniami z serii: czy wszyscy są
+        #Można to zrobić też z udziałem SignalR (wtedy serwer będzie notyfikował)
+        #W zasadzie sprowadza się to do zerkania co chwila czy serwer ma wciąż status WAITING
+    3. Wszyscy gracze już dołączyli do rozgrywki
+        #Na serwerze status pokoju przechodzi w tryb READY
+        #Pojawia się nowy cudowny obiekt meczu
+        #Gracze orientują się, że serwer przelazł w status READY
+        #Gracze pobierają obiekt meczu aby zorientować się kto gra jako który
+        
+###### Potrzebne metodki serwera ######
+#> GameRoom Controller
+
+GET SprawdzCzyWolnePokoje
+    1. Jak jest to zwraca pokój i dołącza do niego gracza
+    2. Jak nie to 404 (jakoś ogarnąć parametry błędu czy cóś)
+    
+POST StworzPokoj
+    #Zwraca nowy pokoik i wszyscy są szczęśliwi
+    #No chyba, że źle wpisze parametry... Ale nie chce mi się walidować
+    
+POST SetMeReady
+    #Ustawia gracza w stan READY - będzie już tylko oczekiwał na resztę graczy
+    
+POST SetMeInGame
+    #Ustawia status na InGame - czyli wlazł do gry i wszystko poszło sprawnie
+    
+GET SprawdzCzyWszyscyGotowi
+    1. Jeżeli wszyscy będą gotowi to zwraca obiekt meczu i można przejść do gry
+    2. Jak jeszcze ludki są w trybie oczekiwania to 404 (na razie na byle działało)
+        
+--------------------------------ROZPOCZYNA SIĘ ROZGRYWKA--------------------------------------
+1. Okej, gracze wiedzą który gra jako pierwszy, więc już jakoś se poradzą... // TODO :P
+
+
+###### Potrzebne metodki serwera ######
+#> Match Controller

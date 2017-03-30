@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Windows.Forms;
 using Menu.Model;
+using TanksOnline.ProjektPZ.Game.Views;
+using TanksOnline.ProjectPZ.HttpListener;
 
 namespace Menu
 {
@@ -29,6 +31,13 @@ namespace Menu
             {
                 this.listView1.Items[i] = tab[i];
             }*/
+        }
+
+        public UserPanel(Uri logged, HttpClient clt, UserModel user, bool huehue)
+            : this(logged, clt, user)
+        {
+            this.Hide();
+            startButton_Click(null, null);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -56,6 +65,18 @@ namespace Menu
             list.ImageSize = new Size(30,30);
             // dodanie obrazków z bazy danych
             friendsList.SmallImageList = list;
+        }
+
+        private async void startButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            // TODO RK: Chwilowo bez sensu byle coś działało
+            var listener = new HttpListener();
+            var room = await listener.GetRoom();
+
+            var gameWindow = new GameWindow(room, room.Players.First());
+            gameWindow.Closed += (s, args) => this.Close();
+            gameWindow.Show();
         }
     }
 }

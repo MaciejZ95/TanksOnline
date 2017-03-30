@@ -77,5 +77,27 @@ namespace Menu
         {
             this.Close();
         }
+
+        private async void test(object sender, EventArgs e)
+        {
+            client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:21021/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            try
+            {
+                //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
+                var url = await CheckUser(new LoginModel() { Email = "test", Password = "test" });
+                var user = await GetUserAsync(url.PathAndQuery);
+                this.Hide();
+                var createForm = new UserPanel(url, client, user, true);
+                createForm.Closed += (s, args) => this.Close();
+                createForm.Show();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Podano złe dane logowania", "Uwaga!");
+            }
+        }
     }
 }

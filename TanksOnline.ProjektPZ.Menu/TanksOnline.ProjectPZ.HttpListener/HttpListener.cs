@@ -52,9 +52,9 @@ namespace TanksOnline.ProjectPZ.HttpListener
             //return response.Content.ReadAsAsync<UserModel>().Result;
         }
 
-        public async Task<GameRoomModel> GetRoom()
+        public async Task<GameRoomModel> GetRoom(int id = 1)
         {
-            var response = await client.GetStringAsync($"api/gamerooms/1003");
+            var response = await client.GetStringAsync($"api/gamerooms/{id}");
 
             return JsonConvert.DeserializeObject<GameRoomModel>(response);
         }

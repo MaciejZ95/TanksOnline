@@ -149,6 +149,7 @@
             this.startButton.Text = "Wejdź do gry";
             this.startButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startButton.UseVisualStyleBackColor = false;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // UserPanel
             // 
