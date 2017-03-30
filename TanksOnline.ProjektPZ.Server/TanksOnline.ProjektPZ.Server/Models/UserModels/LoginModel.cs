@@ -1,4 +1,4 @@
-﻿namespace TanksOnline.ProjektPZ.Server.Models.User
+﻿namespace TanksOnline.ProjektPZ.Server.Models.UserModels
 {
     public class LoginModel
     {

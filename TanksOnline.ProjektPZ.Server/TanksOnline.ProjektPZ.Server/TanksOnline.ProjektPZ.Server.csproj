@@ -195,13 +195,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703242354119_Init.cs" />
-    <Compile Include="Migrations\201703242354119_Init.Designer.cs">
-      <DependentUpon>201703242354119_Init.cs</DependentUpon>
     <Compile Include="Messages\Error messages.cs" />
-    <Compile Include="Migrations\201703211916543_Migration003_Register.cs" />
-    <Compile Include="Migrations\201703211916543_Migration003_Register.Designer.cs">
-      <DependentUpon>201703211916543_Migration003_Register.cs</DependentUpon>
+    <Compile Include="Migrations\201703301028345_Init.cs" />
+    <Compile Include="Migrations\201703301028345_Init.Designer.cs">
+      <DependentUpon>201703301028345_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
@@ -214,8 +211,8 @@
     <Compile Include="Models\PlayerModels\PutTurretAngleModel.cs" />
     <Compile Include="Models\UserModels\PostUserModel.cs" />
     <Compile Include="Models\UserModels\UserModel.cs" />
-    <Compile Include="Models\User\LoginModel.cs" />
-    <Compile Include="Models\User\RegisterModel.cs" />
+    <Compile Include="Models\UserModels\LoginModel.cs" />
+    <Compile Include="Models\UserModels\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -251,10 +248,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703242354119_Init.resx">
-      <DependentUpon>201703242354119_Init.cs</DependentUpon>
-    <EmbeddedResource Include="Migrations\201703211916543_Migration003_Register.resx">
-      <DependentUpon>201703211916543_Migration003_Register.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703301028345_Init.resx">
+      <DependentUpon>201703301028345_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

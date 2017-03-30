@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TanksOnline.ProjektPZ.Server.Models.MatchModels;
 using TanksOnline.ProjektPZ.Server.Models.UserModels;
 
 namespace TanksOnline.ProjektPZ.Server.Models.PlayerModels

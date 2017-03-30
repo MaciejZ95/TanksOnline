@@ -7,13 +7,13 @@ namespace TanksOnline.ProjektPZ.Server.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Migration003_Register : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Migration003_Register));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703211916543_Migration003_Register"; }
+            get { return "201703301028345_Init"; }
         }
         
         string IMigrationMetadata.Source
