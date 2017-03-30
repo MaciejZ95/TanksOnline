@@ -52,13 +52,20 @@ namespace TanksOnline.ProjectPZ.HttpListener
             //return response.Content.ReadAsAsync<UserModel>().Result;
         }
 
+        public async Task<GameRoomModel> GetRoom()
+        {
+            var response = await client.GetStringAsync($"api/gamerooms/1003");
+
+            return JsonConvert.DeserializeObject<GameRoomModel>(response);
+        }
+
         public async Task<PlayerModel> GetPlayer(int id)
         {
             var response = await client.GetStringAsync($"api/players/{id}");
             return JsonConvert.DeserializeObject<PlayerModel>(response);
         }
 
-        public async void SetPlayerCanon(int id, float angle)
+        public async Task SetPlayerCanon(int id, float angle)
         {
             var response = await client.PutAsJsonAsync($"api/players/{id}/turret", new PutTurretAngleModel { Angle = angle });
             if(response.StatusCode != HttpStatusCode.NoContent)

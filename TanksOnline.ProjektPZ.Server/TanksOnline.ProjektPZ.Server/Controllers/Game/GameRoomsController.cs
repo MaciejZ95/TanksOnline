@@ -23,6 +23,23 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
     [RoutePrefix("api/GameRooms")]
     public class GameRoomsController : BaseController
     {
+        [HttpGet, Route("{id:int}"), ResponseType(typeof(GameRoomModel))]
+        public IHttpActionResult GetRooom([FromUri] int id)
+        {
+            var room = db.GameRooms
+                .Include(x => x.Match)
+                .Include(x => x.Players).Include(x => x.Players.Select(p => p.User.TankInfo))
+                .Include(x => x.Owner)
+                .SingleOrDefault(x => x.Id == id);
+
+            if (room != null)
+            {
+                return Json(Mapper.Map<GameRoomModel>(room));
+            }
+
+            return NotFound();
+        }
+
         /// <summary>
         /// Zwraca obiekt pokoju jeżeli znajdzie się jakikolwiek z wolnymi miejscami
         /// </summary>

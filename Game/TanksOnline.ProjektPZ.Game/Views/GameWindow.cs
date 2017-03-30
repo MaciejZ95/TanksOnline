@@ -19,6 +19,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
     using Collision;
     using Infrastructure.Extensions;
     using ProjectPZ.HttpListener;
+    using ProjectPZ.HttpListener.Models;
 
     public partial class GameWindow : Form
     {
@@ -26,14 +27,22 @@ namespace TanksOnline.ProjektPZ.Game.Views
         private List<Tank> _tanks;
         private List<Explosion> _missiles;
         private RenderWindow _renderWindow;
-        private Timer _timer;
+        private Timer _timer, _httpLoopTimer;
         private bool _justShooted;
         private FrameCollisionBox _colBox = new FrameCollisionBox();
 
-        public GameWindow()
+        private HttpListener _listener;
+        private GameRoomModel _room;
+        private PlayerModel _player;
+
+        public GameWindow(GameRoomModel room, PlayerModel player)
         {
             InitializeComponent();
 
+            _player = player;
+            _room = room;
+
+            _listener = new HttpListener();
             _missiles = new List<Explosion>();
             _tanks = new List<Tank>() {
                 new Tank(10) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) },
@@ -42,21 +51,9 @@ namespace TanksOnline.ProjektPZ.Game.Views
             _bullets = new List<Bullet>();
 
             CreateRenderWindow();
-
-            var thread = new Thread(() =>
-            {
-                var listener = new HttpListener();
-                //var p = listener.GetPlayer(1).Result;
-
-                //Console.WriteLine($"Jeej mamy playera! Oto dane: user {p.User.Name}, angle {p.TurretAngle}, id {p.Id}");
-
-
-                //listener.SetPlayerCanon(1, 170.0f);
-                //var p = listener.GetPlayerByNameAndEmail().Result;
-            }) { IsBackground = true };
-            thread.Start();
+            CreateHttpListenerLoop();
         }
-
+        
         #region Główne Metody
         private void MainLoop(object sender, EventArgs e)
         {
@@ -78,6 +75,22 @@ namespace TanksOnline.ProjektPZ.Game.Views
             }
             AdditionalInfo();
             _renderWindow.Display();
+        }
+
+        private void CreateHttpListenerLoop()
+        {
+            _itsMyTurn = _room.Match.ActualPlayer == _player.IdInMatch;
+
+            _httpLoopTimer = new Timer { Interval = 1000 / 60 };
+            _httpLoopTimer.Tick += (s, e) =>
+            {
+                // aktualizowanie pozycji swojego działa lub dział przeciwnika
+                if (!_tankPosProcesing) ProcessTanksPositions();
+
+                // aktualizowanie stanu gry (kto teraz gra)
+                if (!_updatingStatus) UpdateGameStatus();
+            };
+            _httpLoopTimer.Start();
         }
 
         private void GetKeys()
@@ -106,6 +119,34 @@ namespace TanksOnline.ProjektPZ.Game.Views
             if (_justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) _justShooted = false;
             if (!_justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) PauseMenu.Visible = !PauseMenu.Visible;
+        }
+        #endregion
+
+        #region Przetwarzanie związane z obsługą serwera
+        private bool _itsMyTurn, _tankPosProcesing = false, _updatingStatus = false;
+        private async void ProcessTanksPositions()
+        {
+            _tankPosProcesing = true;
+            if (_itsMyTurn)
+            {
+                await _listener.SetPlayerCanon(_player.Id, _tanks[0].TurretAngle);
+                _tankPosProcesing = false;
+            }
+            else
+            {
+                // TODO RK: Ogarnianie jak zmienił się stan pozostąłych graczy
+                _tankPosProcesing = false;
+            }
+        }
+
+        private async void UpdateGameStatus()
+        {
+            _updatingStatus = true;
+
+            _room = await _listener.GetRoom();
+            _tanks[1].TurretAngle = _room.Players[0].TurretAngle;
+
+            _updatingStatus = false;
         }
         #endregion
 

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace TanksOnline.ProjektPZ.Game
 {
+    using ProjectPZ.HttpListener;
     using Views;
 
     static class Program
@@ -18,7 +19,11 @@ namespace TanksOnline.ProjektPZ.Game
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameWindow());
+
+            var listener = new HttpListener();
+            var room = listener.GetRoom().Result;
+
+            Application.Run(new GameWindow(room, room.Players.First()));
             //Application.Run(new TestWindow());
         }
     }
