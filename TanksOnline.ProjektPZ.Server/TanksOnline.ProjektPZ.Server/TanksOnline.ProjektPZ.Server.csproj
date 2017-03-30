@@ -180,7 +180,6 @@
     <Compile Include="Controllers\Game\PlayersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Domain\Consts.cs" />
-    <Compile Include="Controllers\Game\CreateRoomController.cs" />
     <Compile Include="Controllers\LoginRegister\LoginController.cs" />
     <Compile Include="Controllers\LoginRegister\RegisterController.cs" />
     <Compile Include="Domain\Db.cs" />
@@ -195,7 +194,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Messages\Error messages.cs" />
     <Compile Include="Migrations\201703301028345_Init.cs" />
     <Compile Include="Migrations\201703301028345_Init.Designer.cs">
       <DependentUpon>201703301028345_Init.cs</DependentUpon>
