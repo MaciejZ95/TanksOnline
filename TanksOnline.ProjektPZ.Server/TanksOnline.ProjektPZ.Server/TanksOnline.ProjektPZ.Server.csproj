@@ -180,6 +180,9 @@
     <Compile Include="Controllers\Game\PlayersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Domain\Consts.cs" />
+    <Compile Include="Controllers\Game\CreateRoomController.cs" />
+    <Compile Include="Controllers\LoginRegister\LoginController.cs" />
+    <Compile Include="Controllers\LoginRegister\RegisterController.cs" />
     <Compile Include="Domain\Db.cs" />
     <Compile Include="Domain\Entities\GameRoom.cs" />
     <Compile Include="Domain\Entities\Match.cs" />
@@ -195,6 +198,10 @@
     <Compile Include="Migrations\201703242354119_Init.cs" />
     <Compile Include="Migrations\201703242354119_Init.Designer.cs">
       <DependentUpon>201703242354119_Init.cs</DependentUpon>
+    <Compile Include="Messages\Error messages.cs" />
+    <Compile Include="Migrations\201703211916543_Migration003_Register.cs" />
+    <Compile Include="Migrations\201703211916543_Migration003_Register.Designer.cs">
+      <DependentUpon>201703211916543_Migration003_Register.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
@@ -207,6 +214,8 @@
     <Compile Include="Models\PlayerModels\PutTurretAngleModel.cs" />
     <Compile Include="Models\UserModels\PostUserModel.cs" />
     <Compile Include="Models\UserModels\UserModel.cs" />
+    <Compile Include="Models\User\LoginModel.cs" />
+    <Compile Include="Models\User\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +253,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703242354119_Init.resx">
       <DependentUpon>201703242354119_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703211916543_Migration003_Register.resx">
+      <DependentUpon>201703211916543_Migration003_Register.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
