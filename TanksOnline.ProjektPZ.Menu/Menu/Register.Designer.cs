@@ -28,107 +28,185 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.create = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nick = new System.Windows.Forms.TextBox();
-            this.email = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.password = new System.Windows.Forms.TextBox();
+            this.createButton = new System.Windows.Forms.Button();
+            this.nicknameLabel = new System.Windows.Forms.Label();
+            this.emailLabel = new System.Windows.Forms.Label();
+            this.nicknameInput = new System.Windows.Forms.TextBox();
+            this.emailInput = new System.Windows.Forms.TextBox();
+            this.passwordLabel = new System.Windows.Forms.Label();
+            this.passwordInput = new System.Windows.Forms.TextBox();
             this.returnButton = new System.Windows.Forms.Button();
+            this.emailconfirmLabel = new System.Windows.Forms.Label();
+            this.emailconfirmInput = new System.Windows.Forms.TextBox();
+            this.passwordconfirmLabel = new System.Windows.Forms.Label();
+            this.passwordconfirmInput = new System.Windows.Forms.TextBox();
+            this.separatorline = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // create
+            // createButton
             // 
-            this.create.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.create.Location = new System.Drawing.Point(147, 216);
-            this.create.Name = "create";
-            this.create.Size = new System.Drawing.Size(181, 41);
-            this.create.TabIndex = 0;
-            this.create.Text = "Stwórz nowe konto";
-            this.create.UseVisualStyleBackColor = true;
-            this.create.Click += new System.EventHandler(this.create_Click);
+            this.createButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.createButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.createButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.createButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.createButton.Location = new System.Drawing.Point(343, 300);
+            this.createButton.Name = "createButton";
+            this.createButton.Size = new System.Drawing.Size(150, 30);
+            this.createButton.TabIndex = 0;
+            this.createButton.Text = "STWÓRZ NOWE KONTO";
+            this.createButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.createButton.UseVisualStyleBackColor = false;
+            this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 
-            // label2
+            // nicknameLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label2.Location = new System.Drawing.Point(143, 95);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 20);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Nick";
+            this.nicknameLabel.AutoSize = true;
+            this.nicknameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nicknameLabel.Location = new System.Drawing.Point(12, 113);
+            this.nicknameLabel.Name = "nicknameLabel";
+            this.nicknameLabel.Size = new System.Drawing.Size(157, 18);
+            this.nicknameLabel.TabIndex = 9;
+            this.nicknameLabel.Text = "Nazwa użytkownika";
             // 
-            // label1
+            // emailLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.Location = new System.Drawing.Point(142, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 20);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "E-mail";
+            this.emailLabel.AutoSize = true;
+            this.emailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.emailLabel.Location = new System.Drawing.Point(12, 9);
+            this.emailLabel.Name = "emailLabel";
+            this.emailLabel.Size = new System.Drawing.Size(56, 18);
+            this.emailLabel.TabIndex = 8;
+            this.emailLabel.Text = "E-mail";
             // 
-            // nick
+            // nicknameInput
             // 
-            this.nick.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.nick.Location = new System.Drawing.Point(147, 118);
-            this.nick.Name = "nick";
-            this.nick.Size = new System.Drawing.Size(181, 26);
-            this.nick.TabIndex = 7;
+            this.nicknameInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.nicknameInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nicknameInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nicknameInput.Location = new System.Drawing.Point(12, 136);
+            this.nicknameInput.Name = "nicknameInput";
+            this.nicknameInput.Size = new System.Drawing.Size(260, 24);
+            this.nicknameInput.TabIndex = 7;
             // 
-            // email
+            // emailInput
             // 
-            this.email.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.email.Location = new System.Drawing.Point(147, 66);
-            this.email.Name = "email";
-            this.email.Size = new System.Drawing.Size(181, 26);
-            this.email.TabIndex = 6;
+            this.emailInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.emailInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.emailInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.emailInput.Location = new System.Drawing.Point(12, 32);
+            this.emailInput.Name = "emailInput";
+            this.emailInput.Size = new System.Drawing.Size(260, 24);
+            this.emailInput.TabIndex = 6;
             // 
-            // label3
+            // passwordLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label3.Location = new System.Drawing.Point(142, 147);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 20);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Hasło";
+            this.passwordLabel.AutoSize = true;
+            this.passwordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordLabel.Location = new System.Drawing.Point(12, 165);
+            this.passwordLabel.Name = "passwordLabel";
+            this.passwordLabel.Size = new System.Drawing.Size(52, 18);
+            this.passwordLabel.TabIndex = 13;
+            this.passwordLabel.Text = "Hasło";
             // 
-            // password
+            // passwordInput
             // 
-            this.password.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.password.Location = new System.Drawing.Point(147, 170);
-            this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(181, 26);
-            this.password.TabIndex = 11;
-            this.password.UseSystemPasswordChar = true;
+            this.passwordInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.passwordInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.passwordInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordInput.Location = new System.Drawing.Point(12, 188);
+            this.passwordInput.Name = "passwordInput";
+            this.passwordInput.Size = new System.Drawing.Size(260, 24);
+            this.passwordInput.TabIndex = 11;
+            this.passwordInput.UseSystemPasswordChar = true;
             // 
             // returnButton
             // 
-            this.returnButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.returnButton.Location = new System.Drawing.Point(147, 263);
+            this.returnButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.returnButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.returnButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.returnButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.returnButton.Location = new System.Drawing.Point(12, 300);
             this.returnButton.Name = "returnButton";
-            this.returnButton.Size = new System.Drawing.Size(181, 41);
+            this.returnButton.Size = new System.Drawing.Size(150, 30);
             this.returnButton.TabIndex = 14;
-            this.returnButton.Text = "Powrót";
-            this.returnButton.UseVisualStyleBackColor = true;
+            this.returnButton.Text = "WSTECZ";
+            this.returnButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.returnButton.UseVisualStyleBackColor = false;
             this.returnButton.Click += new System.EventHandler(this.returnButton_Click);
+            // 
+            // emailconfirmLabel
+            // 
+            this.emailconfirmLabel.AutoSize = true;
+            this.emailconfirmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.emailconfirmLabel.Location = new System.Drawing.Point(12, 61);
+            this.emailconfirmLabel.Name = "emailconfirmLabel";
+            this.emailconfirmLabel.Size = new System.Drawing.Size(181, 18);
+            this.emailconfirmLabel.TabIndex = 16;
+            this.emailconfirmLabel.Text = "Potwierdź adres e-mail";
+            // 
+            // emailconfirmInput
+            // 
+            this.emailconfirmInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.emailconfirmInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.emailconfirmInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.emailconfirmInput.Location = new System.Drawing.Point(12, 84);
+            this.emailconfirmInput.Name = "emailconfirmInput";
+            this.emailconfirmInput.Size = new System.Drawing.Size(260, 24);
+            this.emailconfirmInput.TabIndex = 15;
+            // 
+            // passwordconfirmLabel
+            // 
+            this.passwordconfirmLabel.AutoSize = true;
+            this.passwordconfirmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordconfirmLabel.Location = new System.Drawing.Point(12, 217);
+            this.passwordconfirmLabel.Name = "passwordconfirmLabel";
+            this.passwordconfirmLabel.Size = new System.Drawing.Size(117, 18);
+            this.passwordconfirmLabel.TabIndex = 18;
+            this.passwordconfirmLabel.Text = "Powtórz hasło";
+            // 
+            // passwordconfirmInput
+            // 
+            this.passwordconfirmInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.passwordconfirmInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.passwordconfirmInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordconfirmInput.Location = new System.Drawing.Point(12, 240);
+            this.passwordconfirmInput.Name = "passwordconfirmInput";
+            this.passwordconfirmInput.Size = new System.Drawing.Size(260, 24);
+            this.passwordconfirmInput.TabIndex = 17;
+            this.passwordconfirmInput.UseSystemPasswordChar = true;
+            // 
+            // separatorline
+            // 
+            this.separatorline.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.separatorline.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.separatorline.Location = new System.Drawing.Point(1, 284);
+            this.separatorline.Name = "separatorline";
+            this.separatorline.Size = new System.Drawing.Size(505, 2);
+            this.separatorline.TabIndex = 19;
             // 
             // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 396);
+            this.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.ClientSize = new System.Drawing.Size(505, 342);
+            this.Controls.Add(this.separatorline);
             this.Controls.Add(this.returnButton);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.password);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.nick);
-            this.Controls.Add(this.email);
-            this.Controls.Add(this.create);
+            this.Controls.Add(this.createButton);
+            this.Controls.Add(this.passwordconfirmLabel);
+            this.Controls.Add(this.passwordconfirmInput);
+            this.Controls.Add(this.emailconfirmLabel);
+            this.Controls.Add(this.emailconfirmInput);
+            this.Controls.Add(this.passwordLabel);
+            this.Controls.Add(this.passwordInput);
+            this.Controls.Add(this.nicknameLabel);
+            this.Controls.Add(this.emailLabel);
+            this.Controls.Add(this.nicknameInput);
+            this.Controls.Add(this.emailInput);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "Register";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Czołgi Online - Rejestracja";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -137,13 +215,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Button create;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox nick;
-        private System.Windows.Forms.TextBox email;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox password;
+        private System.Windows.Forms.Button createButton;
+        private System.Windows.Forms.Label nicknameLabel;
+        private System.Windows.Forms.Label emailLabel;
+        private System.Windows.Forms.TextBox nicknameInput;
+        private System.Windows.Forms.TextBox emailInput;
+        private System.Windows.Forms.Label passwordLabel;
+        private System.Windows.Forms.TextBox passwordInput;
         private System.Windows.Forms.Button returnButton;
+        private System.Windows.Forms.Label emailconfirmLabel;
+        private System.Windows.Forms.TextBox emailconfirmInput;
+        private System.Windows.Forms.Label passwordconfirmLabel;
+        private System.Windows.Forms.TextBox passwordconfirmInput;
+        private System.Windows.Forms.Label separatorline;
     }
 }

@@ -24,7 +24,7 @@ namespace Menu
             InitializeComponent();   
         }
 
-        private void create_Click(object sender, EventArgs e)
+        private void createButton_Click(object sender, EventArgs e)
         {
             this.Hide();
             var createForm = new Register();
@@ -32,7 +32,7 @@ namespace Menu
             createForm.Show();            
        }
 
-        private async void login_Click(object sender, EventArgs e)
+        private async void loginButton_Click(object sender, EventArgs e)
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:21021/");
@@ -41,7 +41,7 @@ namespace Menu
             try
             {
                 //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
-                var url = await CheckUser(new LoginModel() { Email = email.Text, Password = password.Text });
+                var url = await CheckUser(new LoginModel() { Email = emailInput.Text, Password = passwordInput.Text });
                 var user = await GetUserAsync(url.PathAndQuery);
                 this.Hide();
                 var createForm = new UserPanel(url, client, user);
@@ -50,7 +50,7 @@ namespace Menu
             }
             catch (Exception a)
             {
-                MessageBox.Show(a.Message);
+                MessageBox.Show("Podano złe dane logowania", "Uwaga!");
             } 
        
         }
@@ -71,6 +71,11 @@ namespace Menu
                 user = await response.Content.ReadAsAsync<UserModel>();
             }
             return user;
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

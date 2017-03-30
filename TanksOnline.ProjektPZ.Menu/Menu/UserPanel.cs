@@ -24,7 +24,7 @@ namespace Menu
             this.url = logged;
             this.user = user;
             client = clt;
-
+            nicknameLabel.Text = user.Name;
             /*for (int i = 0; i < tab.Length; i++)
             {
                 this.listView1.Items[i] = tab[i];
@@ -33,9 +33,8 @@ namespace Menu
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Settings form = new Settings();
-            this.Hide();
-            form.Show();
+            var createForm = new Settings(url, client, user);
+            createForm.Show();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -46,23 +45,17 @@ namespace Menu
         private void label1_Click(object sender, EventArgs e)
         {
             Ranking form = new Ranking();
-            this.Hide();
             form.Show();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listView1.View = View.Details;
-            listView1.Columns.Add("Znajomi", 250);
+            friendsList.View = View.Details;
+            friendsList.Columns.Add("Znajomi", 250);
             ImageList list = new ImageList();
             list.ImageSize = new Size(30,30);
             // dodanie obrazków z bazy danych
-            listView1.SmallImageList = list;
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            friendsList.SmallImageList = list;
         }
     }
 }

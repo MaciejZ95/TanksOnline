@@ -21,7 +21,7 @@ namespace Menu
             InitializeComponent();
         }
 
-        private async void create_Click(object sender, EventArgs e)
+        private async void createButton_Click(object sender, EventArgs e)
         {
             {
                 client = new HttpClient();
@@ -30,26 +30,33 @@ namespace Menu
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 try
                 {
-                    // Create a new user
-                    RegisterModel user = new RegisterModel
+                    if (emailInput.Text == emailconfirmInput.Text && passwordInput.Text == passwordconfirmInput.Text && emailInput.Text!="" && passwordInput.Text!="" && nicknameInput.Text!="")
                     {
-                        Email = email.Text,
-                        Name = nick.Text,
-                        Password = password.Text,
-                    };
-                    await CreateUserAsync(user);
-                    this.Hide();
-                    var createForm = new Login();
-                    createForm.Closed += (s, args) => this.Close();
-                    createForm.Show();
+                        // Create a new user
+                        RegisterModel user = new RegisterModel
+                        {
+                            Email = emailInput.Text,
+                            Name = nicknameInput.Text,
+                            Password = passwordInput.Text,
+                        };
+                        await CreateUserAsync(user);
+                        this.Hide();
+                        var createForm = new Login();
+                        createForm.Closed += (s, args) => this.Close();
+                        createForm.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wprowadź poprawne dane.", "Uwaga!");
+                    }
                 }
                 catch (Exception a)
                 {
                     MessageBox.Show(a.Message);
                 }
-
             }
         }
+
         static async Task<Uri> CreateUserAsync(RegisterModel user)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync($"api/Register", user);
