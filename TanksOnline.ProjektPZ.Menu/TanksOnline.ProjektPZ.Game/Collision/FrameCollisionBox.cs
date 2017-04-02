@@ -27,7 +27,7 @@ namespace TanksOnline.ProjektPZ.Game.Collision
 
             frame.ForEach(x =>
             {
-                x.FillColor = Color.Red;
+                x.FillColor = new Color(160, 160, 160);
             });
         }
 

@@ -26,8 +26,8 @@ namespace Menu.Views
         private List<Explosion> _missiles;
         private RenderWindow _renderWindow;
         private Timer _timer, _httpLoopTimer;
-        private bool _justShooted;
-        private FrameCollisionBox _colBox = new FrameCollisionBox();
+        private bool _justShooted_Player0, _justShooted_Player1;
+        private FrameCollisionBox _colBox;
 
         private GameRoomModel _room;
         private PlayerModel _player;
@@ -46,6 +46,7 @@ namespace Menu.Views
                 new Tank(10) { FillColor = Color.Magenta, Position = new Vector2f(650f, 400f), TurretAngle = -90 },
             };
             _bullets = new List<Bullet>();
+            _colBox = new FrameCollisionBox();
 
             CreateRenderWindow();
             CreateHttpListenerLoop();
@@ -76,7 +77,7 @@ namespace Menu.Views
 
         private void CreateHttpListenerLoop()
         {
-            _itsMyTurn = _room.Match.ActualPlayer == _player.IdInMatch;
+            _itsMyTurn = true;// _room.Match.ActualPlayer == _player.IdInMatch;
 
             _httpLoopTimer = new Timer { Interval = 1000 / 60 };
             _httpLoopTimer.Tick += (s, e) =>
@@ -92,33 +93,67 @@ namespace Menu.Views
 
         private void GetKeys()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tanks[0].Move(-new Vector2f(5f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tanks[0].Move(new Vector2f(5f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tanks[0].Move(-new Vector2f(0, 5f));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tanks[0].Move(new Vector2f(0, 5f));
+            if (_player.IdInMatch == 0)
+            {
+                if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tanks[_player.IdInMatch].Move(-new Vector2f(5f, 0));
+                if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tanks[_player.IdInMatch].Move(new Vector2f(5f, 0));
+                if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tanks[_player.IdInMatch].Move(-new Vector2f(0, 5f));
+                if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tanks[_player.IdInMatch].Move(new Vector2f(0, 5f));
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
-            {
-                if (_tanks[0].TurretAngle - 2.5f > -95)
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
                 {
-                    _tanks[0].TurretAngle -= 2.5f;
+                    if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
+                    {
+                        _tanks[_player.IdInMatch].TurretAngle -= 2.5f;
+                    }
                 }
-            }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
-            {
-                if (_tanks[0].TurretAngle + 2.5f < 95)
+                if (Keyboard.IsKeyPressed(Keyboard.Key.E))
                 {
-                    _tanks[0].TurretAngle += 2.5f;
+                    if (_tanks[_player.IdInMatch].TurretAngle + 2.5f < 95)
+                    {
+                        _tanks[_player.IdInMatch].TurretAngle += 2.5f;
+                    }
                 }
+                // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
+                //if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
+                if (_justShooted_Player0 && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) _justShooted_Player0 = false;
+                if (!_justShooted_Player0 && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet(); 
             }
-            // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
-            //if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
-            if (_justShooted && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) _justShooted = false;
-            if (!_justShooted && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) PauseMenu.Visible = !PauseMenu.Visible;
+            else if(_player.IdInMatch == 1)
+            {
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad4)) _tanks[_player.IdInMatch].Move(-new Vector2f(5f, 0));
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad6)) _tanks[_player.IdInMatch].Move(new Vector2f(5f, 0));
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad8)) _tanks[_player.IdInMatch].Move(-new Vector2f(0, 5f));
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad5)) _tanks[_player.IdInMatch].Move(new Vector2f(0, 5f));
+
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad7))
+                {
+                    if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
+                    {
+                        _tanks[_player.IdInMatch].TurretAngle -= 2.5f;
+                    }
+                }
+                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad9))
+                {
+                    if (_tanks[_player.IdInMatch].TurretAngle + 2.5f < 95)
+                    {
+                        _tanks[_player.IdInMatch].TurretAngle += 2.5f;
+                    }
+                }
+                // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
+                //if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
+                if (_justShooted_Player1 && !Keyboard.IsKeyPressed(Keyboard.Key.Numpad0)) _justShooted_Player1 = false;
+                if (!_justShooted_Player1 && Keyboard.IsKeyPressed(Keyboard.Key.Numpad0)) LaunchBullet();
+            }
+            if (_canClickPauseMenu && Keyboard.IsKeyPressed(Keyboard.Key.Escape))
+            {
+                _canClickPauseMenu = false;
+                PauseMenu.Visible = !PauseMenu.Visible;
+            };
+            if (!_canClickPauseMenu && Keyboard.IsKeyPressed(Keyboard.Key.Escape)) _canClickPauseMenu = true;
         }
         #endregion
-
+        bool _canClickPauseMenu = true;
         #region Przetwarzanie związane z obsługą serwera
         private bool _itsMyTurn, _tankPosProcesing = false, _updatingStatus = false;
         private async void ProcessTanksPositions()
@@ -126,7 +161,7 @@ namespace Menu.Views
             _tankPosProcesing = true;
             if (_itsMyTurn)
             {
-                await SetPlayerCanon(_player.Id, _tanks[0].TurretAngle);
+                await SetPlayerCanon(_player.Id, _tanks[_player.IdInMatch].TurretAngle);
                 _tankPosProcesing = false;
             }
             else
@@ -141,7 +176,11 @@ namespace Menu.Views
             _updatingStatus = true;
 
             _room = await GetRoom();
-            _tanks[1].TurretAngle = _room.Players[0].TurretAngle;
+            for (int i = 0; i < _tanks.Count; i++)
+            {
+                if (i == _player.IdInMatch) continue;
+                _tanks[i].TurretAngle = _room.Players[i].TurretAngle;
+            }
 
             _updatingStatus = false;
         }
@@ -172,8 +211,8 @@ namespace Menu.Views
 
         private void AdditionalInfo()
         {
-            LabelAnchor.Text = $"Turret anchor: {_tanks[0].TurretAngle}";
-            LabelTankPos.Text = $"Tank position: {_tanks[0].Position}";
+            LabelAnchor.Text = $"Turret anchor: {_tanks[_player.IdInMatch].TurretAngle}";
+            LabelTankPos.Text = $"Tank position: {_tanks[_player.IdInMatch].Position}";
             LabelBulletCnt.Text = $"Bullets alive: {_bullets.Count}";
         }
 
@@ -216,13 +255,13 @@ namespace Menu.Views
 
         private void LaunchBullet()
         {
-            _justShooted = true;
-            _bullets.Add(new Bullet(_tanks[0], _tanks[0].TurretAngle - 90, 10)
+            _justShooted_Player0 = _justShooted_Player1 = true;
+            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, 10)
             {
                 Origin = new Vector2f(2f, 2f),
-                Position = _tanks[0].Position + new Vector2f(
-                    _tanks[0].Rad + 2,
-                    _tanks[0].Rad + 2
+                Position = _tanks[_player.IdInMatch].Position + new Vector2f(
+                    _tanks[_player.IdInMatch].Rad + 2,
+                    _tanks[_player.IdInMatch].Rad + 2
                 ),
                 FillColor = Color.Black,
                 Radius = 4,
