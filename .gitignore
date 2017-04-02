@@ -15,7 +15,8 @@ SFML/extlibs/
 !csfml-window-2.dll
 !csfml-network-2.dll
 *.exe
-
+*.exe.config
+output/*.xml
 
 # User-specific files
 *.suo
