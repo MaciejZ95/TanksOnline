@@ -21,6 +21,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
         private TankWheel _wheels;
         private Color _col;
         private TankCollisionBox _box;
+        private bool _boxVisible;
 
         public float Rad { get; }
         public bool Dead { get; set; }
@@ -49,7 +50,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
             }
         }
 
-        public Tank(float radius)
+        public Tank(float radius, bool isColBoxVisible)
         {
             Rad = radius;
             _col = Color.Green;
@@ -59,11 +60,14 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
                 Position = new Vector2f(-1.5f * Rad, 2.25f * Rad),
             };
             _box = new TankCollisionBox(radius);
+            _boxVisible = isColBoxVisible;
         }
+
+        public Tank(float radius) : this(radius, false) { }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(_box);
+            if (_boxVisible) target.Draw(_box);
             target.Draw(_turret);
             target.Draw(_wheels);
         }

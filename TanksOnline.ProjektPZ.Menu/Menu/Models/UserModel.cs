@@ -1,6 +1,4 @@
-﻿
-
-namespace Menu.Model
+﻿namespace Menu.Models
 {
     public class UserModel
     {

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
             this.createButton = new System.Windows.Forms.Button();
             this.nicknameLabel = new System.Windows.Forms.Label();
             this.emailLabel = new System.Windows.Forms.Label();
@@ -204,6 +205,7 @@
             this.Controls.Add(this.nicknameInput);
             this.Controls.Add(this.emailInput);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Register";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

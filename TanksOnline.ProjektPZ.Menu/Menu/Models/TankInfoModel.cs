@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Menu.Model
+namespace Menu.Models
 {
     public class TankInfoModel
     {

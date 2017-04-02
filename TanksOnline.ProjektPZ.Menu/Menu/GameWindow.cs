@@ -4,23 +4,21 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Thread = System.Threading.Thread;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Threading;
+using TanksOnline.ProjektPZ.Game.Drawables;
+using TanksOnline.ProjektPZ.Game.Drawables.TankNs;
+using SFML.Graphics;
+using TanksOnline.ProjektPZ.Game.Collision;
+using Menu.Models;
+using SFML.System;
+using SFML.Window;
+using TanksOnline.ProjektPZ.Game.Infrastructure.Extensions;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
-namespace TanksOnline.ProjektPZ.Game.Views
+namespace Menu.Views
 {
-    using SFML.System;
-    using SFML.Window;
-    using SFML.Graphics;
-    using Drawables;
-    using Drawables.TankNs;
-    using Collision;
-    using Infrastructure.Extensions;
-    using ProjectPZ.HttpListener;
-    using ProjectPZ.HttpListener.Models;
-
     public partial class GameWindow : Form
     {
         private List<Bullet> _bullets;
@@ -31,18 +29,17 @@ namespace TanksOnline.ProjektPZ.Game.Views
         private bool _justShooted;
         private FrameCollisionBox _colBox = new FrameCollisionBox();
 
-        private HttpListener _listener;
         private GameRoomModel _room;
         private PlayerModel _player;
 
-        public GameWindow(GameRoomModel room, PlayerModel player)
+        public GameWindow(GameRoomModel room, PlayerModel player, HttpClient client)
         {
             InitializeComponent();
 
+            _client = client;
             _player = player;
             _room = room;
 
-            _listener = new HttpListener();
             _missiles = new List<Explosion>();
             _tanks = new List<Tank>() {
                 new Tank(10) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) },
@@ -129,7 +126,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
             _tankPosProcesing = true;
             if (_itsMyTurn)
             {
-                await _listener.SetPlayerCanon(_player.Id, _tanks[0].TurretAngle);
+                await SetPlayerCanon(_player.Id, _tanks[0].TurretAngle);
                 _tankPosProcesing = false;
             }
             else
@@ -143,7 +140,7 @@ namespace TanksOnline.ProjektPZ.Game.Views
         {
             _updatingStatus = true;
 
-            _room = await _listener.GetRoom();
+            _room = await GetRoom();
             _tanks[1].TurretAngle = _room.Players[0].TurretAngle;
 
             _updatingStatus = false;

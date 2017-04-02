@@ -24,13 +24,30 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
     public class GameRoomsController : BaseController
     {
         [HttpGet, Route("{id:int}"), ResponseType(typeof(GameRoomModel))]
-        public IHttpActionResult GetRooom([FromUri] int id)
+        public IHttpActionResult GetRoom([FromUri] int id)
         {
             var room = db.GameRooms
                 .Include(x => x.Match)
                 .Include(x => x.Players).Include(x => x.Players.Select(p => p.User.TankInfo))
                 .Include(x => x.Owner)
                 .SingleOrDefault(x => x.Id == id);
+
+            if (room != null)
+            {
+                return Json(Mapper.Map<GameRoomModel>(room));
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet, Route("GetByPlayer/{id:int}"), ResponseType(typeof(GameRoomModel))]
+        public IHttpActionResult GetRoomByPlayerId([FromUri] int id)
+        {
+            var room = db.GameRooms
+                .Include(x => x.Match)
+                .Include(x => x.Players).Include(x => x.Players.Select(p => p.User.TankInfo))
+                .Include(x => x.Owner)
+                .SingleOrDefault(x => x.Players.Any(p => p.Id == id));
 
             if (room != null)
             {

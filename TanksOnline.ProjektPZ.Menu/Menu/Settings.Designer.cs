@@ -30,34 +30,35 @@
         {
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Konto");
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Ustawienia");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.viewsList = new System.Windows.Forms.ListView();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.emailInput = new System.Windows.Forms.TextBox();
-            this.passwordInput = new System.Windows.Forms.TextBox();
-            this.passwordconfirmInput = new System.Windows.Forms.TextBox();
-            this.passwordconfirmLabel = new System.Windows.Forms.Label();
-            this.passwordLabel = new System.Windows.Forms.Label();
-            this.emailLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.avatarLabel = new System.Windows.Forms.Label();
-            this.tankSelect = new System.Windows.Forms.DomainUpDown();
-            this.tankPB = new System.Windows.Forms.PictureBox();
-            this.nicknameInput = new System.Windows.Forms.TextBox();
-            this.avatarPB = new System.Windows.Forms.PictureBox();
             this.nicknameLabel = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.avatarPB = new System.Windows.Forms.PictureBox();
+            this.nicknameInput = new System.Windows.Forms.TextBox();
+            this.tankPB = new System.Windows.Forms.PictureBox();
+            this.tankSelect = new System.Windows.Forms.DomainUpDown();
+            this.avatarLabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.emailLabel = new System.Windows.Forms.Label();
+            this.passwordLabel = new System.Windows.Forms.Label();
+            this.passwordconfirmLabel = new System.Windows.Forms.Label();
+            this.passwordconfirmInput = new System.Windows.Forms.TextBox();
+            this.passwordInput = new System.Windows.Forms.TextBox();
+            this.emailInput = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tankPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPB)).BeginInit();
-            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tankPB)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,94 +106,14 @@
             this.viewsList.View = System.Windows.Forms.View.List;
             this.viewsList.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
-            // tableLayoutPanel2
+            // panel1
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.17275F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.82725F));
-            this.tableLayoutPanel2.Controls.Add(this.emailLabel, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.passwordLabel, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.passwordconfirmLabel, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.passwordconfirmInput, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.passwordInput, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.emailInput, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 338F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(411, 425);
-            this.tableLayoutPanel2.TabIndex = 0;
-            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
-            // 
-            // emailInput
-            // 
-            this.emailInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.emailInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.emailInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.emailInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.emailInput.Location = new System.Drawing.Point(163, 4);
-            this.emailInput.Name = "emailInput";
-            this.emailInput.Size = new System.Drawing.Size(173, 22);
-            this.emailInput.TabIndex = 2;
-            this.emailInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // passwordInput
-            // 
-            this.passwordInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.passwordInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.passwordInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.passwordInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.passwordInput.Location = new System.Drawing.Point(163, 34);
-            this.passwordInput.Name = "passwordInput";
-            this.passwordInput.Size = new System.Drawing.Size(139, 22);
-            this.passwordInput.TabIndex = 3;
-            this.passwordInput.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            // 
-            // passwordconfirmInput
-            // 
-            this.passwordconfirmInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.passwordconfirmInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.passwordconfirmInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.passwordconfirmInput.Location = new System.Drawing.Point(163, 63);
-            this.passwordconfirmInput.Name = "passwordconfirmInput";
-            this.passwordconfirmInput.Size = new System.Drawing.Size(139, 22);
-            this.passwordconfirmInput.TabIndex = 5;
-            this.passwordconfirmInput.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
-            // 
-            // passwordconfirmLabel
-            // 
-            this.passwordconfirmLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.passwordconfirmLabel.AutoSize = true;
-            this.passwordconfirmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.passwordconfirmLabel.Location = new System.Drawing.Point(3, 67);
-            this.passwordconfirmLabel.Name = "passwordconfirmLabel";
-            this.passwordconfirmLabel.Size = new System.Drawing.Size(154, 16);
-            this.passwordconfirmLabel.TabIndex = 4;
-            this.passwordconfirmLabel.Text = "Potwierdzenie hasła:";
-            // 
-            // passwordLabel
-            // 
-            this.passwordLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.passwordLabel.Location = new System.Drawing.Point(3, 37);
-            this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(56, 16);
-            this.passwordLabel.TabIndex = 1;
-            this.passwordLabel.Text = "Hasło:";
-            // 
-            // emailLabel
-            // 
-            this.emailLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.emailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.emailLabel.Location = new System.Drawing.Point(3, 8);
-            this.emailLabel.Name = "emailLabel";
-            this.emailLabel.Size = new System.Drawing.Size(85, 13);
-            this.emailLabel.TabIndex = 0;
-            this.emailLabel.Text = "E-mail:";
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.tableLayoutPanel2);
+            this.panel1.Location = new System.Drawing.Point(239, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(417, 396);
+            this.panel1.TabIndex = 1;
             // 
             // panel2
             // 
@@ -224,16 +145,42 @@
             this.tableLayoutPanel3.TabIndex = 0;
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
-            // avatarLabel
+            // nicknameLabel
             // 
-            this.avatarLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.avatarLabel.AutoSize = true;
-            this.avatarLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.avatarLabel.Location = new System.Drawing.Point(3, 11);
-            this.avatarLabel.Name = "avatarLabel";
-            this.avatarLabel.Size = new System.Drawing.Size(55, 16);
-            this.avatarLabel.TabIndex = 0;
-            this.avatarLabel.Text = "Awatar";
+            this.nicknameLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.nicknameLabel.AutoSize = true;
+            this.nicknameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nicknameLabel.Location = new System.Drawing.Point(208, 11);
+            this.nicknameLabel.Name = "nicknameLabel";
+            this.nicknameLabel.Size = new System.Drawing.Size(54, 16);
+            this.nicknameLabel.TabIndex = 1;
+            this.nicknameLabel.Text = "Nazwa";
+            // 
+            // avatarPB
+            // 
+            this.avatarPB.Location = new System.Drawing.Point(3, 41);
+            this.avatarPB.Name = "avatarPB";
+            this.avatarPB.Size = new System.Drawing.Size(100, 100);
+            this.avatarPB.TabIndex = 2;
+            this.avatarPB.TabStop = false;
+            // 
+            // nicknameInput
+            // 
+            this.nicknameInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.nicknameInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nicknameInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nicknameInput.Location = new System.Drawing.Point(208, 41);
+            this.nicknameInput.Name = "nicknameInput";
+            this.nicknameInput.Size = new System.Drawing.Size(128, 22);
+            this.nicknameInput.TabIndex = 3;
+            // 
+            // tankPB
+            // 
+            this.tankPB.Location = new System.Drawing.Point(3, 169);
+            this.tankPB.Name = "tankPB";
+            this.tankPB.Size = new System.Drawing.Size(199, 200);
+            this.tankPB.TabIndex = 4;
+            this.tankPB.TabStop = false;
             // 
             // tankSelect
             // 
@@ -246,51 +193,105 @@
             this.tankSelect.TabIndex = 5;
             this.tankSelect.Text = "domainUpDown1";
             // 
-            // tankPB
+            // avatarLabel
             // 
-            this.tankPB.Location = new System.Drawing.Point(3, 169);
-            this.tankPB.Name = "tankPB";
-            this.tankPB.Size = new System.Drawing.Size(199, 200);
-            this.tankPB.TabIndex = 4;
-            this.tankPB.TabStop = false;
+            this.avatarLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.avatarLabel.AutoSize = true;
+            this.avatarLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.avatarLabel.Location = new System.Drawing.Point(3, 11);
+            this.avatarLabel.Name = "avatarLabel";
+            this.avatarLabel.Size = new System.Drawing.Size(55, 16);
+            this.avatarLabel.TabIndex = 0;
+            this.avatarLabel.Text = "Awatar";
             // 
-            // nicknameInput
+            // tableLayoutPanel2
             // 
-            this.nicknameInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.nicknameInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.nicknameInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.nicknameInput.Location = new System.Drawing.Point(208, 41);
-            this.nicknameInput.Name = "nicknameInput";
-            this.nicknameInput.Size = new System.Drawing.Size(128, 22);
-            this.nicknameInput.TabIndex = 3;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.17275F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.82725F));
+            this.tableLayoutPanel2.Controls.Add(this.emailLabel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.passwordLabel, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.passwordconfirmLabel, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.passwordconfirmInput, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.passwordInput, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.emailInput, 1, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 338F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(411, 425);
+            this.tableLayoutPanel2.TabIndex = 0;
+            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
-            // avatarPB
+            // emailLabel
             // 
-            this.avatarPB.Location = new System.Drawing.Point(3, 41);
-            this.avatarPB.Name = "avatarPB";
-            this.avatarPB.Size = new System.Drawing.Size(100, 100);
-            this.avatarPB.TabIndex = 2;
-            this.avatarPB.TabStop = false;
+            this.emailLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.emailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.emailLabel.Location = new System.Drawing.Point(3, 8);
+            this.emailLabel.Name = "emailLabel";
+            this.emailLabel.Size = new System.Drawing.Size(85, 13);
+            this.emailLabel.TabIndex = 0;
+            this.emailLabel.Text = "E-mail:";
             // 
-            // nicknameLabel
+            // passwordLabel
             // 
-            this.nicknameLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nicknameLabel.AutoSize = true;
-            this.nicknameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.nicknameLabel.Location = new System.Drawing.Point(208, 11);
-            this.nicknameLabel.Name = "nicknameLabel";
-            this.nicknameLabel.Size = new System.Drawing.Size(54, 16);
-            this.nicknameLabel.TabIndex = 1;
-            this.nicknameLabel.Text = "Nazwa";
+            this.passwordLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.passwordLabel.AutoSize = true;
+            this.passwordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordLabel.Location = new System.Drawing.Point(3, 37);
+            this.passwordLabel.Name = "passwordLabel";
+            this.passwordLabel.Size = new System.Drawing.Size(56, 16);
+            this.passwordLabel.TabIndex = 1;
+            this.passwordLabel.Text = "Hasło:";
             // 
-            // panel1
+            // passwordconfirmLabel
             // 
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.tableLayoutPanel2);
-            this.panel1.Location = new System.Drawing.Point(239, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(417, 396);
-            this.panel1.TabIndex = 1;
+            this.passwordconfirmLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.passwordconfirmLabel.AutoSize = true;
+            this.passwordconfirmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordconfirmLabel.Location = new System.Drawing.Point(3, 67);
+            this.passwordconfirmLabel.Name = "passwordconfirmLabel";
+            this.passwordconfirmLabel.Size = new System.Drawing.Size(154, 16);
+            this.passwordconfirmLabel.TabIndex = 4;
+            this.passwordconfirmLabel.Text = "Potwierdzenie hasła:";
+            // 
+            // passwordconfirmInput
+            // 
+            this.passwordconfirmInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.passwordconfirmInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.passwordconfirmInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordconfirmInput.Location = new System.Drawing.Point(163, 63);
+            this.passwordconfirmInput.Name = "passwordconfirmInput";
+            this.passwordconfirmInput.Size = new System.Drawing.Size(139, 22);
+            this.passwordconfirmInput.TabIndex = 5;
+            this.passwordconfirmInput.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            // 
+            // passwordInput
+            // 
+            this.passwordInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.passwordInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.passwordInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.passwordInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.passwordInput.Location = new System.Drawing.Point(163, 34);
+            this.passwordInput.Name = "passwordInput";
+            this.passwordInput.Size = new System.Drawing.Size(139, 22);
+            this.passwordInput.TabIndex = 3;
+            this.passwordInput.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // emailInput
+            // 
+            this.emailInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.emailInput.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.emailInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.emailInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.emailInput.Location = new System.Drawing.Point(163, 4);
+            this.emailInput.Name = "emailInput";
+            this.emailInput.Size = new System.Drawing.Size(173, 22);
+            this.emailInput.TabIndex = 2;
+            this.emailInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tableLayoutPanel4
             // 
@@ -341,19 +342,20 @@
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(684, 461);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ustawienia";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tankPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPB)).EndInit();
-            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tankPB)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 

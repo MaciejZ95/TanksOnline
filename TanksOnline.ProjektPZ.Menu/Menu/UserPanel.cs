@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Windows.Forms;
-using Menu.Model;
-using TanksOnline.ProjektPZ.Game.Views;
-using TanksOnline.ProjectPZ.HttpListener;
+using Menu.Models;
+using Newtonsoft.Json;
+using Menu.Views;
 
 namespace Menu
 {
@@ -19,6 +19,7 @@ namespace Menu
         static HttpClient client = null;
         private Uri url = null;
         private UserModel user = null;
+        private readonly bool _gameDebugMode;
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user)
         {
@@ -33,11 +34,10 @@ namespace Menu
             }*/
         }
 
-        public UserPanel(Uri logged, HttpClient clt, UserModel user, bool huehue)
+        public UserPanel(Uri logged, HttpClient clt, UserModel user, bool gameDebugMode)
             : this(logged, clt, user)
         {
-            this.Hide();
-            startButton_Click(null, null);
+            _gameDebugMode = gameDebugMode;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -69,14 +69,21 @@ namespace Menu
 
         private async void startButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            // TODO RK: Chwilowo bez sensu byle coś działało
-            var listener = new HttpListener();
-            var room = await listener.GetRoom();
+            if (_gameDebugMode)
+            {
+                // Tryb testowy, nie ruszać - korzystam tu ze stałych wartości dla ułatwienia
+                var player = JsonConvert.DeserializeObject<PlayerModel>(await client.GetStringAsync($"api/Players/User/{user.Id}"));
+                var room = JsonConvert.DeserializeObject<GameRoomModel>(await client.GetStringAsync($"api/GameRooms/GetByPlayer/{player.Id}"));
 
-            var gameWindow = new GameWindow(room, room.Players.First());
-            gameWindow.Closed += (s, args) => this.Close();
-            gameWindow.Show();
+                this.Hide();
+                var game = new GameWindow(room, player, client);
+                game.Closed += (s, ev) => this.Close();
+                game.Show();                
+            }
+            else
+            {
+                // TODO MZ: Maciek - normalne otwieranie okna do zrobienia przez Maćka
+            }
         }
     }
 }

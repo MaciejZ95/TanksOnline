@@ -8,7 +8,7 @@ using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Menu.Model;
+using Menu.Models;
 using System.Net.Http.Headers;
 
 namespace Menu

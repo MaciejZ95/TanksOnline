@@ -1,4 +1,4 @@
-﻿namespace TanksOnline.ProjektPZ.Game.Views
+﻿namespace Menu.Views
 {
     partial class GameWindow
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameWindow));
             this.LabelAnchor = new System.Windows.Forms.Label();
             this.LabelTankPos = new System.Windows.Forms.Label();
             this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
@@ -89,7 +90,8 @@
             this.Controls.Add(this.LabelAnchor);
             this.Controls.Add(this.PauseMenu);
             this.Controls.Add(this.SFMLRenderControl);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameWindow";
             this.Text = "Tanks Online";
             this.ResumeLayout(false);
@@ -99,8 +101,8 @@
 
         #endregion
 
-        private Controls.SFMLRenderControl SFMLRenderControl;
-        private Controls.PauseMenu PauseMenu;
+        private TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl SFMLRenderControl;
+        private TanksOnline.ProjektPZ.Game.Controls.PauseMenu PauseMenu;
         private System.Windows.Forms.Label LabelAnchor;
         private System.Windows.Forms.Label LabelTankPos;
         private System.Windows.Forms.Label LabelBulletCnt;

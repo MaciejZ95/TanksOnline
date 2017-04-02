@@ -30,6 +30,18 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             return Ok(player);
         }
 
+        [HttpGet, Route("User/{id:int}"), ResponseType(typeof(Player))]
+        public async Task<IHttpActionResult> GetPlayerByUserId([FromUri] int id)
+        {
+            Player player = await db.Players.Include(x => x.User).SingleOrDefaultAsync(x => x.User.Id == id);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(player);
+        }
+
         [HttpGet, Route("User/Name/{name}/Email/{email}"), ResponseType(typeof(PlayerModel))]
         public async Task<IHttpActionResult> GetPlayerByUserEmailAndName([FromUri] string name, [FromUri] string email)
         {

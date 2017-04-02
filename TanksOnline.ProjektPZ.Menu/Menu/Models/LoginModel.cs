@@ -1,4 +1,4 @@
-﻿namespace Menu.Model
+﻿namespace Menu.Models
 {
     class LoginModel
     {
