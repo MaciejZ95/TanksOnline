@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Menu", "Menu\Menu.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TanksOnline.ProjektPZ.Game", "TanksOnline.ProjektPZ.Game\TanksOnline.ProjektPZ.Game.csproj", "{C650FB8F-35F6-43FD-85C0-C7F077931E8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TanksOnline.ProjectPZ.HttpListener", "TanksOnline.ProjectPZ.HttpListener\TanksOnline.ProjectPZ.HttpListener.csproj", "{0B7334BC-5882-4655-8BF6-AE1408998909}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{C650FB8F-35F6-43FD-85C0-C7F077931E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C650FB8F-35F6-43FD-85C0-C7F077931E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C650FB8F-35F6-43FD-85C0-C7F077931E8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B7334BC-5882-4655-8BF6-AE1408998909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B7334BC-5882-4655-8BF6-AE1408998909}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B7334BC-5882-4655-8BF6-AE1408998909}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B7334BC-5882-4655-8BF6-AE1408998909}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
