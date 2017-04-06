@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Menu", "Menu\Menu.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TanksOnline.ProjektPZ.Game", "TanksOnline.ProjektPZ.Game\TanksOnline.ProjektPZ.Game.csproj", "{C650FB8F-35F6-43FD-85C0-C7F077931E8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestySignalR_Formsy", "TestySignalR_Formsy\TestySignalR_Formsy.csproj", "{D08058BF-7BC0-4D68-B427-60A7F6E06C2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C650FB8F-35F6-43FD-85C0-C7F077931E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C650FB8F-35F6-43FD-85C0-C7F077931E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C650FB8F-35F6-43FD-85C0-C7F077931E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D08058BF-7BC0-4D68-B427-60A7F6E06C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D08058BF-7BC0-4D68-B427-60A7F6E06C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D08058BF-7BC0-4D68-B427-60A7F6E06C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D08058BF-7BC0-4D68-B427-60A7F6E06C2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
