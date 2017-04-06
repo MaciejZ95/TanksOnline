@@ -89,7 +89,7 @@ namespace Menu
             try
             {
                 //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
-                var url = await CheckUser(new LoginModel() { Email = "test", Password = "test" });
+                var url = await CheckUser(new LoginModel() { Email = "test1@test.pl", Password = "test" });
                 var user = await GetUserAsync(url.PathAndQuery);
                 this.Hide();
                 var createForm = new UserPanel(url, client, user, true);
@@ -116,7 +116,7 @@ namespace Menu
             try
             {
                 //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
-                var url = await CheckUser(new LoginModel() { Email = "test@test0.pl", Password = "test" });
+                var url = await CheckUser(new LoginModel() { Email = "test2@test.pl", Password = "test" });
                 var user = await GetUserAsync(url.PathAndQuery);
                 this.Hide();
                 var createForm = new UserPanel(url, client, user, true);
