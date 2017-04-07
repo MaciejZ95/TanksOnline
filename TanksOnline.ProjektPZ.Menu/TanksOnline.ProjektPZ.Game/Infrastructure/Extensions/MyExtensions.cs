@@ -31,5 +31,29 @@ namespace TanksOnline.ProjektPZ.Game.Infrastructure.Extensions
                 10000f * obj.Speed * (float)Math.Sin(DEG_TO_RAD * obj.Angle) / 10000f
             );
         }
+
+        //g = 9.81
+        //t = 0
+        //f - siła oporu powietrza
+        //m - masa ciała
+        //v - prędkość początkowa
+        //Δt - przyrost czasu
+        //α - kąt wystrzelenia pocisku
+        //kod:
+        //x = x + ((v* cos(α)) - f / m* t)
+        //y = y - ((v* sin(α)) - g* t)
+        //t = t + Δt
+        public static void Move(this IMoveAbleProjectile o)
+        {
+            float x = 10000f * o.Speed * (float)Math.Cos(DEG_TO_RAD * o.Angle);
+            float y = 10000f * -o.Speed * (float)Math.Sin(DEG_TO_RAD * o.Angle);
+            
+            o.Position += new Vector2f(
+                x / 10000f - o.AirForce / o.Mass * o.Time,
+                -y / 10000f + 9.81f * o.Time
+            );
+
+            o.Time += 0.25f;
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace Menu.Views
         private GameRoomModel _room;
         private PlayerModel _player;
 
-        public GameWindow(GameRoomModel room, PlayerModel player, HttpClient client)
+        private GameWindow(GameRoomModel room, PlayerModel player, HttpClient client)
         {
             InitializeComponent();
 
@@ -50,6 +50,14 @@ namespace Menu.Views
 
             CreateRenderWindow();
             CreateHttpListenerLoop();
+        }
+
+        public static async Task<GameWindow> Create(GameRoomModel room, PlayerModel player, HttpClient client)
+        {
+
+            var window = new GameWindow(room, player, client);
+            await window.InitializeSignalRHub();
+            return window;
         }
         
         #region Główne Metody
@@ -86,7 +94,7 @@ namespace Menu.Views
                 if (!_tankPosProcesing) ProcessTanksPositions();
 
                 // aktualizowanie stanu gry (kto teraz gra)
-                if (!_updatingStatus) UpdateGameStatus();
+                //if (!_updatingStatus) UpdateGameStatus();
             };
             _httpLoopTimer.Start();
         }
@@ -102,14 +110,14 @@ namespace Menu.Views
 
                 if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
                 {
-                    if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
+                   // if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
                     {
                         _tanks[_player.IdInMatch].TurretAngle -= 2.5f;
                     }
                 }
                 if (Keyboard.IsKeyPressed(Keyboard.Key.E))
                 {
-                    if (_tanks[_player.IdInMatch].TurretAngle + 2.5f < 95)
+                    //if (_tanks[_player.IdInMatch].TurretAngle + 2.5f < 95)
                     {
                         _tanks[_player.IdInMatch].TurretAngle += 2.5f;
                     }
@@ -161,7 +169,7 @@ namespace Menu.Views
             _tankPosProcesing = true;
             if (_itsMyTurn)
             {
-                await SetPlayerCanon(_player.Id, _tanks[_player.IdInMatch].TurretAngle);
+                await SetPlayerCanon(_player.IdInMatch, _tanks[_player.IdInMatch].TurretAngle);
                 _tankPosProcesing = false;
             }
             else
@@ -256,7 +264,18 @@ namespace Menu.Views
         private void LaunchBullet()
         {
             _justShooted_Player0 = _justShooted_Player1 = true;
-            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, 10)
+
+            float speed = 0f, airspeed = 0f, mass = 0f;
+
+            try
+            {
+                speed = float.Parse(Speed.Text);
+                airspeed = float.Parse(AirSpeed.Text);
+                mass = float.Parse(Mass.Text);
+            }
+            catch (Exception) { }
+
+            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass)
             {
                 Origin = new Vector2f(2f, 2f),
                 Position = _tanks[_player.IdInMatch].Position + new Vector2f(

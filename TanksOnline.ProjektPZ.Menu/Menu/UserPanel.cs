@@ -76,7 +76,7 @@ namespace Menu
                 var room = JsonConvert.DeserializeObject<GameRoomModel>(await client.GetStringAsync($"api/GameRooms/GetByPlayer/{player.Id}"));
 
                 this.Hide();
-                var game = new GameWindow(room, player, client);
+                var game = await GameWindow.Create(room, player, client);
                 game.Closed += (s, ev) => this.Close();
                 game.Show();                
             }

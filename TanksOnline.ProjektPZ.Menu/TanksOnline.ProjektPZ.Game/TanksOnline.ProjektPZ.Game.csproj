@@ -104,6 +104,7 @@
     <Compile Include="Drawables\Tank\TankWheelInner.cs" />
     <Compile Include="Infrastructure\Extensions\MyExtensions.cs" />
     <Compile Include="Infrastructure\Interfaces\ICollidable.cs" />
+    <Compile Include="Infrastructure\Interfaces\IMoveAbleProjectile.cs" />
     <Compile Include="Infrastructure\Interfaces\IMoveAbleWithAngle.cs" />
     <Compile Include="Controls\SFMLRenderControl.cs">
       <SubType>UserControl</SubType>

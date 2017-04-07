@@ -34,6 +34,12 @@
             this.LabelBulletCnt = new System.Windows.Forms.Label();
             this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
             this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
+            this.AirSpeed = new System.Windows.Forms.TextBox();
+            this.Mass = new System.Windows.Forms.TextBox();
+            this.Speed = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // LabelAnchor
@@ -80,12 +86,69 @@
             this.PauseMenu.TabIndex = 5;
             this.PauseMenu.Visible = false;
             // 
+            // AirSpeed
+            // 
+            this.AirSpeed.Location = new System.Drawing.Point(672, 12);
+            this.AirSpeed.Name = "AirSpeed";
+            this.AirSpeed.Size = new System.Drawing.Size(100, 20);
+            this.AirSpeed.TabIndex = 6;
+            this.AirSpeed.Text = "1";
+            // 
+            // Mass
+            // 
+            this.Mass.Location = new System.Drawing.Point(672, 38);
+            this.Mass.Name = "Mass";
+            this.Mass.Size = new System.Drawing.Size(100, 20);
+            this.Mass.TabIndex = 7;
+            this.Mass.Text = "10";
+            // 
+            // Speed
+            // 
+            this.Speed.Location = new System.Drawing.Point(672, 64);
+            this.Speed.Name = "Speed";
+            this.Speed.Size = new System.Drawing.Size(100, 20);
+            this.Speed.TabIndex = 8;
+            this.Speed.Text = "0.0625";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(561, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(105, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "SIła oporu powietrza";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(606, 41);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Masa ciała";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(553, 67);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Prędkość początkowa";
+            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Speed);
+            this.Controls.Add(this.Mass);
+            this.Controls.Add(this.AirSpeed);
             this.Controls.Add(this.PauseMenu);
             this.Controls.Add(this.LabelBulletCnt);
             this.Controls.Add(this.LabelTankPos);
@@ -107,6 +170,12 @@
         private System.Windows.Forms.Label LabelTankPos;
         private System.Windows.Forms.Label LabelBulletCnt;
         private TanksOnline.ProjektPZ.Game.Controls.PauseMenu PauseMenu;
+        private System.Windows.Forms.TextBox AirSpeed;
+        private System.Windows.Forms.TextBox Mass;
+        private System.Windows.Forms.TextBox Speed;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 
