@@ -32,14 +32,15 @@
             this.LabelAnchor = new System.Windows.Forms.Label();
             this.LabelTankPos = new System.Windows.Forms.Label();
             this.LabelBulletCnt = new System.Windows.Forms.Label();
-            this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
-            this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
             this.AirSpeed = new System.Windows.Forms.TextBox();
             this.Mass = new System.Windows.Forms.TextBox();
             this.Speed = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.Gravity = new System.Windows.Forms.TextBox();
+            this.PauseMenu = new TanksOnline.ProjektPZ.Game.Controls.PauseMenu();
+            this.SFMLRenderControl = new TanksOnline.ProjektPZ.Game.Controls.SFMLRenderControl();
             this.SuspendLayout();
             // 
             // LabelAnchor
@@ -69,23 +70,6 @@
             this.LabelBulletCnt.TabIndex = 4;
             this.LabelBulletCnt.Text = "blah2";
             // 
-            // SFMLRenderControl
-            // 
-            this.SFMLRenderControl.AccessibleName = "RenderWindow";
-            this.SFMLRenderControl.Location = new System.Drawing.Point(0, 0);
-            this.SFMLRenderControl.Margin = new System.Windows.Forms.Padding(0);
-            this.SFMLRenderControl.Name = "SFMLRenderControl";
-            this.SFMLRenderControl.Size = new System.Drawing.Size(785, 560);
-            this.SFMLRenderControl.TabIndex = 0;
-            // 
-            // PauseMenu
-            // 
-            this.PauseMenu.Location = new System.Drawing.Point(304, 182);
-            this.PauseMenu.Name = "PauseMenu";
-            this.PauseMenu.Size = new System.Drawing.Size(150, 125);
-            this.PauseMenu.TabIndex = 5;
-            this.PauseMenu.Visible = false;
-            // 
             // AirSpeed
             // 
             this.AirSpeed.Location = new System.Drawing.Point(672, 12);
@@ -108,7 +92,7 @@
             this.Speed.Name = "Speed";
             this.Speed.Size = new System.Drawing.Size(100, 20);
             this.Speed.TabIndex = 8;
-            this.Speed.Text = "0.0625";
+            this.Speed.Text = "20";
             // 
             // label1
             // 
@@ -137,12 +121,38 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Prędkość początkowa";
             // 
+            // Gravity
+            // 
+            this.Gravity.Location = new System.Drawing.Point(672, 90);
+            this.Gravity.Name = "Gravity";
+            this.Gravity.Size = new System.Drawing.Size(100, 20);
+            this.Gravity.TabIndex = 12;
+            this.Gravity.Text = "5";
+            // 
+            // PauseMenu
+            // 
+            this.PauseMenu.Location = new System.Drawing.Point(304, 182);
+            this.PauseMenu.Name = "PauseMenu";
+            this.PauseMenu.Size = new System.Drawing.Size(150, 125);
+            this.PauseMenu.TabIndex = 5;
+            this.PauseMenu.Visible = false;
+            // 
+            // SFMLRenderControl
+            // 
+            this.SFMLRenderControl.AccessibleName = "RenderWindow";
+            this.SFMLRenderControl.Location = new System.Drawing.Point(0, 0);
+            this.SFMLRenderControl.Margin = new System.Windows.Forms.Padding(0);
+            this.SFMLRenderControl.Name = "SFMLRenderControl";
+            this.SFMLRenderControl.Size = new System.Drawing.Size(785, 560);
+            this.SFMLRenderControl.TabIndex = 0;
+            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.Gravity);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -176,6 +186,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox Gravity;
     }
 }
 

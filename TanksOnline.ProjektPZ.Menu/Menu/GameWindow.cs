@@ -42,8 +42,8 @@ namespace Menu.Views
 
             _missiles = new List<Explosion>();
             _tanks = new List<Tank>() {
-                new Tank(10) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) },
-                new Tank(10) { FillColor = Color.Magenta, Position = new Vector2f(650f, 400f), TurretAngle = -90 },
+                new Tank(7.5f) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) },
+                new Tank(7.5f) { FillColor = Color.Magenta, Position = new Vector2f(650f, 400f), TurretAngle = -90 },
             };
             _bullets = new List<Bullet>();
             _colBox = new FrameCollisionBox();
@@ -259,23 +259,29 @@ namespace Menu.Views
             {
                 _missiles.Add(new Explosion(x.Position));
             });
+            // hell mode :>
+            //_bullets.ToList().ForEach(x =>
+            //{
+            //    _missiles.Add(new Explosion(x.Position));
+            //});
         }
 
         private void LaunchBullet()
         {
             _justShooted_Player0 = _justShooted_Player1 = true;
 
-            float speed = 0f, airspeed = 0f, mass = 0f;
+            float speed = 0f, airspeed = 0f, mass = 0f, gravity = 0f;
 
             try
             {
                 speed = float.Parse(Speed.Text);
                 airspeed = float.Parse(AirSpeed.Text);
                 mass = float.Parse(Mass.Text);
+                gravity = float.Parse(Gravity.Text);
             }
             catch (Exception) { }
 
-            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass)
+            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass, gravity)
             {
                 Origin = new Vector2f(2f, 2f),
                 Position = _tanks[_player.IdInMatch].Position + new Vector2f(
@@ -285,6 +291,8 @@ namespace Menu.Views
                 FillColor = Color.Black,
                 Radius = 4,
             });
+
+            AirSpeed.Text = (new Random().NextDouble() * 10 % 10 - 5).ToString();
         } 
         #endregion
     }
