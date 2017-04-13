@@ -35,6 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.friendListText = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.playerListText = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // enterToGameButton
@@ -50,7 +52,7 @@
             // addPlayerButton
             // 
             this.addPlayerButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.addPlayerButton.Location = new System.Drawing.Point(240, 55);
+            this.addPlayerButton.Location = new System.Drawing.Point(12, 126);
             this.addPlayerButton.Name = "addPlayerButton";
             this.addPlayerButton.Size = new System.Drawing.Size(208, 38);
             this.addPlayerButton.TabIndex = 1;
@@ -70,7 +72,7 @@
             // addFriendText
             // 
             this.addFriendText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.addFriendText.Location = new System.Drawing.Point(240, 23);
+            this.addFriendText.Location = new System.Drawing.Point(12, 94);
             this.addFriendText.Name = "addFriendText";
             this.addFriendText.Size = new System.Drawing.Size(208, 26);
             this.addFriendText.TabIndex = 3;
@@ -78,7 +80,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(241, 4);
+            this.label1.Location = new System.Drawing.Point(13, 75);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 4;
@@ -97,17 +99,39 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label2.Location = new System.Drawing.Point(467, 4);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.Size = new System.Drawing.Size(124, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Lista graczy";
+            this.label2.Text = "Lista dostępnych graczy ";
+            // 
+            // playerListText
+            // 
+            this.playerListText.Location = new System.Drawing.Point(243, 23);
+            this.playerListText.Multiline = true;
+            this.playerListText.Name = "playerListText";
+            this.playerListText.ReadOnly = true;
+            this.playerListText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.playerListText.Size = new System.Drawing.Size(200, 198);
+            this.playerListText.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(243, 4);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(109, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Lista graczy w pokoju";
             // 
             // RoomCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 477);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.playerListText);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.friendListText);
             this.Controls.Add(this.label1);
@@ -131,5 +155,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox friendListText;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox playerListText;
+        private System.Windows.Forms.Label label3;
     }
 }
