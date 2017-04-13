@@ -85,6 +85,12 @@
     <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\Player\PutTurretAngleModel.cs" />
+    <Compile Include="RoomCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoomCreator.Designer.cs">
+      <DependentUpon>RoomCreator.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ranking.resx">
       <DependentUpon>Ranking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomCreator.resx">
+      <DependentUpon>RoomCreator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.cs</DependentUpon>
