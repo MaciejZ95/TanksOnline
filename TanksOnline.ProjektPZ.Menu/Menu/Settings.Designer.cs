@@ -158,11 +158,16 @@
             // 
             // avatarPB
             // 
+            this.avatarPB.BackColor = System.Drawing.Color.Gray;
+            this.avatarPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.avatarPB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatarPB.Location = new System.Drawing.Point(3, 41);
             this.avatarPB.Name = "avatarPB";
             this.avatarPB.Size = new System.Drawing.Size(100, 100);
+            this.avatarPB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.avatarPB.TabIndex = 2;
             this.avatarPB.TabStop = false;
+            this.avatarPB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // nicknameInput
             // 
@@ -176,6 +181,8 @@
             // 
             // tankPB
             // 
+            this.tankPB.BackColor = System.Drawing.Color.Gray;
+            this.tankPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tankPB.Location = new System.Drawing.Point(3, 169);
             this.tankPB.Name = "tankPB";
             this.tankPB.Size = new System.Drawing.Size(199, 200);
@@ -267,6 +274,7 @@
             this.passwordconfirmInput.Name = "passwordconfirmInput";
             this.passwordconfirmInput.Size = new System.Drawing.Size(139, 22);
             this.passwordconfirmInput.TabIndex = 5;
+            this.passwordconfirmInput.UseSystemPasswordChar = true;
             this.passwordconfirmInput.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // passwordInput
@@ -279,6 +287,7 @@
             this.passwordInput.Name = "passwordInput";
             this.passwordInput.Size = new System.Drawing.Size(139, 22);
             this.passwordInput.TabIndex = 3;
+            this.passwordInput.UseSystemPasswordChar = true;
             this.passwordInput.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // emailInput
@@ -342,6 +351,7 @@
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(684, 461);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
