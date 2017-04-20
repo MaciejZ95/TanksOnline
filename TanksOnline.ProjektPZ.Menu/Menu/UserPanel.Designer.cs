@@ -80,13 +80,9 @@
             // avatarPB
             // 
             this.avatarPB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.avatarPB.BackColor = System.Drawing.Color.Gray;
-            this.avatarPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.avatarPB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatarPB.Location = new System.Drawing.Point(3, 3);
             this.avatarPB.Name = "avatarPB";
             this.avatarPB.Size = new System.Drawing.Size(44, 48);
-            this.avatarPB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.avatarPB.TabIndex = 0;
             this.avatarPB.TabStop = false;
             this.avatarPB.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -95,13 +91,11 @@
             // 
             this.nicknameLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nicknameLabel.AutoSize = true;
-            this.nicknameLabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.nicknameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.nicknameLabel.Location = new System.Drawing.Point(53, 15);
             this.nicknameLabel.Name = "nicknameLabel";
             this.nicknameLabel.Size = new System.Drawing.Size(66, 24);
             this.nicknameLabel.TabIndex = 1;
-            this.nicknameLabel.TabStop = true;
             this.nicknameLabel.Text = "label1";
             this.nicknameLabel.Click += new System.EventHandler(this.label1_Click);
             // 
@@ -110,7 +104,6 @@
             this.settingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.settingsButton.Image = global::Menu.Properties.Resources.settings;
             this.settingsButton.Location = new System.Drawing.Point(203, 3);
@@ -134,7 +127,6 @@
             this.addfriendButton.Text = "Dodaj znajomego";
             this.addfriendButton.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.addfriendButton.UseVisualStyleBackColor = false;
-            this.addfriendButton.Click += new System.EventHandler(this.addfriendButton_Click);
             // 
             // friendsList
             // 
@@ -150,7 +142,6 @@
             // startButton
             // 
             this.startButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.startButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startButton.Location = new System.Drawing.Point(3, 63);
             this.startButton.Name = "startButton";
@@ -187,11 +178,11 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox avatarPB;
+        private System.Windows.Forms.Label nicknameLabel;
         private System.Windows.Forms.Button settingsButton;
         private System.Windows.Forms.ListView friendsList;
         private System.Windows.Forms.Button addfriendButton;
         private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.Label nicknameLabel;
     }
 }
 

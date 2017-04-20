@@ -72,12 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddFriends.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddFriends.Designer.cs">
-      <DependentUpon>AddFriends.cs</DependentUpon>
-    </Compile>
     <Compile Include="GameStuff\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,9 +127,6 @@
     <Compile Include="Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddFriends.resx">
-      <DependentUpon>AddFriends.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GameWIndow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>

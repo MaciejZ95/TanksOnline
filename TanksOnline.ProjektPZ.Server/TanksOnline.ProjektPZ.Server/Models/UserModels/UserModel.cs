@@ -15,7 +15,6 @@ namespace TanksOnline.ProjektPZ.Server.Models.UserModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public byte[] Photo { get; set; }
         public TankInfo TankInfo { get; set; }
     }
 }
