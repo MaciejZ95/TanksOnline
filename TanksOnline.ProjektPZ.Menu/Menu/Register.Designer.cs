@@ -55,7 +55,6 @@
             this.createButton.Size = new System.Drawing.Size(150, 30);
             this.createButton.TabIndex = 0;
             this.createButton.Text = "STWÓRZ NOWE KONTO";
-            this.createButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.createButton.UseVisualStyleBackColor = false;
             this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 
@@ -131,7 +130,6 @@
             this.returnButton.Size = new System.Drawing.Size(150, 30);
             this.returnButton.TabIndex = 14;
             this.returnButton.Text = "WSTECZ";
-            this.returnButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.returnButton.UseVisualStyleBackColor = false;
             this.returnButton.Click += new System.EventHandler(this.returnButton_Click);
             // 

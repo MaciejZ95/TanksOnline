@@ -85,11 +85,17 @@
     <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\Player\PutTurretAngleModel.cs" />
-    <Compile Include="RoomCreator.cs">
+    <Compile Include="PublicRoom.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoomCreator.Designer.cs">
-      <DependentUpon>RoomCreator.cs</DependentUpon>
+    <Compile Include="PublicRoom.Designer.cs">
+      <DependentUpon>PublicRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrivateRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrivateRoom.Designer.cs">
+      <DependentUpon>PrivateRoom.cs</DependentUpon>
     </Compile>
     <Compile Include="UserPanel.cs">
       <SubType>Form</SubType>
@@ -136,11 +142,14 @@
     <EmbeddedResource Include="GameWIndow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PublicRoom.resx">
+      <DependentUpon>PublicRoom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ranking.resx">
       <DependentUpon>Ranking.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoomCreator.resx">
-      <DependentUpon>RoomCreator.cs</DependentUpon>
+    <EmbeddedResource Include="PrivateRoom.resx">
+      <DependentUpon>PrivateRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.cs</DependentUpon>

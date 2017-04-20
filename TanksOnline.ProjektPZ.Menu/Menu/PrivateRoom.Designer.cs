@@ -1,6 +1,6 @@
 ﻿namespace Menu
 {
-    partial class RoomCreator
+    partial class PrivateRoom
     {
         /// <summary>
         /// Required designer variable.
@@ -68,6 +68,7 @@
             this.leaveRoomButton.TabIndex = 2;
             this.leaveRoomButton.Text = "Opuść pokój";
             this.leaveRoomButton.UseVisualStyleBackColor = true;
+            this.leaveRoomButton.Click += new System.EventHandler(this.leaveRoomButton_Click);
             // 
             // addFriendText
             // 
@@ -125,7 +126,7 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Lista graczy w pokoju";
             // 
-            // RoomCreator
+            // PrivateRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -139,7 +140,7 @@
             this.Controls.Add(this.leaveRoomButton);
             this.Controls.Add(this.addPlayerButton);
             this.Controls.Add(this.enterToGameButton);
-            this.Name = "RoomCreator";
+            this.Name = "PrivateRoom";
             this.Text = "Tworzenie pokoju gracza";
             this.ResumeLayout(false);
             this.PerformLayout();

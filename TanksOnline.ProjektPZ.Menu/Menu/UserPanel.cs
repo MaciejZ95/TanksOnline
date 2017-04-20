@@ -78,11 +78,48 @@ namespace Menu
                 this.Hide();
                 var game = await GameWindow.Create(room, player, client);
                 game.Closed += (s, ev) => this.Close();
-                game.Show();                
+                game.Show();
             }
             else
             {
-                // TODO MZ: Maciek - normalne otwieranie okna do zrobienia przez Maćka
+                //Todo --- gdy nie ma pokoju to tworzymy nowy pokój publiczny, a gdy istenieje to dochodzimy do istniejącego
+                this.Enabled = false;
+                try
+                {
+                    this.Hide();
+                    var createForm = new PublicRoom(url, client, user);
+                    createForm.Closed += (s, args) => this.Close();
+                    createForm.Show();
+                }
+                catch (Exception excep)
+                {
+                    MessageBox.Show(excep.Message);
+                }
+                finally
+                {
+                    this.Enabled = true;
+                }
+            }
+        }
+
+        private void CreatePrivateRoom_Click(object sender, EventArgs e)
+        {
+
+            this.Enabled = false;
+            try
+            {
+                this.Hide();
+                var createForm = new PrivateRoom(url, client, user);
+                createForm.Closed += (s, args) => this.Close();
+                createForm.Show();
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+            finally
+            {
+                this.Enabled = true;
             }
         }
     }

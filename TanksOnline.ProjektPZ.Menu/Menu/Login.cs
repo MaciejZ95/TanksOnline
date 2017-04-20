@@ -26,14 +26,27 @@ namespace Menu
 
         private void createButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            var createForm = new Register();
-            createForm.Closed += (s, args) => this.Close();
-            createForm.Show();            
+            this.Enabled = false;
+            try
+            {
+                this.Hide();
+                var createForm = new Register();
+                createForm.Closed += (s, args) => this.Close();
+                createForm.Show();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                this.Enabled = true;
+            }
        }
 
         private async void loginButton_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
             client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:21021/");
             client.DefaultRequestHeaders.Accept.Clear();
@@ -52,7 +65,11 @@ namespace Menu
             {
                 // TODO GZ: Zmienna a powinna być gdzieś logowana!!!
                 MessageBox.Show("Podano złe dane logowania", "Uwaga!");
-            } 
+            }
+            finally
+            {
+                this.Enabled = true;
+            }
        
         }
         //sprawdzenie użytkownika, czyli przesłanie na serwer i tam zostaje porównany i przesłany response.
