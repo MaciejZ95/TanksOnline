@@ -13,6 +13,12 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
             Clients.All.SomeOneSendHello(hi);
         }
 
+
+
+
+
+
+
         public interface ITest
         {
             void SomeOneSendHello(Test hi);

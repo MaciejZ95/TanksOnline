@@ -8,13 +8,13 @@ using System.Web.Http;
 
 namespace TanksOnline.ProjektPZ.Server.Controllers
 {
-    public abstract class BaseControllerWithHub<THub> : BaseController where THub : Hub 
+    public abstract class BaseControllerWithHub<THub, T> : BaseController where THub : Hub <T> where T : class
     {
-        Lazy<IHubContext> hub = new Lazy<IHubContext>(
-            () => GlobalHost.ConnectionManager.GetHubContext<THub>()
+        Lazy<IHubContext<T>> hub = new Lazy<IHubContext<T>>(
+            () => GlobalHost.ConnectionManager.GetHubContext<THub, T>()
         );
 
-        protected IHubContext Hub {
+        protected IHubContext<T> Hub {
             get { return hub.Value; }
         }
     }

@@ -209,8 +209,11 @@
     <Compile Include="Controllers\CustomActionResults\ErrorResult.cs" />
     <Compile Include="Controllers\Game\GameRoomsController.cs" />
     <Compile Include="Controllers\Game\PlayersController.cs" />
+    <Compile Include="Controllers\Hubs\BulletPositionHub.cs" />
+    <Compile Include="Controllers\Hubs\GameConnectionHub.cs" />
+    <Compile Include="Controllers\Hubs\GameHub.cs" />
+    <Compile Include="Controllers\Hubs\HubPipelines\ErrorHandlingPipelineModule.cs" />
     <Compile Include="Controllers\Hubs\MyHub.cs" />
-    <Compile Include="Controllers\Hubs\TankTurretHub.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Domain\Consts.cs" />
     <Compile Include="Controllers\LoginRegister\LoginController.cs" />

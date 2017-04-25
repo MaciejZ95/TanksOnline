@@ -26,7 +26,7 @@ namespace Menu.Views
         private List<Explosion> _missiles;
         private RenderWindow _renderWindow;
         private Timer _timer, _httpLoopTimer;
-        private bool _justShooted_Player0, _justShooted_Player1;
+        private bool _justShooted_Player;
         private FrameCollisionBox _colBox;
 
         private GameRoomModel _room;
@@ -49,14 +49,15 @@ namespace Menu.Views
             _colBox = new FrameCollisionBox();
 
             CreateRenderWindow();
-            CreateHttpListenerLoop();
+            CreateSignalRRequestLoop();
         }
 
         public static async Task<GameWindow> Create(GameRoomModel room, PlayerModel player, HttpClient client)
         {
 
             var window = new GameWindow(room, player, client);
-            await window.InitializeSignalRHub();
+            await window.InitHub();
+            window.Text += $" - player {player.IdInMatch}";
             return window;
         }
         
@@ -83,25 +84,23 @@ namespace Menu.Views
             _renderWindow.Display();
         }
 
-        private void CreateHttpListenerLoop()
+        private void CreateSignalRRequestLoop()
         {
-            _itsMyTurn = true;// _room.Match.ActualPlayer == _player.IdInMatch;
-
-            _httpLoopTimer = new Timer { Interval = 1000 / 60 };
+            _httpLoopTimer = new Timer { Interval = 1000 / 120 };
             _httpLoopTimer.Tick += (s, e) =>
             {
-                // aktualizowanie pozycji swojego działa lub dział przeciwnika
-                if (!_tankPosProcesing) ProcessTanksPositions();
-
-                // aktualizowanie stanu gry (kto teraz gra)
-                //if (!_updatingStatus) UpdateGameStatus();
+                // aktualizowanie pozycji swojego działa
+                if (!_alreadyUpdatingTurret) UpdateTurretAngle();
             };
-            _httpLoopTimer.Start();
+            if (_itsMyTurn)
+            {
+                _httpLoopTimer.Start();
+            }
         }
 
         private void GetKeys()
         {
-            if (_player.IdInMatch == 0)
+            if (_itsMyTurn)
             {
                 if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tanks[_player.IdInMatch].Move(-new Vector2f(5f, 0));
                 if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tanks[_player.IdInMatch].Move(new Vector2f(5f, 0));
@@ -110,48 +109,25 @@ namespace Menu.Views
 
                 if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
                 {
-                   // if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
+                    if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
                     {
                         _tanks[_player.IdInMatch].TurretAngle -= 2.5f;
                     }
                 }
                 if (Keyboard.IsKeyPressed(Keyboard.Key.E))
                 {
-                    //if (_tanks[_player.IdInMatch].TurretAngle + 2.5f < 95)
-                    {
-                        _tanks[_player.IdInMatch].TurretAngle += 2.5f;
-                    }
-                }
-                // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
-                //if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
-                if (_justShooted_Player0 && !Keyboard.IsKeyPressed(Keyboard.Key.Space)) _justShooted_Player0 = false;
-                if (!_justShooted_Player0 && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet(); 
-            }
-            else if(_player.IdInMatch == 1)
-            {
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad4)) _tanks[_player.IdInMatch].Move(-new Vector2f(5f, 0));
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad6)) _tanks[_player.IdInMatch].Move(new Vector2f(5f, 0));
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad8)) _tanks[_player.IdInMatch].Move(-new Vector2f(0, 5f));
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad5)) _tanks[_player.IdInMatch].Move(new Vector2f(0, 5f));
-
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad7))
-                {
-                    if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
-                    {
-                        _tanks[_player.IdInMatch].TurretAngle -= 2.5f;
-                    }
-                }
-                if (Keyboard.IsKeyPressed(Keyboard.Key.Numpad9))
-                {
                     if (_tanks[_player.IdInMatch].TurretAngle + 2.5f < 95)
                     {
                         _tanks[_player.IdInMatch].TurretAngle += 2.5f;
                     }
                 }
-                // HELL MODE: Odkomentuj to zobaczysz piekło :D (tylko w połączeniu z kodem u góry)
                 //if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
-                if (_justShooted_Player1 && !Keyboard.IsKeyPressed(Keyboard.Key.Numpad0)) _justShooted_Player1 = false;
-                if (!_justShooted_Player1 && Keyboard.IsKeyPressed(Keyboard.Key.Numpad0)) LaunchBullet();
+                if (_justShooted_Player && !Keyboard.IsKeyPressed(Keyboard.Key.Space))
+                {
+                    _justShooted_Player = _itsMyTurn = false;
+                    _httpLoopTimer.Stop();
+                }
+                if (!_justShooted_Player && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
             }
             if (_canClickPauseMenu && Keyboard.IsKeyPressed(Keyboard.Key.Escape))
             {
@@ -161,36 +137,15 @@ namespace Menu.Views
             if (!_canClickPauseMenu && Keyboard.IsKeyPressed(Keyboard.Key.Escape)) _canClickPauseMenu = true;
         }
         #endregion
-        bool _canClickPauseMenu = true;
+
         #region Przetwarzanie związane z obsługą serwera
-        private bool _itsMyTurn, _tankPosProcesing = false, _updatingStatus = false;
-        private async void ProcessTanksPositions()
+        private bool _canClickPauseMenu = true;
+        private bool _itsMyTurn, _alreadyUpdatingTurret = false;
+        private async void UpdateTurretAngle()
         {
-            _tankPosProcesing = true;
-            if (_itsMyTurn)
-            {
-                await SetPlayerCanon(_player.IdInMatch, _tanks[_player.IdInMatch].TurretAngle);
-                _tankPosProcesing = false;
-            }
-            else
-            {
-                // TODO RK: Ogarnianie jak zmienił się stan pozostąłych graczy
-                _tankPosProcesing = false;
-            }
-        }
-
-        private async void UpdateGameStatus()
-        {
-            _updatingStatus = true;
-
-            _room = await GetRoom();
-            for (int i = 0; i < _tanks.Count; i++)
-            {
-                if (i == _player.IdInMatch) continue;
-                _tanks[i].TurretAngle = _room.Players[i].TurretAngle;
-            }
-
-            _updatingStatus = false;
+            _alreadyUpdatingTurret = true;
+            await SetPlayerCanon(_player.IdInMatch, _tanks[_player.IdInMatch].TurretAngle);
+            _alreadyUpdatingTurret = false;
         }
         #endregion
 
@@ -255,9 +210,10 @@ namespace Menu.Views
                 }
                 else x.Move();
             });
-            _bullets.Where(x => x.Dead).ToList().ForEach(x =>
+            _bullets.Where(x => x.Dead).ToList().ForEach(async bullet =>
             {
-                _missiles.Add(new Explosion(x.Position));
+                _missiles.Add(new Explosion(bullet.Position));
+                await BulletFallDown(bullet.Position.X, bullet.Position.Y);
             });
             // hell mode :>
             //_bullets.ToList().ForEach(x =>
@@ -266,9 +222,9 @@ namespace Menu.Views
             //});
         }
 
-        private void LaunchBullet()
+        private async void LaunchBullet()
         {
-            _justShooted_Player0 = _justShooted_Player1 = true;
+            _justShooted_Player = true;
 
             float speed = 0f, airspeed = 0f, mass = 0f, gravity = 0f;
 
@@ -290,6 +246,15 @@ namespace Menu.Views
                 ),
                 FillColor = Color.Black,
                 Radius = 4,
+            });
+
+            await Shoot(new PlayerShootModel
+            {
+                X = _bullets.Last().Position.X,
+                Y = _bullets.Last().Position.Y,
+                AirSpeed = airspeed,
+                Mass = mass,
+                Gravity = gravity,
             });
 
             AirSpeed.Text = (new Random().NextDouble() * 10 % 10 - 5).ToString();
