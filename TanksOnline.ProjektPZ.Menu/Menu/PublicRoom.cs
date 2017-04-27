@@ -17,12 +17,14 @@ namespace Menu
         static HttpClient client = null;
         private Uri url = null;
         private UserModel user = null;
+        private Uri roomUri = null;
 
-        public PublicRoom(Uri logged, HttpClient clt, UserModel user)
+        public PublicRoom(Uri logged, Uri roomUri, HttpClient clt, UserModel user)
         {
             this.url = logged;
             this.user = user;
             client = clt;
+            this.roomUri = roomUri;
             InitializeComponent();
         }
 

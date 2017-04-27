@@ -487,6 +487,7 @@
             </summary>
             <param name="id">Id użytkownika</param>
             <returns></returns>
+            
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeReady(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeReadyModel)">
             <summary>
@@ -494,6 +495,7 @@
             </summary>
             <param name="model"></param>
             <returns></returns>
+            
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeInGame(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeInGameModel)">
             <summary>

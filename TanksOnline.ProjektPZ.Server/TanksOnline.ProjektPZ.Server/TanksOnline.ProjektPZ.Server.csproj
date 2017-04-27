@@ -235,6 +235,7 @@
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
     <Compile Include="Models\GameRoomModels\PutSetMeInGameModel.cs" />
     <Compile Include="Models\GameRoomModels\PutSetMeReadyModel.cs" />
+    <Compile Include="Models\GameRoomModels\RoomModel.cs" />
     <Compile Include="Models\MatchModels\MatchModel.cs" />
     <Compile Include="Models\PlayerModels\GetPlayerByUserNameAndEmailModel.cs" />
     <Compile Include="Models\PlayerModels\PlayerModel.cs" />

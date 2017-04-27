@@ -85,6 +85,7 @@
     <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\Player\PutTurretAngleModel.cs" />
+    <Compile Include="Models\RoomModel.cs" />
     <Compile Include="PublicRoom.cs">
       <SubType>Form</SubType>
     </Compile>

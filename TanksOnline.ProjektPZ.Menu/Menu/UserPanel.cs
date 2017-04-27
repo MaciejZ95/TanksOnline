@@ -67,6 +67,7 @@ namespace Menu
             friendsList.SmallImageList = list;
         }
 
+        #region Create public room button 
         private async void startButton_Click(object sender, EventArgs e)
         {
             if (_gameDebugMode)
@@ -86,10 +87,18 @@ namespace Menu
                 this.Enabled = false;
                 try
                 {
+                    RoomModel model = new RoomModel()
+                    {
+                        Id = user.Id,
+                        Limit = 2
+                    };
+                    var roomUri = await CreateRoomAsync(model);
+
                     this.Hide();
-                    var createForm = new PublicRoom(url, client, user);
+                    var createForm = new PublicRoom(url, roomUri, client, user);
                     createForm.Closed += (s, args) => this.Close();
                     createForm.Show();
+                    
                 }
                 catch (Exception excep)
                 {
@@ -101,7 +110,8 @@ namespace Menu
                 }
             }
         }
-
+        #endregion
+        #region Create Private room button
         private void CreatePrivateRoom_Click(object sender, EventArgs e)
         {
 
@@ -122,5 +132,18 @@ namespace Menu
                 this.Enabled = true;
             }
         }
+        #endregion
+
+        #region POST ROOM
+        static async Task<Uri> CreateRoomAsync(RoomModel model)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync($"api/GameRooms", model);
+            response.EnsureSuccessStatusCode();
+            // return URI of the created resource.
+            return response.Headers.Location;
+        }
+        #endregion
+        #region GET ROOM
+        #endregion
     }
 }
