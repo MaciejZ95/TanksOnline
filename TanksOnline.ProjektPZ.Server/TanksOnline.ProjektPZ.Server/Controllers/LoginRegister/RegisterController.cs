@@ -111,6 +111,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.LoginRegister
         {
             return db.Users.Count(e => e.Id == id) > 0;
         }
+
         public bool EmailExist(string email)
         {
             var user = db.Users.Where(u => u.Email.Equals(email));

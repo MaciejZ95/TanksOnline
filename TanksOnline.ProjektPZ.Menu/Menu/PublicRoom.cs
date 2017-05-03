@@ -52,5 +52,32 @@ namespace Menu
         {
 
         }
+        private async Task<GameRoomModel> GetPlayerName(string path)
+        {
+            GameRoomModel room = null;
+            HttpResponseMessage response = await client.GetAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<GameRoomModel>();
+            }
+            return room;
+        }
+
+        private async void refresh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var room = await GetPlayerName(roomUri.PathAndQuery);
+                foreach (var p in room.Players)
+                {
+                    playerListText.Text += p.User.Name + "\n" ;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("błąd!");
+            }
+          
+        }
     }
 }

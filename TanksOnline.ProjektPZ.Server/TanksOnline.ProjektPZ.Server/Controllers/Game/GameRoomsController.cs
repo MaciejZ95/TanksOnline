@@ -23,6 +23,23 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
     [RoutePrefix("api/GameRooms")]
     public class GameRoomsController : BaseController
     {
+        #region Find rooms
+
+        #endregion
+
+        #region Checked room     
+        [HttpGet, ResponseType(typeof(GameRoomModel))]
+        public IHttpActionResult GetRoomss()
+        {
+            var room = db.GameRooms.Include(x => x.Players.Select(p => p.User.TankInfo)).Where(x => x.PlayersLimit != x.Players.Count() && x.Players.Count()>0);
+            if (!room.Any())
+            {
+                return Json(false);
+            }
+            return Json(true);
+        }
+        #endregion
+
         #region Get by ID. GET
         [HttpGet, Route("{id:int}"), ResponseType(typeof(GameRoomModel))]
         public IHttpActionResult GetRoom([FromUri] int id)
@@ -106,7 +123,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             }
         }
         #endregion
-        // TODO RK: Trzeba to zastąpić operacjami z SignalR
+
         #region Check everybody
         [HttpGet, Route("CheckIfEveryoneReady/Room/{id:int}")]
         public IHttpActionResult CheckIfEveryoneReady(int id)

@@ -545,6 +545,11 @@
             Z jakichś powodów pokój został zamknięty w sposób awaryjny
             </summary>
         </member>
+        <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Full">
+            <summary>
+            Pokój jest pełen
+            </summary>
+        </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel">
             <summary>
             Klasa do tworzenia gracza w ramach danej rozgrywki

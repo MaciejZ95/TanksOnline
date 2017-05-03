@@ -28,10 +28,12 @@ namespace Menu
             this.user = user;
             client = clt;
             nicknameLabel.Text = user.Name;
-            /*for (int i = 0; i < tab.Length; i++)
+            /*
+            for (int i = 0; i < tab.Length; i++)
             {
                 this.listView1.Items[i] = tab[i];
-            }*/
+            }
+            */
         }
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user, bool gameDebugMode)
@@ -83,41 +85,72 @@ namespace Menu
             }
             else
             {
-                //Todo --- gdy nie ma pokoju to tworzymy nowy pokój publiczny, a gdy istenieje to dochodzimy do istniejącego
-                this.Enabled = false;
-                try
+                if (false == await GetCheckRoomAsync())
                 {
-                    RoomModel model = new RoomModel()
+                    //Todo --- gdy nie ma pokoju to tworzymy nowy pokój publiczny, a gdy istenieje to dochodzimy do istniejącego
+                    this.Enabled = false;
+                    try
                     {
-                        Id = user.Id,
-                        Limit = 2
-                    };
-                    var roomUri = await CreateRoomAsync(model);
+                        RoomModel model = new RoomModel()
+                        {
+                            Id = user.Id,
+                            Limit = 2
+                        };
+                        var roomUri = await CreateRoomAsync(model);
 
-                    this.Hide();
-                    var createForm = new PublicRoom(url, roomUri, client, user);
-                    createForm.Closed += (s, args) => this.Close();
-                    createForm.Show();
-                    
+                        this.Hide();
+                        var createForm = new PublicRoom(url, roomUri, client, user);
+                        createForm.Closed += (s, args) => this.Close();
+                        createForm.Show();
+
+                    }
+                    catch (Exception excep)
+                    {
+                        MessageBox.Show(excep.Message);
+                    }
+                    finally
+                    {
+                        this.Enabled = true;
+                    }
                 }
-                catch (Exception excep)
+                else
                 {
-                    MessageBox.Show(excep.Message);
-                }
-                finally
-                {
-                    this.Enabled = true;
+                    MessageBox.Show("SĄ WOLNE MIEJSCA!!");
+                    try
+                    {
+                        var roomUri = await AddPlayerToRoomAsync(user.Id);
+                        this.Hide();
+                        var createForm = new PublicRoom(url, roomUri, client, user);
+                        createForm.Closed += (s, args) => this.Close();
+                        createForm.Show();
+
+                    }
+                    catch (Exception excep)
+                    {
+                        MessageBox.Show(excep.Message);
+                    }
+                    finally
+                    {
+                        this.Enabled = true;
+                    }
                 }
             }
         }
         #endregion
         #region Create Private room button
-        private void CreatePrivateRoom_Click(object sender, EventArgs e)
+        private async void CreatePrivateRoom_Click(object sender, EventArgs e)
         {
 
             this.Enabled = false;
             try
             {
+                RoomModel model = new RoomModel()
+                {
+                    Id = user.Id,
+                    Limit = 2
+                };
+                var roomUri = await CreateRoomAsync(model);
+
                 this.Hide();
                 var createForm = new PrivateRoom(url, client, user);
                 createForm.Closed += (s, args) => this.Close();
@@ -143,7 +176,26 @@ namespace Menu
             return response.Headers.Location;
         }
         #endregion
-        #region GET ROOM
+        #region Check rooms exists    
+        private async Task<bool> GetCheckRoomAsync()
+        {
+            bool room = false;
+            HttpResponseMessage response = await client.GetAsync($"api/GameRooms");
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<bool>();
+            }
+            return room;
+        }
+        #endregion
+
+        #region
+        private async Task<Uri> AddPlayerToRoomAsync(int id)
+        {
+            HttpResponseMessage response = await client.GetAsync($"api/GameRooms/FindEmptyRoom/ForUser/{id}");
+            response.EnsureSuccessStatusCode();
+            return response.Headers.Location;
+        }
         #endregion
     }
 }

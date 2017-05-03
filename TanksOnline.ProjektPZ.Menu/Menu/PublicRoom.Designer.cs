@@ -32,6 +32,7 @@
             this.playerListText = new System.Windows.Forms.TextBox();
             this.leaveRoomButton = new System.Windows.Forms.Button();
             this.enterToGameButton = new System.Windows.Forms.Button();
+            this.refresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label3
@@ -75,11 +76,22 @@
             this.enterToGameButton.UseVisualStyleBackColor = true;
             this.enterToGameButton.Click += new System.EventHandler(this.enterToGameButton_Click);
             // 
+            // refresh
+            // 
+            this.refresh.Location = new System.Drawing.Point(407, 243);
+            this.refresh.Name = "refresh";
+            this.refresh.Size = new System.Drawing.Size(109, 23);
+            this.refresh.TabIndex = 13;
+            this.refresh.Text = "Odśwież listę";
+            this.refresh.UseVisualStyleBackColor = true;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
+            // 
             // PublicRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 456);
+            this.Controls.Add(this.refresh);
             this.Controls.Add(this.leaveRoomButton);
             this.Controls.Add(this.enterToGameButton);
             this.Controls.Add(this.label3);
@@ -97,5 +109,6 @@
         private System.Windows.Forms.TextBox playerListText;
         private System.Windows.Forms.Button leaveRoomButton;
         private System.Windows.Forms.Button enterToGameButton;
+        private System.Windows.Forms.Button refresh;
     }
 }
