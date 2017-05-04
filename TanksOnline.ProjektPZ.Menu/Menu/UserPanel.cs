@@ -28,12 +28,6 @@ namespace Menu
             this.user = user;
             client = clt;
             nicknameLabel.Text = user.Name;
-            /*
-            for (int i = 0; i < tab.Length; i++)
-            {
-                this.listView1.Items[i] = tab[i];
-            }
-            */
         }
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user, bool gameDebugMode)
@@ -97,9 +91,10 @@ namespace Menu
                             Limit = 2
                         };
                         var roomUri = await CreateRoomAsync(model);
-
+                        var room = await GetRoomAsync(roomUri.PathAndQuery);
+                        var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
                         this.Hide();
-                        var createForm = new PublicRoom(url, roomUri, client, user);
+                        var createForm = new PublicRoom(url, room, client, user, player);
                         createForm.Closed += (s, args) => this.Close();
                         createForm.Show();
 
@@ -118,9 +113,10 @@ namespace Menu
                     MessageBox.Show("SĄ WOLNE MIEJSCA!!");
                     try
                     {
-                        var roomUri = await AddPlayerToRoomAsync(user.Id);
+                        var room = await AddPlayerToRoomAsync(user.Id);
+                        var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
                         this.Hide();
-                        var createForm = new PublicRoom(url, roomUri, client, user);
+                        var createForm = new PublicRoom(url, room, client, user, player);
                         createForm.Closed += (s, args) => this.Close();
                         createForm.Show();
 
@@ -137,6 +133,7 @@ namespace Menu
             }
         }
         #endregion
+
         #region Create Private room button
         private async void CreatePrivateRoom_Click(object sender, EventArgs e)
         {
@@ -150,9 +147,11 @@ namespace Menu
                     Limit = 2
                 };
                 var roomUri = await CreateRoomAsync(model);
+                var room = await GetRoomAsync(roomUri.PathAndQuery);
+                var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
 
                 this.Hide();
-                var createForm = new PrivateRoom(url, client, user);
+                var createForm = new PrivateRoom(url, room, client, user, player);
                 createForm.Closed += (s, args) => this.Close();
                 createForm.Show();
             }
@@ -176,6 +175,20 @@ namespace Menu
             return response.Headers.Location;
         }
         #endregion
+
+        #region Check rooms exists    
+        private async Task<PlayerModel> GetPlayerAsync()
+        {
+            PlayerModel player = null;
+            HttpResponseMessage response = await client.GetAsync($"api/GameRooms");
+            if (response.IsSuccessStatusCode)
+            {
+                player = await response.Content.ReadAsAsync<PlayerModel>();
+            }
+            return player;
+        }
+        #endregion
+
         #region Check rooms exists    
         private async Task<bool> GetCheckRoomAsync()
         {
@@ -189,13 +202,35 @@ namespace Menu
         }
         #endregion
 
-        #region
-        private async Task<Uri> AddPlayerToRoomAsync(int id)
+        #region Add player to room 
+        private async Task<GameRoomModel> AddPlayerToRoomAsync(int id)
         {
+            GameRoomModel room = null;
             HttpResponseMessage response = await client.GetAsync($"api/GameRooms/FindEmptyRoom/ForUser/{id}");
             response.EnsureSuccessStatusCode();
-            return response.Headers.Location;
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<GameRoomModel>();
+            }
+            return room;
         }
+        #endregion
+
+        #region Get player room 
+        private async Task<GameRoomModel> GetRoomAsync(string path)
+        {
+            GameRoomModel room = null;
+            HttpResponseMessage response = await client.GetAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<GameRoomModel>();
+            }
+            return room;
+        }
+        #endregion
+
+        #region Get player 
+
         #endregion
     }
 }

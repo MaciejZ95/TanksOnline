@@ -39,7 +39,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             return Json(true);
         }
         #endregion
-
+        
         #region Get by ID. GET
         [HttpGet, Route("{id:int}"), ResponseType(typeof(GameRoomModel))]
         public IHttpActionResult GetRoom([FromUri] int id)
@@ -267,7 +267,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             });
 
             db.SaveChanges();
-            return Json(Mapper.Map<GameRoomModel>(room));
+            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
         }
         #endregion
 
@@ -281,6 +281,19 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             base.Dispose(disposing);
         }
         #endregion
+
+        /// <summary>
+        /// Usuwanie gracza z pokoju
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+
+        /// <summary>
+        /// Usuwanie pokoju
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         #region GameRoomExists?
         private bool GameRoomExists(int id)

@@ -26,7 +26,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             {
                 return NotFound();
             }
-
             return Ok(player);
         }
 
@@ -97,6 +96,22 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // DELETE: api/Palyers/5
+        [ResponseType(typeof(Player))]
+        public async Task<IHttpActionResult> DeletePlayer(int id)
+        {
+            Player player = await db.Players.FindAsync(id);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            db.Players.Remove(player);
+            await db.SaveChangesAsync();
+
+            return Ok(player);
         }
 
         private bool PlayerExists(int id)

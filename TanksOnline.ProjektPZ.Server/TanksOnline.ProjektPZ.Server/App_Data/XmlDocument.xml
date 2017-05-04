@@ -504,6 +504,18 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.GameRoomExists(System.Int32)">
+            <summary>
+            Usuwanie gracza z pokoju
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <summary>
+            Usuwanie pokoju
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.PlayersController.PostPlayer(TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel)">
             <summary>
             Operacja dodawania nowego gracza

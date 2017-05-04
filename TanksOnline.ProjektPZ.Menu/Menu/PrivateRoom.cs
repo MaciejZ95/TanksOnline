@@ -17,11 +17,16 @@ namespace Menu
         static HttpClient client = null;
         private Uri url = null;
         private UserModel user = null;
-        public PrivateRoom(Uri logged, HttpClient clt, UserModel user)
+        private GameRoomModel room = null;
+        private PlayerModel player = null;
+
+        public PrivateRoom(Uri logged, GameRoomModel room, HttpClient clt, UserModel user, PlayerModel player)
         {
             this.url = logged;
             this.user = user;
+            this.player = player;
             client = clt;
+            this.room = room;
             InitializeComponent();
         }
 
@@ -35,9 +40,9 @@ namespace Menu
                 createForm.Closed += (s, args) => this.Close();
                 createForm.Show();
             }
-            catch (Exception)
+            catch (Exception excp)
             {
-
+                MessageBox.Show(excp.Message);
             }
             finally
             {
