@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
@@ -13,9 +14,16 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public string Name { get; set; }
         public string Email { get; set; }
         public UserStatus Status { get; set; }
+        public byte[] Photo { get; set; }
         public TankInfo TankInfo { get; set; }
         public UserScore UserScore { get; set; }
         public string Password { get; set; }
+        public virtual List <User> Friends { get; set;}
+
+        public User()
+        {
+            Friends = new List<User>();
+        }
     }
 
     public class UserMap : EntityTypeConfiguration<User>
@@ -26,6 +34,7 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
             this.Property(x => x.Name).IsRequired();
             this.Property(x => x.Email).IsRequired();
             this.Property(x => x.Status).IsRequired();
+            this.Property(x => x.Photo).IsOptional();
             this.HasRequired(x => x.TankInfo);
             this.HasRequired(x => x.UserScore);
             this.Property(x => x.Password).IsRequired();

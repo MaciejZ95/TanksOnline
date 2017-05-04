@@ -61,9 +61,8 @@ namespace Menu
                 createForm.Closed += (s, args) => this.Close();
                 createForm.Show();
             }
-            catch (Exception a)
+            catch (Exception)
             {
-                // TODO GZ: Zmienna a powinna być gdzieś logowana!!!
                 MessageBox.Show("Podano złe dane logowania", "Uwaga!");
             }
             finally

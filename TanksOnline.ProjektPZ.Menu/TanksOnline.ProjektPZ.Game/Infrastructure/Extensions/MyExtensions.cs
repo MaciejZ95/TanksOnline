@@ -50,7 +50,7 @@ namespace TanksOnline.ProjektPZ.Game.Infrastructure.Extensions
             
             o.Position += new Vector2f(
                 x / 10000f - o.AirForce / o.Mass * o.Time,
-                -y / 10000f + 9.81f * o.Time
+                -y / 10000f + o.Gravity * o.Time
             );
 
             o.Time += 0.25f;

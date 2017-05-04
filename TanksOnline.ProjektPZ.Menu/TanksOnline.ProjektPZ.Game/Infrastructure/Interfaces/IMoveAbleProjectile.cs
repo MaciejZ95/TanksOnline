@@ -32,5 +32,9 @@ namespace TanksOnline.ProjektPZ.Game.Infrastructure.Interfaces
         /// Masa pocisku
         /// </summary>
         float Mass { get; }
+        /// <summary>
+        /// Siła grawitacji (musi być ujemna)
+        /// </summary>
+        float Gravity { get; }
     }
 }

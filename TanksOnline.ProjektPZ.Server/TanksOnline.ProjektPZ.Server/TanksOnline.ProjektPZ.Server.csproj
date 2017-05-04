@@ -216,6 +216,7 @@
     <Compile Include="Controllers\LoginRegister\LoginController.cs" />
     <Compile Include="Controllers\LoginRegister\RegisterController.cs" />
     <Compile Include="Domain\Db.cs" />
+    <Compile Include="Domain\Entities\Friends.cs" />
     <Compile Include="Domain\Entities\GameRoom.cs" />
     <Compile Include="Domain\Entities\Match.cs" />
     <Compile Include="Domain\Entities\Player.cs" />
@@ -230,6 +231,18 @@
     <Compile Include="Migrations\201703301028345_Init.cs" />
     <Compile Include="Migrations\201703301028345_Init.Designer.cs">
       <DependentUpon>201703301028345_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704171543155_Migration11_sd.cs" />
+    <Compile Include="Migrations\201704171543155_Migration11_sd.Designer.cs">
+      <DependentUpon>201704171543155_Migration11_sd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704200146506_Friends.cs" />
+    <Compile Include="Migrations\201704200146506_Friends.Designer.cs">
+      <DependentUpon>201704200146506_Friends.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704201138037_Friends1.cs" />
+    <Compile Include="Migrations\201704201138037_Friends1.Designer.cs">
+      <DependentUpon>201704201138037_Friends1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
@@ -282,6 +295,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703301028345_Init.resx">
       <DependentUpon>201703301028345_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704171543155_Migration11_sd.resx">
+      <DependentUpon>201704171543155_Migration11_sd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704200146506_Friends.resx">
+      <DependentUpon>201704200146506_Friends.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704201138037_Friends1.resx">
+      <DependentUpon>201704201138037_Friends1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
