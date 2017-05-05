@@ -74,7 +74,7 @@ namespace Menu
                 //var rooms = await GetPlayerName(room.Id);
                 foreach (var p in room.Players)
                 {
-                    playerListText.Text = p.Id + " \n\t";
+                    playerListText.Text += p.User.Name + "\r\n";
                 }
             }
             catch (Exception excp)

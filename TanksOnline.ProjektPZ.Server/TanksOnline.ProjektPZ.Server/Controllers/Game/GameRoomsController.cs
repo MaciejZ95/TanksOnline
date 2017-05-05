@@ -93,7 +93,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 try
                 {
                     var rooms = db.GameRooms
-                        .Include(room => room.Players)
+                        .Include(room => room.Players).Include(room => room.Players.Select(x => x.User))
                         .Include(room => room.Owner)
                         .Include(room => room.Match)
                         .Where(x => x.RoomStatus == RoomStatus.Waiting);

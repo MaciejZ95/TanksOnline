@@ -240,10 +240,6 @@
     <Compile Include="Migrations\201704200146506_Friends.Designer.cs">
       <DependentUpon>201704200146506_Friends.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704201138037_Friends1.cs" />
-    <Compile Include="Migrations\201704201138037_Friends1.Designer.cs">
-      <DependentUpon>201704201138037_Friends1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
     <Compile Include="Models\GameRoomModels\PutSetMeInGameModel.cs" />
@@ -301,9 +297,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704200146506_Friends.resx">
       <DependentUpon>201704200146506_Friends.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704201138037_Friends1.resx">
-      <DependentUpon>201704201138037_Friends1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
