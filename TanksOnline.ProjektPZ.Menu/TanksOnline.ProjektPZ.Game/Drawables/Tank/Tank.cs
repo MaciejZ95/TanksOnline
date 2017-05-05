@@ -21,10 +21,14 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
         private TankWheel _wheels;
         private Color _col;
         private TankCollisionBox _box;
+        private Explosion _flame1, _flame2, _flame3;
         private bool _boxVisible;
 
         public float Rad { get; }
         public bool Dead { get; set; }
+        public int IdInMatch { get; private set; }
+        public bool ChangedColor { get; set; }
+        public int TankHp { get; set; }
 
         /// <summary>
         /// Wartość jest przesunięta o 180 stopni. Wynika to z charakterystyki widoku w SFMl. 
@@ -50,8 +54,9 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
             }
         }
 
-        public Tank(float radius, bool isColBoxVisible)
+        public Tank(float radius, int idInMatch, bool isColBoxVisible)
         {
+            IdInMatch = idInMatch;
             Rad = radius;
             _col = Color.Green;
             _turret = new TankTurret(Rad * 1.5f);
@@ -63,22 +68,53 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
             _boxVisible = isColBoxVisible;
         }
 
-        public Tank(float radius) : this(radius, false) { }
+        public Tank(float radius, int idInMatch) : this(radius, idInMatch, false) { }
+
+        public Tank(float radius) : this(radius, -1, false) { }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
             if (_boxVisible) target.Draw(_box);
-            target.Draw(_turret);
-            target.Draw(_wheels);
+
+            // sprawdzanie czy przypadkiem czołg nie został zniszczony
+            if (!ChangedColor && Dead)
+            {
+                _wheels.FillColor = Color.Black;
+                _flame1 = new Explosion(_turret.Position + new Vector2f(0, Rad * 2))
+                {
+                    Infinite = true
+                };
+                _flame2 = new Explosion(_turret.Position + new Vector2f(Rad * 1.5f, Rad))
+                {
+                    Infinite = true
+                };
+                _flame3 = new Explosion(_turret.Position + new Vector2f(Rad * 3, Rad * 2))
+                {
+                    Infinite = true,
+                    Rotation = 90
+                };
+                ChangedColor = true;
+            }
+
+            // rysowanie w zależności czy nie jest martwy
+            if (Dead) {
+                target.Draw(_flame1);
+                target.Draw(_flame3);
+                target.Draw(_flame2);
+                target.Draw(_wheels);
+            }
+            else
+            {
+                target.Draw(_turret);
+                target.Draw(_wheels);
+            }
         }
 
         public bool CheckCol(Bullet obj)
         {
             if (obj.Owner != this)
             {
-                var result = _box.CheckCol(obj);
-                this.Dead = result;
-                return result;
+                return _box.CheckCol(obj);
             }
             else return false;
         }

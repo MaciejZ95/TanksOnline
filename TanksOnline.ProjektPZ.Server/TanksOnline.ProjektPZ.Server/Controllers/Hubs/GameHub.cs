@@ -23,11 +23,16 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
             Clients.OthersInGroup($"{roomId}").TurretAngleChanged(angle, playerMatchId);
         }
 
-        public void BulletFallDown(int x, int y, int playerId, int roomId)
+        /// <summary>
+        /// Operacja gdy pocisk gdzieś spadnie bez kolizji
+        /// </summary>
+        /// <param name="playerId">Id gracza wywołującego zdarzenie</param>
+        public void BulletFallDown(int playerId)
         {
             using (var db = new Db())
             {
-                var room = db.GameRooms.Include(r => r.Players).SingleOrDefault(r => r.Id == roomId);
+                var room = db.GameRooms.Include(r => r.Players)
+                    .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
 
                 if (room != null)
                 {
@@ -35,21 +40,77 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
 
                     if (playerMatchId == (room.PlayersLimit - 1))
                     {
-                        Clients.OthersInGroup($"{roomId}").ThisPlayerTurn(0);
+                        Clients.OthersInGroup($"{room.Id}").ThisPlayerTurn(0);
                     }
                     else
                     {
-                        Clients.OthersInGroup($"{roomId}").ThisPlayerTurn(playerMatchId + 1);
+                        Clients.OthersInGroup($"{room.Id}").ThisPlayerTurn(playerMatchId + 1);
                     }
                 }
             }
         }
 
-        public void BulletHitPlayer(int x, int y, int playerMatchId)
+        /// <summary>
+        /// Operacja gdy pocisk trafi gracza
+        /// </summary>
+        /// <param name="playerId">Id gracza wywołującego zdarzenie</param>
+        /// <param name="shootedMatchId">Id meczowe trafionego gracza</param>
+        public void BulletHitPlayer(int playerId, int shootedMatchId)
         {
             using (var db = new Db())
             {
+                var room = db.GameRooms.Include(r => r.Players)
+                    .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
 
+                if (room != null)
+                {
+                    room.Players.Single(p => p.IdInMatch == shootedMatchId).TankHP--;
+                    db.SaveChanges();
+
+                    var player = room.Players.Single(p => p.Id == playerId);
+
+                    if (player.IdInMatch == (room.PlayersLimit - 1))
+                    {
+                        Clients.OthersInGroup($"{room.Id}").BulletHitPlayer(shootedMatchId, 0);
+                    }
+                    else
+                    {
+                        Clients.OthersInGroup($"{room.Id}").BulletHitPlayer(shootedMatchId, player.IdInMatch + 1);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Operacja gdy gracz zabije przeciwnika
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="killedMatchId"></param>
+        public void BulletKilledPlayer(int playerId, int killedMatchId)
+        {
+            using (var db = new Db())
+            {
+                var room = db.GameRooms.Include(r => r.Players)
+                    .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
+
+                if (room != null)
+                {
+                    room.Players.Single(p => p.IdInMatch == killedMatchId).TankHP--;
+                    db.SaveChanges();
+
+                    var player = room.Players.Single(p => p.Id == playerId);
+
+                    if (player.IdInMatch == (room.PlayersLimit - 1))
+                    {
+                        // TODO RK: Jeśli zabity przeciwnik będzie ostatnim żyjącym to trza o tym powiedzieć
+                        Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId, 0);
+                    }
+                    else
+                    {
+                        // TODO RK: Jeśli zabity przeciwnik będzie ostatnim żyjącym to trza o tym powiedzieć
+                        Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId, player.IdInMatch + 1);
+                    }
+                }
             }
         }
 
@@ -59,7 +120,8 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
         {
             void TurretAngleChanged(float angle, int playerMatchId);
             void PlayerShooted(PlayerShootModel model);
-            void BulletHitPlayer();
+            void BulletHitPlayer(int playerMatchId, int nextPlayerMatchId);
+            void BulletKilledPlayer(int killedMatchId, int nextPlayerMatchId);
             void AllPlayersDead(int theLastOfUs);
             void ThisPlayerTurn(int playerMatchId);
         }

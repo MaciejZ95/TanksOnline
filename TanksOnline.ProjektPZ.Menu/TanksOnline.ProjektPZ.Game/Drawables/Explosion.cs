@@ -16,12 +16,13 @@ namespace TanksOnline.ProjektPZ.Game.Drawables
         private static Random RAND = new Random();
         private static Texture TEXTURE;
         private static List<IntRect> RECTS;
-        private short _counter;
+        private int _counter;
         private ExplosionAnimation _boom;
 
         public bool Dead { get; private set; } = false;
+        public bool Infinite { get; set; } = false;
 
-        public Explosion(Vector2f pos)
+        public Explosion(Vector2f pos, bool infinite = false)
         {
             Position = pos;
             Origin = new Vector2f(32f, 32f);
@@ -32,9 +33,13 @@ namespace TanksOnline.ProjektPZ.Game.Drawables
                 LoadTexture();
             }
             this.Texture = TEXTURE;
-            this.TextureRect = RECTS.First();
+            if (infinite)
+            {
+                this.TextureRect = RECTS.ElementAt(new Random().Next() % 16);
+            }
+            else this.TextureRect = RECTS.First();
 
-            _boom = new ExplosionAnimation(this);
+            _boom = new ExplosionAnimation(this, infinite);
         }
 
         private void LoadTexture()
@@ -55,27 +60,63 @@ namespace TanksOnline.ProjektPZ.Game.Drawables
         {
             private Explosion _boom;
             private Timer _timer;
+            private int x;
 
-            public ExplosionAnimation(Explosion e)
+            public ExplosionAnimation(Explosion e, bool infinite = false)
             {
+                if (infinite)
+                {
+                    _timer = new Timer { Interval = 25 };
+                }
+                else
+                {
+                    _timer = new Timer { Interval = 50 };
+                }
                 _boom = e;
                 _boom._counter = 1;
+                x = 1;
 
-                _timer = new Timer { Interval = 50 };
                 _timer.Tick += new EventHandler(TimerMethod);
                 _timer.Start();
             }
 
             private void TimerMethod(object s, EventArgs e)
             {
-                if (_boom._counter >= RECTS.Count)
+                if (_boom.Infinite)
                 {
-                    _timer.Enabled = false;
-                    _boom.Dead = true;
-                    Dispose();
-                    return;
+                    _boom.Rotation += new Random().Next() % 10 - 5;
+                    if (x == 1)
+                    {
+                        if (_boom._counter < (RECTS.Count - 5))
+                        {
+                            _boom.TextureRect = RECTS.ElementAt(_boom._counter++);
+                        }
+                        else
+                        {
+                            x = -1;
+                            _boom._counter--;
+                        }
+                    }
+                    else
+                    {
+                        if (_boom._counter > 3)
+                        {
+                            _boom.TextureRect = RECTS.ElementAt(_boom._counter--);
+                        }
+                        else x = 1;
+                    }
                 }
-                else _boom.TextureRect = RECTS.ElementAt(_boom._counter++);
+                else
+                {
+                    if (_boom._counter >= RECTS.Count)
+                    {
+                        _timer.Enabled = false;
+                        _boom.Dead = true;
+                        Dispose();
+                        return;
+                    }
+                    else _boom.TextureRect = RECTS.ElementAt(_boom._counter++);
+                }
             }
             
             private bool disposed;

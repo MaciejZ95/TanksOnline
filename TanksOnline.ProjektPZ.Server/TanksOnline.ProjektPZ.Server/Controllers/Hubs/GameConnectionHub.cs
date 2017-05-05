@@ -12,7 +12,29 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
 {
     public partial class GameHub : Hub<GameHub.IGameHubModel>
     {
-        public void Connect(int playerId, string roomId)
+        // TODO RK: Do wyrzucenia jak pokoje będą działać. Na razie trzeba ręcznie zmieniać w bazie.
+        public void ClearDbAndConnect(int roomId, int playerId)
+        {
+            using (var db = new Db())
+            {
+                var room = db.GameRooms
+                    .Include(p => p.Players).Include(p => p.Players.Select(x => x.User))
+                    .SingleOrDefault(r => r.Id == roomId);
+
+                if (room != null)
+                {
+                    foreach (var player in room.Players)
+                    {
+                        player.TankHP = 4;
+                        player.User.Status = UserStatus.Logged;
+                    }
+                    db.SaveChanges();
+                }
+            }
+            Connect(playerId);
+        }
+
+        public void Connect(int playerId)
         {
             using (var db = new Db())
             {
@@ -26,15 +48,11 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
 
                     db.SaveChanges();
 
-                    var dupa = db.GameRooms
-                    .Include(p => p.Players).Include(p => p.Players.Select(x => x.User))
-                    .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
-
-                    Groups.Add(Context.ConnectionId, $"Room{roomId}");
+                    Groups.Add(Context.ConnectionId, $"{room.Id}");
 
                     if (room.Players.Count(p => p.User.Status == UserStatus.InGame) == room.PlayersLimit)
                     {
-                        Clients.Group($"Room{roomId}").ThisPlayerTurn(new Random().Next() % (room.PlayersLimit - 1));
+                        Clients.Group($"{room.Id}").ThisPlayerTurn(new Random().Next() % (room.PlayersLimit - 1));
                     }
                 }
                 else

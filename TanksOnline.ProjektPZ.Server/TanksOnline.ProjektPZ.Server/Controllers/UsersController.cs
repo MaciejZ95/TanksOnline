@@ -37,6 +37,19 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
             return Ok(user);
         }
 
+        // GET: api/Users/5
+        [ResponseType(typeof(User))]
+        public async Task<IHttpActionResult> GetUser(string name)
+        {
+            User user = await db.Users.SingleOrDefaultAsync(u => u.Name == name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutUser(int id, User user)

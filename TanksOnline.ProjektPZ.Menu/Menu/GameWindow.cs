@@ -16,6 +16,7 @@ using SFML.Window;
 using TanksOnline.ProjektPZ.Game.Infrastructure.Extensions;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Collections.Concurrent;
 
 namespace Menu.Views
 {
@@ -23,7 +24,7 @@ namespace Menu.Views
     {
         private List<Bullet> _bullets;
         private List<Tank> _tanks;
-        private List<Explosion> _missiles;
+        private List<Explosion> _explosions;
         private RenderWindow _renderWindow;
         private Timer _timer, _httpLoopTimer;
         private bool _justShooted_Player;
@@ -32,6 +33,8 @@ namespace Menu.Views
         private GameRoomModel _room;
         private PlayerModel _player;
 
+        private ConcurrentStack<BoomModel> _boomModels;
+
         private GameWindow(GameRoomModel room, PlayerModel player, HttpClient client)
         {
             InitializeComponent();
@@ -39,12 +42,15 @@ namespace Menu.Views
             _client = client;
             _player = player;
             _room = room;
-
-            _missiles = new List<Explosion>();
+            
+            _boomModels = new ConcurrentStack<BoomModel>();
+            _explosions = new List<Explosion>();
+            // TODO RK: Chwilowo jest statycznie wstawiane ile żyć jak i ilość czołgów - potem dodawać ładniej
             _tanks = new List<Tank>() {
-                new Tank(7.5f) { FillColor = Color.Green, Position = new Vector2f(100f, 100f) },
-                new Tank(7.5f) { FillColor = Color.Magenta, Position = new Vector2f(650f, 400f), TurretAngle = -90 },
+                new Tank(7.5f, 0) { FillColor = Color.Green, Position = new Vector2f(100f, 400f) },
+                new Tank(7.5f, 1) { FillColor = Color.Magenta, Position = new Vector2f(650f, 400f), TurretAngle = -90, },
             };
+            _tanks.ForEach(tank => tank.TankHp = 4);
             _bullets = new List<Bullet>();
             _colBox = new FrameCollisionBox();
 
@@ -74,8 +80,11 @@ namespace Menu.Views
                 // Kolizje pocisków ze ścianami/czołgami
                 CalcBulletCollisions();
 
-                // Usuwanie "martwych" obiektów
-                RemoveDeadObjects();
+                // Przesuwanie pocisków
+                _bullets.ForEach(bullet => bullet.Move());
+
+                // Usuwanie "wypalonych" wybuchów
+                _explosions.RemoveAll(x => x.Dead);
 
                 // Rysowanie modeli
                 DrawModels();
@@ -84,29 +93,50 @@ namespace Menu.Views
             _renderWindow.Display();
         }
 
+        private bool _canClickPauseMenu = true;
+        private bool _itsMyTurn, _alreadyUpdatingTurret = false;
         private void CreateSignalRRequestLoop()
         {
             _httpLoopTimer = new Timer { Interval = 1000 / 120 };
-            _httpLoopTimer.Tick += (s, e) =>
+            _httpLoopTimer.Tick += async (s, e) =>
             {
                 // aktualizowanie pozycji swojego działa
-                if (!_alreadyUpdatingTurret) UpdateTurretAngle();
+                if (_itsMyTurn && !_alreadyUpdatingTurret)
+                {
+                    _alreadyUpdatingTurret = true;
+                    await SetPlayerCanon(_player.IdInMatch, _tanks[_player.IdInMatch].TurretAngle);
+                    _alreadyUpdatingTurret = false;
+                }
+
+                if (_boomModels.Any())
+                {
+                    var booms = _boomModels.ToArray();
+                    _boomModels.Clear();
+
+                    booms.ToList().ForEach(async b =>
+                    {
+                        if (b.BulletFallDown)
+                        {
+                            await BulletFallDown();
+                        }
+                        else if (b.BulletHitPlayer)
+                        {
+                            await BulletHitPlayer(b.ShootedIdInMatch);
+                        }
+                        else if (b.BulletKilledPlayer)
+                        {
+                            await BulletKilledPlayer(b.ShootedIdInMatch);
+                        }
+                    });
+                }
             };
-            if (_itsMyTurn)
-            {
-                _httpLoopTimer.Start();
-            }
+            _httpLoopTimer.Start();
         }
 
         private void GetKeys()
         {
             if (_itsMyTurn)
             {
-                if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _tanks[_player.IdInMatch].Move(-new Vector2f(5f, 0));
-                if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _tanks[_player.IdInMatch].Move(new Vector2f(5f, 0));
-                if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _tanks[_player.IdInMatch].Move(-new Vector2f(0, 5f));
-                if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _tanks[_player.IdInMatch].Move(new Vector2f(0, 5f));
-
                 if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
                 {
                     if (_tanks[_player.IdInMatch].TurretAngle - 2.5f > -95)
@@ -125,27 +155,16 @@ namespace Menu.Views
                 if (_justShooted_Player && !Keyboard.IsKeyPressed(Keyboard.Key.Space))
                 {
                     _justShooted_Player = _itsMyTurn = false;
-                    _httpLoopTimer.Stop();
                 }
                 if (!_justShooted_Player && Keyboard.IsKeyPressed(Keyboard.Key.Space)) LaunchBullet();
             }
+
             if (_canClickPauseMenu && Keyboard.IsKeyPressed(Keyboard.Key.Escape))
             {
                 _canClickPauseMenu = false;
                 PauseMenu.Visible = !PauseMenu.Visible;
             };
             if (!_canClickPauseMenu && Keyboard.IsKeyPressed(Keyboard.Key.Escape)) _canClickPauseMenu = true;
-        }
-        #endregion
-
-        #region Przetwarzanie związane z obsługą serwera
-        private bool _canClickPauseMenu = true;
-        private bool _itsMyTurn, _alreadyUpdatingTurret = false;
-        private async void UpdateTurretAngle()
-        {
-            _alreadyUpdatingTurret = true;
-            await SetPlayerCanon(_player.IdInMatch, _tanks[_player.IdInMatch].TurretAngle);
-            _alreadyUpdatingTurret = false;
         }
         #endregion
 
@@ -158,7 +177,7 @@ namespace Menu.Views
 
             _bullets.ForEach(x => _renderWindow.Draw(x));
             _tanks.ForEach(x => _renderWindow.Draw(x));
-            _missiles.ForEach(x => _renderWindow.Draw(x));
+            _explosions.ForEach(x => _renderWindow.Draw(x));
         }
 
         private void CreateRenderWindow()
@@ -178,43 +197,80 @@ namespace Menu.Views
             LabelTankPos.Text = $"Tank position: {_tanks[_player.IdInMatch].Position}";
             LabelBulletCnt.Text = $"Bullets alive: {_bullets.Count}";
         }
-
-        private void RemoveDeadObjects()
-        {
-            _missiles.RemoveAll(x => x.Dead);
-            _bullets.RemoveAll(x =>
-            {
-                // HELL MODE: Odkomentuj to zobaczysz piekło :D
-                // _missiles.Add(new Explosion(x.Position));
-                return x.Dead == true;
-            });
-            _tanks.RemoveAll(x =>
-            {
-                // TODO RK: Dodawanie ładniejszych wybuchów :>
-                if (x.Dead)
-                {
-                    _missiles.Add(new Explosion(x.Position));
-                    _missiles.Last().Move(new Vector2f(1.5f * x.Rad, 1.5f * x.Rad));
-                }
-                return x.Dead;
-            });
-        }
-
+        
         private void CalcBulletCollisions()
         {
-            _bullets.ForEach(x =>
+            // Usuwanie pocisków, które miały kolizję
+            _bullets.RemoveAll(bullet =>
             {
-                if (_colBox.CheckCol(x) || _tanks.Any(t => t.CheckCol(x)))
+                // Sprawdzanie czy pocisk nie jest "makietą"
+                if (!bullet.IsDummy)
                 {
-                    x.Dispose();
+                    // Sprawdzanie kolizji ze ścianami
+                    if (_colBox.CheckCol(bullet))
+                    {
+                        _boomModels.Push(new BoomModel(bullet.Position)
+                        {
+                            BulletFallDown = true,
+                        });
+
+                        _explosions.Add(new Explosion(bullet.Position));
+                        return true;
+                    }
+
+                    // TODO RK: Sprawdzanie kolizji z powierzchnią
+
+                    // Sprawdzanie kolizji z czołgami
+                    var tank = _tanks.SingleOrDefault(t => t.CheckCol(bullet));
+                    if (tank != null)
+                    {
+                        // Jeżeli już wcześniej czołg był zniszczony to pocisk jedynie zniknie
+                        // nie ma potrzeby dodawać wybuchu - czołg i tak płonie
+                        if (tank.Dead) return true;
+
+                        // Jeżeli czołg ma jeszcze punkty życia to nawalamy
+                        tank.TankHp--;
+                        if (tank.TankHp > 0)
+                        {
+                            _boomModels.Push(new BoomModel(bullet.Position)
+                            {
+                                BulletHitPlayer = true,
+                                ShootedIdInMatch = tank.IdInMatch,
+                            });
+
+                            // Trafiło gracza, więc dodajemy wybuch
+                            _explosions.Add(new Explosion(bullet.Position));
+                            return true;
+                        }
+                        // Jeżeli skończyły się hapsy, to zabić drania
+                        else
+                        {
+                            tank.Dead = true;
+                            _boomModels.Push(new BoomModel(bullet.Position)
+                            {
+                                BulletKilledPlayer = true,
+                                ShootedIdInMatch = tank.IdInMatch,
+                            });
+
+                            // Trafiło gracza, więc dodajemy wybuch
+                            _explosions.Add(new Explosion(bullet.Position));
+                            return true;
+                        }
+                    }
+
+                    return false;
                 }
-                else x.Move();
-            });
-            _bullets.Where(x => x.Dead).ToList().ForEach(async bullet =>
-            {
-                _missiles.Add(new Explosion(bullet.Position));
-                await BulletFallDown(bullet.Position.X, bullet.Position.Y);
-            });
+                else
+                {
+                    // Sprawdzanie kolizji ze ścianami i czołgami
+                    if (_colBox.CheckCol(bullet) || _tanks.Any(t => t.CheckCol(bullet)))
+                    {
+                        _explosions.Add(new Explosion(bullet.Position));
+                        return true;
+                    }
+                    else return false;
+                }
+            });           
             // hell mode :>
             //_bullets.ToList().ForEach(x =>
             //{
@@ -237,7 +293,7 @@ namespace Menu.Views
             }
             catch (Exception) { }
 
-            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass, gravity)
+            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass, gravity, _player.IdInMatch)
             {
                 Origin = new Vector2f(2f, 2f),
                 Position = _tanks[_player.IdInMatch].Position + new Vector2f(
@@ -252,13 +308,46 @@ namespace Menu.Views
             {
                 X = _bullets.Last().Position.X,
                 Y = _bullets.Last().Position.Y,
+                Angle = _tanks[_player.IdInMatch].TurretAngle - 90,
+                Speed = speed,
                 AirSpeed = airspeed,
                 Mass = mass,
                 Gravity = gravity,
+                PlayerMatchId = _player.IdInMatch,
+                RoomId = _room.Id,
             });
 
             AirSpeed.Text = (new Random().NextDouble() * 10 % 10 - 5).ToString();
-        } 
+        }
         #endregion
+
+        public class BoomModel
+        {
+            /// <summary>
+            /// Pocisk spadł na ziemię lub walnął w ścianę
+            /// </summary>
+            public bool BulletFallDown { get; set; }
+            /// <summary>
+            /// Pocisk trafił gracza ale go nie zabił
+            /// </summary>
+            public bool BulletHitPlayer { get; set; }
+            /// <summary>
+            /// Pocisk trafił gracza i go zabił
+            /// </summary>
+            public bool BulletKilledPlayer { get; set; }
+            /// <summary>
+            /// Id trafionego gracza (niezależnie czy zginął lub nie)
+            /// </summary>
+            public int ShootedIdInMatch { get; set; }
+            /// <summary>
+            /// Pozycja pocisku // TODO RK: W sumie bez sensu... Może wywalić? -.-
+            /// </summary>
+            public Vector2f Pos { get; private set; }
+
+            public BoomModel(Vector2f pos)
+            {
+                Pos = pos;
+            }
+        }
     }
 }

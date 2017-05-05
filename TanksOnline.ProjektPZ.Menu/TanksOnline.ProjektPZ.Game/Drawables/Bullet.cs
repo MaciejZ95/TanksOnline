@@ -14,14 +14,16 @@ namespace TanksOnline.ProjektPZ.Game.Drawables
     {
         public float Angle { get; }
         public float Speed { get; }
-        public bool Dead { get; set; }
         public Tank Owner { get; private set; }
         public float AirForce { get; }
         public float Time { get; set; }
         public float Mass { get; }
         public float Gravity { get; set; }
+        public int ShootedMatchId { get; private set; }
+        public Tank KilledTank { get; internal set; }
+        public bool IsDummy { get; private set; }
 
-        public Bullet(Tank owner, float angle = 45f, float speed = 20f, float airForce = 1f, float mass = 10f, float gravity = -5f)
+        public Bullet(Tank owner, float angle, float speed, float airForce, float mass, float gravity, int shootedMatchId, bool isDummy = false)
         {
             Owner = owner;
             Angle = angle;
@@ -29,6 +31,10 @@ namespace TanksOnline.ProjektPZ.Game.Drawables
             AirForce = airForce;
             Mass = mass;
             Gravity = gravity;
+            ShootedMatchId = shootedMatchId;
+            IsDummy = isDummy;
         }
+
+        public Bullet(Bullet b, int shootedMatchId) : this(b.Owner, b.Angle, b.Speed, b.AirForce, b.Mass, b.Gravity, shootedMatchId) { }
     }
 }

@@ -508,6 +508,26 @@
             </summary>
             <param name="model"></param>
         </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Hubs.GameHub.BulletFallDown(System.Int32)">
+            <summary>
+            Operacja gdy pocisk gdzieś spadnie bez kolizji
+            </summary>
+            <param name="playerId">Id gracza wywołującego zdarzenie</param>
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Hubs.GameHub.BulletHitPlayer(System.Int32,System.Int32)">
+            <summary>
+            Operacja gdy pocisk trafi gracza
+            </summary>
+            <param name="playerId">Id gracza wywołującego zdarzenie</param>
+            <param name="shootedMatchId">Id meczowe trafionego gracza</param>
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Hubs.GameHub.BulletKilledPlayer(System.Int32,System.Int32)">
+            <summary>
+            Operacja gdy gracz zabije przeciwnika
+            </summary>
+            <param name="playerId"></param>
+            <param name="killedMatchId"></param>
+        </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Domain.Entities.GameRoom">
             <summary>
             Pokój do którego dołączają gracze. Gdy wszyscy będą połączeni to przechodzą do rzeczywistej gry.

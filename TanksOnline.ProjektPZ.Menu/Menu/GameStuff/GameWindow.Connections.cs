@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TanksOnline.ProjektPZ.Game.Drawables;
 
 namespace Menu.Views
@@ -41,16 +42,47 @@ namespace Menu.Views
                     if (_player.IdInMatch == playerMatchId)
                     {
                         _itsMyTurn = true;
-                        _httpLoopTimer.Start();
                     }
                 }));
             });
 
-            gameHub.On<PlayerShootModel>("Shoot", (model =>
+            gameHub.On<int, int>("BulletKilledPlayer", (killedMatchId, nextPlayerMatchId) =>
             {
                 this.Invoke(new Action(() =>
                 {
-                    _bullets.Add(new Bullet(_tanks[model.PlayerMatchId], model.Angle, model.Speed, model.AirSpeed, model.Mass, model.Gravity)
+                    _tanks[killedMatchId].Dead = true;
+
+                    var player = _room.Players.Single(p => p.IdInMatch == killedMatchId);
+                    var message = $"Czołg gracza {player.User.Name} został zniszczony!";
+                    switch (MessageBox.Show(message, "Gracz został pokonany!", MessageBoxButtons.OK))
+                    {
+                        case DialogResult.Yes: // TODO RK: Potem można zrobić jakieś fajne akcje na tej zasadzie. Może :> 
+                            break;
+                        case DialogResult.No: break;
+                    }
+
+                    // TODO RK: Na razie gra powinna stać jak debil, potem powinny być akcje na zakończenie
+                }));
+            });
+
+            gameHub.On<int, int>("BulletHitPlayer", (playerMatchId, nextPlayerMatchId) =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    _tanks[playerMatchId].TankHp--;
+
+                    if (_player.IdInMatch == nextPlayerMatchId)
+                    {
+                        _itsMyTurn = true;
+                    }
+                }));
+            });
+
+            gameHub.On<PlayerShootModel>("PlayerShooted", model =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    _bullets.Add(new Bullet(_tanks[model.PlayerMatchId], model.Angle, model.Speed, model.AirSpeed, model.Mass, model.Gravity, -1, true)
                     {
                         Origin = new Vector2f(2f, 2f),
                         Position = new Vector2f(model.X, model.Y),
@@ -58,15 +90,32 @@ namespace Menu.Views
                         Radius = 4,
                     });
                 }));
-            }));
+            });
 
             await hubConnection.Start();
-            gameHub.Invoke("Connect", _player.Id, _room.Id).Wait();
+            // Czyszczenie tylko przez pierwszego gracza
+            if (_player.IdInMatch == 0) await gameHub.Invoke("ClearDbAndConnect", _room.Id, _player.Id);
+            else await gameHub.Invoke("Connect", _player.Id);
         }
 
-        private async Task BulletFallDown(float x, float y)
+        private async Task BulletFallDown()
         {
-            await gameHub.Invoke("BulletFallDown", x, y, _player.IdInMatch, _room.Id);
+            await gameHub.Invoke("BulletFallDown", _player.Id);
+        }
+
+        /// <summary>
+        /// Akcja gdy pocisk rąbnie w przeciwnika
+        /// </summary>
+        /// <param name="shootedPlayerMatchId"></param>
+        /// <returns></returns>
+        private async Task BulletHitPlayer(int shootedPlayerMatchId)
+        {
+            await gameHub.Invoke("BulletHitPlayer", _player.Id, shootedPlayerMatchId);
+        }
+
+        private async Task BulletKilledPlayer(int killedMatchId)
+        {
+            await gameHub.Invoke("BulletKilledPlayer", _player.Id, killedMatchId);
         }
 
         private async Task SetPlayerCanon(int id, float turretAngle)

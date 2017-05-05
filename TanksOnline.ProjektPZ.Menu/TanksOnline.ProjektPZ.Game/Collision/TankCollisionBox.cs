@@ -49,7 +49,7 @@ namespace TanksOnline.ProjektPZ.Game.Collision
 
         public bool CheckCol(Bullet obj)
         {
-            _box.ForEach(x =>
+            return _box.Any(x =>
             {
                 var rect1 = x.GetGlobalBounds();
                 var rect2 = obj.GetGlobalBounds();
@@ -59,10 +59,10 @@ namespace TanksOnline.ProjektPZ.Game.Collision
                     rect1.Top < rect2.Top + rect2.Height &&
                     rect1.Top + rect1.Height > rect2.Top)
                 {
-                    obj.Dead = true;
+                    return true;
                 }
+                else return false;
             });
-            return obj.Dead;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
