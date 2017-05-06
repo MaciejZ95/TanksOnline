@@ -267,7 +267,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             });
 
             db.SaveChanges();
-            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
+            return CreatedAtRoute("DefaultApi", new { id = room.Id }, room);
         }
         #endregion
 

@@ -35,8 +35,8 @@
             this.passwordLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.loginButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.loginButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_user2 = new System.Windows.Forms.Button();
             this.btn_user1 = new System.Windows.Forms.Button();
@@ -131,20 +131,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(281, 80);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
-            // loginButton
-            // 
-            this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.loginButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.loginButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.loginButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loginButton.Location = new System.Drawing.Point(3, 9);
-            this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(134, 23);
-            this.loginButton.TabIndex = 9;
-            this.loginButton.Text = "ZALOGUJ";
-            this.loginButton.UseVisualStyleBackColor = false;
-            this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
-            // 
             // cancelButton
             // 
             this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -159,13 +145,27 @@
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
+            // loginButton
+            // 
+            this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.loginButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.loginButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.loginButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginButton.Location = new System.Drawing.Point(3, 9);
+            this.loginButton.Name = "loginButton";
+            this.loginButton.Size = new System.Drawing.Size(134, 23);
+            this.loginButton.TabIndex = 9;
+            this.loginButton.Text = "ZALOGUJ";
+            this.loginButton.UseVisualStyleBackColor = false;
+            this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
+            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.btn_user2, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.btn_user1, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.btn_user2, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.btn_user1, 0, 0);
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 74);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
@@ -180,7 +180,7 @@
             this.btn_user2.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.btn_user2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_user2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_user2.Location = new System.Drawing.Point(7, 8);
+            this.btn_user2.Location = new System.Drawing.Point(7, 49);
             this.btn_user2.Name = "btn_user2";
             this.btn_user2.Size = new System.Drawing.Size(98, 23);
             this.btn_user2.TabIndex = 11;
@@ -194,7 +194,7 @@
             this.btn_user1.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.btn_user1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_user1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_user1.Location = new System.Drawing.Point(9, 49);
+            this.btn_user1.Location = new System.Drawing.Point(9, 8);
             this.btn_user1.Name = "btn_user1";
             this.btn_user1.Size = new System.Drawing.Size(94, 23);
             this.btn_user1.TabIndex = 10;

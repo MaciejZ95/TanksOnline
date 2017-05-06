@@ -30,14 +30,15 @@ namespace Menu.Views
 
             gameHub.On<float, int>("TurretAngleChanged", OnTurretAngleChangedEvent);
             gameHub.On<int>("ThisPlayerTurn", OnThisPlayerTurnEvent);
-            gameHub.On<int, int>("BulletKilledPlayer", OnBulletKilledPlayerEvent);
+            gameHub.On<int>("BulletKilledPlayer", OnBulletKilledPlayerEvent);
             gameHub.On<int, int>("BulletHitPlayer", OnBulletHitPlayerEvent);
             gameHub.On<PlayerShootModel>("PlayerShooted", OnPlayerShootedEvent);
 
             await hubConnection.Start();
             // Czyszczenie tylko przez pierwszego gracza
-            if (_player.IdInMatch == 0) await gameHub.Invoke("ClearDbAndConnect", _room.Id, _player.Id);
-            else await gameHub.Invoke("Connect", _player.Id);
+            //if (_player.IdInMatch == 0) await gameHub.Invoke("ClearDbAndConnect", _room.Id, _player.Id);
+            //else
+            await gameHub.Invoke("Connect", _player.Id);
         }
 
         #region Obsługa zewnętrznych zdarzeń SignalR
@@ -60,7 +61,7 @@ namespace Menu.Views
             }));
         }
 
-        private void OnBulletKilledPlayerEvent(int killedMatchId, int nextPlayerMatchId)
+        private void OnBulletKilledPlayerEvent(int killedMatchId)
         {
             this.Invoke(new Action(() =>
             {

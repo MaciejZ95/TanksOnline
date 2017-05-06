@@ -12,28 +12,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
 {
     public partial class GameHub : Hub<GameHub.IGameHubModel>
     {
-        // TODO RK: Do wyrzucenia jak pokoje będą działać. Na razie trzeba ręcznie zmieniać w bazie.
-        public void ClearDbAndConnect(int roomId, int playerId)
-        {
-            using (var db = new Db())
-            {
-                var room = db.GameRooms
-                    .Include(p => p.Players).Include(p => p.Players.Select(x => x.User))
-                    .SingleOrDefault(r => r.Id == roomId);
-
-                if (room != null)
-                {
-                    foreach (var player in room.Players)
-                    {
-                        player.TankHP = 4;
-                        player.User.Status = UserStatus.Logged;
-                    }
-                    db.SaveChanges();
-                }
-            }
-            Connect(playerId);
-        }
-
         public void Connect(int playerId)
         {
             using (var db = new Db())

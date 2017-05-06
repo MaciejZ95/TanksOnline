@@ -109,7 +109,7 @@ namespace Menu
             friendsList.View = View.Details;
             friendsList.Columns.Add("Znajomi", 250);
             ImageList list = new ImageList();
-            list.ImageSize = new Size(30,30);
+            list.ImageSize = new Size(30, 30);
             // dodanie obrazków z bazy danych
             friendsList.SmallImageList = list;
             nicknameLabel.Text = user.Name;
@@ -150,8 +150,7 @@ namespace Menu
                             Id = user.Id,
                             Limit = 2
                         };
-                        var roomUri = await CreateRoomAsync(model);
-                        var room = await GetRoomAsync(roomUri.PathAndQuery);
+                        var room = await CreateRoomAsync(model);
                         var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
                         this.Hide();
                         var createForm = new PublicRoom(url, room, client, user, player);
@@ -206,8 +205,7 @@ namespace Menu
                     Id = user.Id,
                     Limit = 2
                 };
-                var roomUri = await CreateRoomAsync(model);
-                var room = await GetRoomAsync(roomUri.PathAndQuery);
+                var room = await CreateRoomAsync(model);
                 var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
 
                 this.Hide();
@@ -227,12 +225,12 @@ namespace Menu
         #endregion
 
         #region POST ROOM
-        static async Task<Uri> CreateRoomAsync(RoomModel model)
+        static async Task<GameRoomModel> CreateRoomAsync(RoomModel model)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync($"api/GameRooms", model);
             response.EnsureSuccessStatusCode();
             // return URI of the created resource.
-            return response.Headers.Location;
+            return JsonConvert.DeserializeObject<GameRoomModel>(await response.Content.ReadAsStringAsync());
         }
         #endregion
 
@@ -296,7 +294,7 @@ namespace Menu
 
         private void addfriendButton_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

@@ -90,25 +90,26 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
         {
             using (var db = new Db())
             {
-                var room = db.GameRooms.Include(r => r.Players)
+                var room = db.GameRooms
+                    .Include(r => r.Players).Include(r => r.Players.Select(p => p.User))
                     .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
 
                 if (room != null)
                 {
                     room.Players.Single(p => p.IdInMatch == killedMatchId).TankHP--;
+
+                    room.Players.ForEach(p => p.User.Status = Domain.Enums.UserStatus.Logged);
                     db.SaveChanges();
 
                     var player = room.Players.Single(p => p.Id == playerId);
 
                     if (player.IdInMatch == (room.PlayersLimit - 1))
                     {
-                        // TODO RK: Jeśli zabity przeciwnik będzie ostatnim żyjącym to trza o tym powiedzieć
-                        Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId, 0);
+                        Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId);
                     }
                     else
                     {
-                        // TODO RK: Jeśli zabity przeciwnik będzie ostatnim żyjącym to trza o tym powiedzieć
-                        Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId, player.IdInMatch + 1);
+                        Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId);
                     }
                 }
             }
@@ -121,8 +122,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
             void TurretAngleChanged(float angle, int playerMatchId);
             void PlayerShooted(PlayerShootModel model);
             void BulletHitPlayer(int playerMatchId, int nextPlayerMatchId);
-            void BulletKilledPlayer(int killedMatchId, int nextPlayerMatchId);
-            void AllPlayersDead(int theLastOfUs);
+            void BulletKilledPlayer(int killedMatchId);
             void ThisPlayerTurn(int playerMatchId);
         }
 
