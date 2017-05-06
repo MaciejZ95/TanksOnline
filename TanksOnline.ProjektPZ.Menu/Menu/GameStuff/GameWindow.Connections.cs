@@ -27,70 +27,12 @@ namespace Menu.Views
         {
             hubConnection = new HubConnection("http://localhost:21021/");
             gameHub = hubConnection.CreateHubProxy("GameHub");
-            gameHub.On<float, int>("TurretAngleChanged", (angle, playerMatchId) =>
-            {
-                this.Invoke(new Action(() =>
-                {
-                    _tanks[playerMatchId].TurretAngle = angle;
-                }));
-            });
 
-            gameHub.On<int>("ThisPlayerTurn", playerMatchId =>
-            {
-                this.Invoke(new Action(() =>
-                {
-                    if (_player.IdInMatch == playerMatchId)
-                    {
-                        _itsMyTurn = true;
-                    }
-                }));
-            });
-
-            gameHub.On<int, int>("BulletKilledPlayer", (killedMatchId, nextPlayerMatchId) =>
-            {
-                this.Invoke(new Action(() =>
-                {
-                    _tanks[killedMatchId].Dead = true;
-
-                    var player = _room.Players.Single(p => p.IdInMatch == killedMatchId);
-                    var message = $"Czołg gracza {player.User.Name} został zniszczony!";
-                    switch (MessageBox.Show(message, "Gracz został pokonany!", MessageBoxButtons.OK))
-                    {
-                        case DialogResult.Yes: // TODO RK: Potem można zrobić jakieś fajne akcje na tej zasadzie. Może :> 
-                            break;
-                        case DialogResult.No: break;
-                    }
-
-                    // TODO RK: Na razie gra powinna stać jak debil, potem powinny być akcje na zakończenie
-                }));
-            });
-
-            gameHub.On<int, int>("BulletHitPlayer", (playerMatchId, nextPlayerMatchId) =>
-            {
-                this.Invoke(new Action(() =>
-                {
-                    _tanks[playerMatchId].TankHp--;
-
-                    if (_player.IdInMatch == nextPlayerMatchId)
-                    {
-                        _itsMyTurn = true;
-                    }
-                }));
-            });
-
-            gameHub.On<PlayerShootModel>("PlayerShooted", model =>
-            {
-                this.Invoke(new Action(() =>
-                {
-                    _bullets.Add(new Bullet(_tanks[model.PlayerMatchId], model.Angle, model.Speed, model.AirSpeed, model.Mass, model.Gravity, -1, true)
-                    {
-                        Origin = new Vector2f(2f, 2f),
-                        Position = new Vector2f(model.X, model.Y),
-                        FillColor = Color.Black,
-                        Radius = 4,
-                    });
-                }));
-            });
+            gameHub.On<float, int>("TurretAngleChanged", OnTurretAngleChangedEvent);
+            gameHub.On<int>("ThisPlayerTurn", OnThisPlayerTurnEvent);
+            gameHub.On<int, int>("BulletKilledPlayer", OnBulletKilledPlayerEvent);
+            gameHub.On<int, int>("BulletHitPlayer", OnBulletHitPlayerEvent);
+            gameHub.On<PlayerShootModel>("PlayerShooted", OnPlayerShootedEvent);
 
             await hubConnection.Start();
             // Czyszczenie tylko przez pierwszego gracza
@@ -98,6 +40,69 @@ namespace Menu.Views
             else await gameHub.Invoke("Connect", _player.Id);
         }
 
+        #region Obsługa zewnętrznych zdarzeń SignalR
+        private void OnTurretAngleChangedEvent(float angle, int playerMatchId)
+        {
+            this.Invoke(new Action(() =>
+            {
+                _tanks[playerMatchId].TurretAngle = angle;
+            }));
+        }
+
+        private void OnThisPlayerTurnEvent(int playerMatchId)
+        {
+            this.Invoke(new Action(() =>
+            {
+                if (_player.IdInMatch == playerMatchId)
+                {
+                    _itsMyTurn = true;
+                }
+            }));
+        }
+
+        private void OnBulletKilledPlayerEvent(int killedMatchId, int nextPlayerMatchId)
+        {
+            this.Invoke(new Action(() =>
+            {
+                _tanks[killedMatchId].Dead = true;
+
+                var player = _room.Players.Single(p => p.IdInMatch == killedMatchId);
+                var message = $"Czołg gracza {player.User.Name} został zniszczony!";
+                MessageBox.Show(message, "Gracz został pokonany!", MessageBoxButtons.OK);
+
+                // TODO RK: Na razie gra powinna stać jak debil, potem powinny być akcje na zakończenie
+            }));
+        }
+
+        private void OnPlayerShootedEvent(PlayerShootModel model)
+        {
+            this.Invoke(new Action(() =>
+            {
+                _bullets.Add(new Bullet(_tanks[model.PlayerMatchId], model.Angle, model.Speed, model.AirSpeed, model.Mass, model.Gravity, -1, true)
+                {
+                    Origin = new Vector2f(2f, 2f),
+                    Position = new Vector2f(model.X, model.Y),
+                    FillColor = Color.Black,
+                    Radius = 4,
+                });
+            }));
+        }
+
+        private void OnBulletHitPlayerEvent(int playerMatchId, int nextPlayerMatchId)
+        {
+            this.Invoke(new Action(() =>
+            {
+                _tanks[playerMatchId].TankHp--;
+
+                if (_player.IdInMatch == nextPlayerMatchId)
+                {
+                    _itsMyTurn = true;
+                }
+            }));
+        }
+        #endregion
+
+        #region Zdarzenia SignalR wywoływane przez użytkownika
         private async Task BulletFallDown()
         {
             await gameHub.Invoke("BulletFallDown", _player.Id);
@@ -127,6 +132,7 @@ namespace Menu.Views
         {
             await gameHub.Invoke("Shoot", model);
         }
+        #endregion
 
         public class PlayerShootModel
         {
