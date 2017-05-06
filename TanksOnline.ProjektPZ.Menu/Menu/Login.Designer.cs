@@ -121,43 +121,41 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.loginButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.cancelButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.loginButton, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(121, 74);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(281, 80);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // loginButton
             // 
-            this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.loginButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.loginButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.loginButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loginButton.Location = new System.Drawing.Point(3, 3);
+            this.loginButton.Location = new System.Drawing.Point(3, 9);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(134, 23);
             this.loginButton.TabIndex = 9;
             this.loginButton.Text = "ZALOGUJ";
-            this.loginButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.loginButton.UseVisualStyleBackColor = false;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cancelButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelButton.Location = new System.Drawing.Point(143, 3);
+            this.cancelButton.Location = new System.Drawing.Point(143, 9);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(135, 23);
             this.cancelButton.TabIndex = 7;
             this.cancelButton.Text = "ANULUJ";
-            this.cancelButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
@@ -166,8 +164,8 @@
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.btn_user2, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.btn_user1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btn_user2, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btn_user1, 0, 1);
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 74);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
@@ -182,7 +180,7 @@
             this.btn_user2.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.btn_user2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_user2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_user2.Location = new System.Drawing.Point(7, 49);
+            this.btn_user2.Location = new System.Drawing.Point(7, 8);
             this.btn_user2.Name = "btn_user2";
             this.btn_user2.Size = new System.Drawing.Size(98, 23);
             this.btn_user2.TabIndex = 11;
@@ -196,7 +194,7 @@
             this.btn_user1.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.btn_user1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_user1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_user1.Location = new System.Drawing.Point(9, 8);
+            this.btn_user1.Location = new System.Drawing.Point(9, 49);
             this.btn_user1.Name = "btn_user1";
             this.btn_user1.Size = new System.Drawing.Size(94, 23);
             this.btn_user1.TabIndex = 10;
@@ -239,7 +237,6 @@
             this.createButton.Size = new System.Drawing.Size(250, 22);
             this.createButton.TabIndex = 2;
             this.createButton.Text = "STWÓRZ NOWE KONTO";
-            this.createButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.createButton.UseVisualStyleBackColor = false;
             this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 

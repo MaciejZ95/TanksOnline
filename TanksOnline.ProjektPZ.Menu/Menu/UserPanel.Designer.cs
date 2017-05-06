@@ -36,10 +36,13 @@
             this.settingsButton = new System.Windows.Forms.Button();
             this.addfriendButton = new System.Windows.Forms.Button();
             this.friendsList = new System.Windows.Forms.ListView();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.CreatePrivateRoom = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPB)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -49,13 +52,13 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.addfriendButton, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.friendsList, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.startButton, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 414F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 79F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 367F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(260, 537);
             this.tableLayoutPanel1.TabIndex = 0;
@@ -80,9 +83,13 @@
             // avatarPB
             // 
             this.avatarPB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.avatarPB.BackColor = System.Drawing.Color.Gray;
+            this.avatarPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.avatarPB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatarPB.Location = new System.Drawing.Point(3, 3);
             this.avatarPB.Name = "avatarPB";
             this.avatarPB.Size = new System.Drawing.Size(44, 48);
+            this.avatarPB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.avatarPB.TabIndex = 0;
             this.avatarPB.TabStop = false;
             this.avatarPB.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -91,11 +98,13 @@
             // 
             this.nicknameLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nicknameLabel.AutoSize = true;
+            this.nicknameLabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.nicknameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.nicknameLabel.Location = new System.Drawing.Point(53, 15);
             this.nicknameLabel.Name = "nicknameLabel";
             this.nicknameLabel.Size = new System.Drawing.Size(66, 24);
             this.nicknameLabel.TabIndex = 1;
+            this.nicknameLabel.TabStop = true;
             this.nicknameLabel.Text = "label1";
             this.nicknameLabel.Click += new System.EventHandler(this.label1_Click);
             // 
@@ -104,6 +113,7 @@
             this.settingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.settingsButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.settingsButton.Image = global::Menu.Properties.Resources.settings;
             this.settingsButton.Location = new System.Drawing.Point(203, 3);
@@ -127,26 +137,55 @@
             this.addfriendButton.Text = "Dodaj znajomego";
             this.addfriendButton.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.addfriendButton.UseVisualStyleBackColor = false;
+            this.addfriendButton.Click += new System.EventHandler(this.addfriendButton_Click);
             // 
             // friendsList
             // 
             this.friendsList.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.friendsList.FullRowSelect = true;
             this.friendsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.friendsList.Location = new System.Drawing.Point(3, 95);
+            this.friendsList.Location = new System.Drawing.Point(3, 142);
             this.friendsList.Name = "friendsList";
-            this.friendsList.Size = new System.Drawing.Size(254, 408);
+            this.friendsList.Size = new System.Drawing.Size(254, 361);
             this.friendsList.TabIndex = 1;
             this.friendsList.UseCompatibleStateImageBehavior = false;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.CreatePrivateRoom, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.startButton, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 63);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(254, 73);
+            this.tableLayoutPanel3.TabIndex = 3;
+            // 
+            // CreatePrivateRoom
+            // 
+            this.CreatePrivateRoom.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.CreatePrivateRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CreatePrivateRoom.Location = new System.Drawing.Point(3, 39);
+            this.CreatePrivateRoom.Name = "CreatePrivateRoom";
+            this.CreatePrivateRoom.Size = new System.Drawing.Size(248, 30);
+            this.CreatePrivateRoom.TabIndex = 5;
+            this.CreatePrivateRoom.Text = "Stwórz pokój prywatny";
+            this.CreatePrivateRoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.CreatePrivateRoom.UseVisualStyleBackColor = false;
+            this.CreatePrivateRoom.Click += new System.EventHandler(this.CreatePrivateRoom_Click);
             // 
             // startButton
             // 
             this.startButton.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.startButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.startButton.Location = new System.Drawing.Point(3, 63);
+            this.startButton.Location = new System.Drawing.Point(3, 3);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(254, 26);
-            this.startButton.TabIndex = 3;
+            this.startButton.Size = new System.Drawing.Size(248, 30);
+            this.startButton.TabIndex = 4;
             this.startButton.Text = "Wejdź do gry";
             this.startButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.startButton.UseVisualStyleBackColor = false;
@@ -169,6 +208,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPB)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -178,11 +218,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox avatarPB;
-        private System.Windows.Forms.Label nicknameLabel;
         private System.Windows.Forms.Button settingsButton;
         private System.Windows.Forms.ListView friendsList;
         private System.Windows.Forms.Button addfriendButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Button CreatePrivateRoom;
         private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Label nicknameLabel;
     }
 }
 

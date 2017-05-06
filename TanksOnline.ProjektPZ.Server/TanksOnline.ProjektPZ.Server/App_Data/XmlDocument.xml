@@ -487,6 +487,7 @@
             </summary>
             <param name="id">Id użytkownika</param>
             <returns></returns>
+            
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeReady(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeReadyModel)">
             <summary>
@@ -494,12 +495,25 @@
             </summary>
             <param name="model"></param>
             <returns></returns>
+            
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeInGame(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeInGameModel)">
             <summary>
             Ustawia flagę informującą, że każdy już dołączył do gry i czeka na ruch kolejnego gracza.
             </summary>
             <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.GameRoomExists(System.Int32)">
+            <summary>
+            Usuwanie gracza z pokoju
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <summary>
+            Usuwanie pokoju
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.PlayersController.PostPlayer(TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel)">
@@ -561,6 +575,11 @@
         <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Closed">
             <summary>
             Z jakichś powodów pokój został zamknięty w sposób awaryjny
+            </summary>
+        </member>
+        <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Full">
+            <summary>
+            Pokój jest pełen
             </summary>
         </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel">

@@ -22,6 +22,10 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Enums
         /// <summary>
         /// Z jakichś powodów pokój został zamknięty w sposób awaryjny
         /// </summary>
-        Closed = 4
+        Closed = 4,
+        /// <summary>
+        /// Pokój jest pełen
+        /// </summary>
+        Full = 4
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Menu.Models;
 using Newtonsoft.Json;
 using Menu.Views;
+using System.IO;
 
 namespace Menu
 {
@@ -20,6 +21,8 @@ namespace Menu
         private Uri url = null;
         private UserModel user = null;
         private readonly bool _gameDebugMode;
+        static string filePath;
+        static Bitmap MyImage;
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user)
         {
@@ -27,7 +30,6 @@ namespace Menu
             this.url = logged;
             this.user = user;
             client = clt;
-            nicknameLabel.Text = user.Name;
             /*for (int i = 0; i < tab.Length; i++)
             {
                 this.listView1.Items[i] = tab[i];
@@ -43,12 +45,57 @@ namespace Menu
         private void button1_Click(object sender, EventArgs e)
         {
             var createForm = new Settings(url, client, user);
-            createForm.Show();
+            createForm.FormClosed += new FormClosedEventHandler(Form1_Load);
+            createForm.Show(this);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private async void pictureBox1_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            byte[] photo;
+            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
 
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName.ToString();
+                ShowMyImage(filePath);
+                photo = GetPhoto(filePath);
+                user.Photo = photo;
+
+                await PutUser(user.Id, user);
+            }
+        }
+
+        static async Task<Uri> PutUser(int id, UserModel user)
+        {
+            HttpResponseMessage response = await client.PutAsJsonAsync($"api/users/" + id, user);
+            response.EnsureSuccessStatusCode();
+            // return URI of the created resource.
+            return response.Headers.Location;
+        }
+
+        public void ShowMyImage(String fileToDisplay)
+        {
+            if (MyImage != null)
+            {
+                MyImage.Dispose();
+            }
+
+            MyImage = new Bitmap(fileToDisplay);
+            avatarPB.Image = (Image)MyImage;
+        }
+
+        public static byte[] GetPhoto(string filePath)
+        {
+            FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            BinaryReader reader = new BinaryReader(stream);
+
+            byte[] photo = reader.ReadBytes((int)stream.Length);
+
+            reader.Close();
+            stream.Close();
+
+            return photo;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -65,8 +112,18 @@ namespace Menu
             list.ImageSize = new Size(30,30);
             // dodanie obrazków z bazy danych
             friendsList.SmallImageList = list;
+            nicknameLabel.Text = user.Name;
+            if (user.Photo != null)
+            {
+                using (var ms = new MemoryStream(user.Photo))
+                {
+                    MyImage = new Bitmap(ms);
+                }
+                avatarPB.Image = (Image)MyImage;
+            }
         }
 
+        #region Create public room button 
         private async void startButton_Click(object sender, EventArgs e)
         {
             if (_gameDebugMode)
@@ -78,12 +135,168 @@ namespace Menu
                 this.Hide();
                 var game = await GameWindow.Create(room, player, client);
                 game.Closed += (s, ev) => this.Close();
-                game.Show();                
+                game.Show();
             }
             else
             {
-                // TODO MZ: Maciek - normalne otwieranie okna do zrobienia przez Maćka
+                if (false == await GetCheckRoomAsync())
+                {
+                    //Todo --- gdy nie ma pokoju to tworzymy nowy pokój publiczny, a gdy istenieje to dochodzimy do istniejącego
+                    this.Enabled = false;
+                    try
+                    {
+                        RoomModel model = new RoomModel()
+                        {
+                            Id = user.Id,
+                            Limit = 2
+                        };
+                        var roomUri = await CreateRoomAsync(model);
+                        var room = await GetRoomAsync(roomUri.PathAndQuery);
+                        var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                        this.Hide();
+                        var createForm = new PublicRoom(url, room, client, user, player);
+                        createForm.Closed += (s, args) => this.Close();
+                        createForm.Show();
+
+                    }
+                    catch (Exception excep)
+                    {
+                        MessageBox.Show(excep.Message);
+                    }
+                    finally
+                    {
+                        this.Enabled = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("SĄ WOLNE MIEJSCA!!");
+                    try
+                    {
+                        var room = await AddPlayerToRoomAsync(user.Id);
+                        var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                        this.Hide();
+                        var createForm = new PublicRoom(url, room, client, user, player);
+                        createForm.Closed += (s, args) => this.Close();
+                        createForm.Show();
+
+                    }
+                    catch (Exception excep)
+                    {
+                        MessageBox.Show(excep.Message);
+                    }
+                    finally
+                    {
+                        this.Enabled = true;
+                    }
+                }
             }
+        }
+        #endregion
+
+        #region Create Private room button
+        private async void CreatePrivateRoom_Click(object sender, EventArgs e)
+        {
+
+            this.Enabled = false;
+            try
+            {
+                RoomModel model = new RoomModel()
+                {
+                    Id = user.Id,
+                    Limit = 2
+                };
+                var roomUri = await CreateRoomAsync(model);
+                var room = await GetRoomAsync(roomUri.PathAndQuery);
+                var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+
+                this.Hide();
+                var createForm = new PrivateRoom(url, room, client, user, player);
+                createForm.Closed += (s, args) => this.Close();
+                createForm.Show();
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+            finally
+            {
+                this.Enabled = true;
+            }
+        }
+        #endregion
+
+        #region POST ROOM
+        static async Task<Uri> CreateRoomAsync(RoomModel model)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync($"api/GameRooms", model);
+            response.EnsureSuccessStatusCode();
+            // return URI of the created resource.
+            return response.Headers.Location;
+        }
+        #endregion
+
+        #region Check rooms exists    
+        private async Task<PlayerModel> GetPlayerAsync()
+        {
+            PlayerModel player = null;
+            HttpResponseMessage response = await client.GetAsync($"api/GameRooms");
+            if (response.IsSuccessStatusCode)
+            {
+                player = await response.Content.ReadAsAsync<PlayerModel>();
+            }
+            return player;
+        }
+        #endregion
+
+        #region Check rooms exists    
+        private async Task<bool> GetCheckRoomAsync()
+        {
+            bool room = false;
+            HttpResponseMessage response = await client.GetAsync($"api/GameRooms");
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<bool>();
+            }
+            return room;
+        }
+        #endregion
+
+        #region Add player to room 
+        private async Task<GameRoomModel> AddPlayerToRoomAsync(int id)
+        {
+            GameRoomModel room = null;
+            HttpResponseMessage response = await client.GetAsync($"api/GameRooms/FindEmptyRoom/ForUser/{id}");
+            response.EnsureSuccessStatusCode();
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<GameRoomModel>();
+            }
+            return room;
+        }
+        #endregion
+
+        #region Get player room 
+        private async Task<GameRoomModel> GetRoomAsync(string path)
+        {
+            GameRoomModel room = null;
+            HttpResponseMessage response = await client.GetAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+                room = await response.Content.ReadAsAsync<GameRoomModel>();
+            }
+            return room;
+        }
+
+        #endregion
+
+        #region Get player 
+
+        #endregion
+
+        private void addfriendButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

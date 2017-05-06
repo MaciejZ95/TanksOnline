@@ -9,16 +9,31 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Windows.Forms;
 using Menu.Models;
+using System.IO;
 
 namespace Menu
 {
     public partial class Settings : Form
     {
+        static HttpClient client;
+        UserModel user1;
+        static Bitmap MyImage;
+        static string filePath;
         public Settings(Uri logged, HttpClient clt, UserModel user)
         {
             InitializeComponent();
             emailInput.Text = user.Email;
             nicknameInput.Text = user.Name;
+            if (user.Photo != null)
+            {
+                using (var ms = new MemoryStream(user.Photo))
+                {
+                    MyImage = new Bitmap(ms);
+                }
+                avatarPB.Image = (Image)MyImage;
+            }
+            client = clt;
+            user1 = user;
         }
 
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
@@ -31,6 +46,47 @@ namespace Menu
 
         }
 
+        private async void pictureBox1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            byte[] photo;
+            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName.ToString();
+                ShowMyImage(filePath);
+                photo = GetPhoto(filePath);
+                user1.Photo = photo;
+
+                await PutUser(user1.Id, user1);
+            }
+        }
+
+        public void ShowMyImage(String fileToDisplay)
+        {
+            if (MyImage != null)
+            {
+                MyImage.Dispose();
+            }
+
+            MyImage = new Bitmap(fileToDisplay);
+            avatarPB.Image = (Image)MyImage;
+        }
+
+        public static byte[] GetPhoto(string filePath)
+        {
+            FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            BinaryReader reader = new BinaryReader(stream);
+
+            byte[] photo = reader.ReadBytes((int)stream.Length);
+
+            reader.Close();
+            stream.Close();
+
+            return photo;
+        }
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (viewsList.Items[0].Selected == true)
@@ -40,7 +96,8 @@ namespace Menu
             }
             else if (viewsList.Items[1].Selected == true)
             {
-                panel2.Visible = true;            }
+                panel2.Visible = true;
+            }
         }
 
         private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
@@ -68,9 +125,25 @@ namespace Menu
             this.Close();
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        static async Task<Uri> PutUser(int id, UserModel user)
         {
+            HttpResponseMessage response = await client.PutAsJsonAsync($"api/users/" + id, user);
+            response.EnsureSuccessStatusCode();
+            // return URI of the created resource.
+            return response.Headers.Location;
+        }
 
+        private async void okButton_Click(object sender, EventArgs e)
+        {
+            user1.Name = nicknameInput.Text;
+            user1.Email = emailInput.Text;
+            if (passwordInput.Text == passwordconfirmInput.Text && passwordInput.Text != "")
+            {
+                user1.Password = passwordInput.Text;
+            }
+
+            await PutUser(user1.Id, user1);
+            this.Close();
         }
     }
 }

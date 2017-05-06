@@ -24,6 +24,7 @@ namespace Menu
         private async void createButton_Click(object sender, EventArgs e)
         {
             {
+                this.Enabled = false;
                 client = new HttpClient();
                 client.BaseAddress = new Uri("http://localhost:21021/");
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -54,6 +55,10 @@ namespace Menu
                 {
                     MessageBox.Show(a.Message);
                 }
+                finally
+                {
+                    this.Enabled = true;
+                }
             }
         }
 
@@ -67,10 +72,22 @@ namespace Menu
 
         private void returnButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            var createForm = new Login();
-            createForm.Closed += (s, args) => this.Close();
-            createForm.Show();
+            this.Enabled = false;
+            try
+            {
+                this.Hide();
+                var createForm = new Login();
+                createForm.Closed += (s, args) => this.Close();
+                createForm.Show();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                this.Enabled = true;
+            }
         }
     }
 }
