@@ -92,7 +92,7 @@
             this.Speed.Name = "Speed";
             this.Speed.Size = new System.Drawing.Size(100, 20);
             this.Speed.TabIndex = 8;
-            this.Speed.Text = "20";
+            this.Speed.Text = "35";
             // 
             // label1
             // 

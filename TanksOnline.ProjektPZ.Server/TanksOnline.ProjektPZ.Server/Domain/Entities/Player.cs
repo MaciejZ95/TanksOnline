@@ -15,7 +15,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public int TankHP { get; set; }
         public User User { get; set; }
         public int IdInMatch { get; set; }
-        public float TurretAngle { get; set; }
 
         public Player() : this(false) { }
 
@@ -24,7 +23,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
             if (init)
             {
                 TankHP = Consts.DEFAULT_TANK_HP;
-                TurretAngle = Consts.DEFAULT_TURRET_ANGLE;
             }
         }
     }
@@ -37,7 +35,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
             Property(x => x.TankHP).IsRequired();
             HasRequired(x => x.User);
             Property(x => x.IdInMatch).IsRequired();
-            Property(x => x.TurretAngle).IsRequired();
         }
     }
 }

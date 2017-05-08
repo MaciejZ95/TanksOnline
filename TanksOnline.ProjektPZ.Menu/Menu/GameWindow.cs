@@ -280,8 +280,6 @@ namespace Menu.Views
 
         private async void LaunchBullet()
         {
-            _justShooted_Player = true;
-
             float speed = 0f, airspeed = 0f, mass = 0f, gravity = 0f;
 
             try
@@ -290,34 +288,36 @@ namespace Menu.Views
                 airspeed = float.Parse(AirSpeed.Text);
                 mass = float.Parse(Mass.Text);
                 gravity = float.Parse(Gravity.Text);
+
+                _justShooted_Player = true;
+
+                _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass, gravity, _player.IdInMatch)
+                {
+                    Origin = new Vector2f(2f, 2f),
+                    Position = _tanks[_player.IdInMatch].Position + new Vector2f(
+                        _tanks[_player.IdInMatch].Rad + 2,
+                        _tanks[_player.IdInMatch].Rad + 2
+                    ),
+                    FillColor = Color.Black,
+                    Radius = 4,
+                });
+
+                await Shoot(new PlayerShootModel
+                {
+                    X = _bullets.Last().Position.X,
+                    Y = _bullets.Last().Position.Y,
+                    Angle = _tanks[_player.IdInMatch].TurretAngle - 90,
+                    Speed = speed,
+                    AirSpeed = airspeed,
+                    Mass = mass,
+                    Gravity = gravity,
+                    PlayerMatchId = _player.IdInMatch,
+                    RoomId = _room.Id,
+                });
+
+                AirSpeed.Text = (new Random().NextDouble() * 10 % 10 - 5).ToString();
             }
             catch (Exception) { }
-
-            _bullets.Add(new Bullet(_tanks[_player.IdInMatch], _tanks[_player.IdInMatch].TurretAngle - 90, speed, airspeed, mass, gravity, _player.IdInMatch)
-            {
-                Origin = new Vector2f(2f, 2f),
-                Position = _tanks[_player.IdInMatch].Position + new Vector2f(
-                    _tanks[_player.IdInMatch].Rad + 2,
-                    _tanks[_player.IdInMatch].Rad + 2
-                ),
-                FillColor = Color.Black,
-                Radius = 4,
-            });
-
-            await Shoot(new PlayerShootModel
-            {
-                X = _bullets.Last().Position.X,
-                Y = _bullets.Last().Position.Y,
-                Angle = _tanks[_player.IdInMatch].TurretAngle - 90,
-                Speed = speed,
-                AirSpeed = airspeed,
-                Mass = mass,
-                Gravity = gravity,
-                PlayerMatchId = _player.IdInMatch,
-                RoomId = _room.Id,
-            });
-
-            AirSpeed.Text = (new Random().NextDouble() * 10 % 10 - 5).ToString();
         }
         #endregion
 

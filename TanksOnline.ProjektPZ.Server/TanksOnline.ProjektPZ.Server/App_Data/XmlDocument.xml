@@ -481,40 +481,52 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.GetRoomss">
+            <summary>
+            Sprawdzenie czy są wolne pokoje
+            </summary>
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.GetRoom(System.Int32)">
+            <summary>
+            Wyszukanie pokoju po ID
+            </summary>
+            <param name="id">ID pokoju</param>
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.GetRoomByPlayerId(System.Int32)">
+            <summary>
+            Wyszukanie pokoju po ID gracza
+            </summary>
+            <param name="id">ID gracza</param>
+        </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.FindEmptyRoom(System.Int32)">
             <summary>
             Zwraca obiekt pokoju jeżeli znajdzie się jakikolwiek z wolnymi miejscami
             </summary>
             <param name="id">Id użytkownika</param>
-            <returns></returns>
-            
+        </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.CheckIfEveryoneReady(System.Int32)">
+            <summary>
+            Sprawdza czy wszyscy gracze w pokoju są gotowi // TODO RK: Chyba niepotrzebne
+            </summary>
+            <param name="id">ID pokoju</param>
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeReady(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeReadyModel)">
             <summary>
             Ustawia gracza w tryb READY co oznacza, że jest gotowy do gry. Jak wszyscy przejdą w ten stan to można rozpocząć rozgrywkę.
             </summary>
             <param name="model"></param>
-            <returns></returns>
-            
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.SetMeInGame(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.PutSetMeInGameModel)">
             <summary>
             Ustawia flagę informującą, że każdy już dołączył do gry i czeka na ruch kolejnego gracza.
             </summary>
             <param name="model"></param>
-            <returns></returns>
         </member>
-        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.GameRoomExists(System.Int32)">
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.GameRoomsController.CreateRoom(TanksOnline.ProjektPZ.Server.Models.GameRoomModels.RoomModel)">
             <summary>
-            Usuwanie gracza z pokoju
+            Tworzenie pokoju dla gracza
             </summary>
-            <param name="id"></param>
-            <returns></returns>
-            <summary>
-            Usuwanie pokoju
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="model"></param>
         </member>
         <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Game.PlayersController.PostPlayer(TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel)">
             <summary>
@@ -547,14 +559,69 @@
             Pokój do którego dołączają gracze. Gdy wszyscy będą połączeni to przechodzą do rzeczywistej gry.
             </summary>
         </member>
-        <member name="T:TanksOnline.ProjektPZ.Server.Domain.Entities.Match">
-            <summary>
-            Rozgrywka
-            </summary>
-        </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Domain.Entities.Player">
             <summary>
             Klasa wykorzystywana w trakcie rozgrywki
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.Id">
+            <summary>
+            Identyfikator gracza
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.IdInMatch">
+            <summary>
+            Id gracza w ramach rozgrywki
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.DealedHits">
+            <summary>
+            Liczba trafień w przeciwnika
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.HitsTaken">
+            <summary>
+            Liczba trafień, które przyjął gracz
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.Kills">
+            <summary>
+            Liczba zabitych przeciwników w grze
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.Dead">
+            <summary>
+            Czy gracz został pokonany w tej grze
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.PlayerPoints.User">
+            <summary>
+            Referencja do użytkownika będącego właścicielem danych
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.UserScore.PlayedGames">
+            <summary>
+            Gry w których gracz brał udział
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.UserScore.DealedHits">
+            <summary>
+            Liczba trafień w przeciwnika
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.UserScore.HitsTaken">
+            <summary>
+            Liczba trafień, które przyjął gracz
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.UserScore.WonGames">
+            <summary>
+            Wygrane gry
+            </summary>
+        </member>
+        <member name="P:TanksOnline.ProjektPZ.Server.Domain.Entities.UserScore.LostGames">
+            <summary>
+            Przegrane gry
             </summary>
         </member>
         <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Waiting">
@@ -580,6 +647,16 @@
         <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.Full">
             <summary>
             Pokój jest pełen
+            </summary>
+        </member>
+        <member name="F:TanksOnline.ProjektPZ.Server.Models.GameRoomModels.RoomModel.Id">
+            <summary>
+            ID użytkownika dla którego będize tworzony pokój
+            </summary>
+        </member>
+        <member name="F:TanksOnline.ProjektPZ.Server.Models.GameRoomModels.RoomModel.Limit">
+            <summary>
+            Limit graczy w pokoju
             </summary>
         </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Models.PlayerModels.PostPlayerModel">

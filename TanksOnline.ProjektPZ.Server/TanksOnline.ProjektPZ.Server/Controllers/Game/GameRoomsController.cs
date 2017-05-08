@@ -23,11 +23,9 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
     [RoutePrefix("api/GameRooms")]
     public class GameRoomsController : BaseController
     {
-        #region Find rooms
-
-        #endregion
-
-        #region Checked room     
+        /// <summary>
+        /// Sprawdzenie czy są wolne pokoje
+        /// </summary>
         [HttpGet, ResponseType(typeof(GameRoomModel))]
         public IHttpActionResult GetRoomss()
         {
@@ -38,14 +36,15 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             }
             return Json(true);
         }
-        #endregion
         
-        #region Get by ID. GET
+        /// <summary>
+        /// Wyszukanie pokoju po ID
+        /// </summary>
+        /// <param name="id">ID pokoju</param>
         [HttpGet, Route("{id:int}"), ResponseType(typeof(GameRoomModel))]
         public IHttpActionResult GetRoom([FromUri] int id)
         {
             var room = db.GameRooms
-                .Include(x => x.Match)
                 .Include(x => x.Players).Include(x => x.Players.Select(p => p.User.TankInfo))
                 .Include(x => x.Owner)
                 .SingleOrDefault(x => x.Id == id);
@@ -57,14 +56,15 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
 
             return NotFound();
         }
-        #endregion
 
-        #region Get by player ID. GET
+        /// <summary>
+        /// Wyszukanie pokoju po ID gracza
+        /// </summary>
+        /// <param name="id">ID gracza</param>
         [HttpGet, Route("GetByPlayer/{id:int}"), ResponseType(typeof(GameRoomModel))]
         public IHttpActionResult GetRoomByPlayerId([FromUri] int id)
         {
             var room = db.GameRooms
-                .Include(x => x.Match)
                 .Include(x => x.Players).Include(x => x.Players.Select(p => p.User.TankInfo))
                 .Include(x => x.Owner)
                 .SingleOrDefault(x => x.Players.Any(p => p.Id == id));
@@ -76,15 +76,11 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
 
             return NotFound();
         }
-        #endregion
 
         /// <summary>
         /// Zwraca obiekt pokoju jeżeli znajdzie się jakikolwiek z wolnymi miejscami
         /// </summary>
         /// <param name="id">Id użytkownika</param>
-        /// <returns></returns>
-        /// 
-        #region Find empty room for user
         [HttpGet, Route("FindEmptyRoom/ForUser/{id:int}")]
         public IHttpActionResult FindEmptyRoom(int id)
         {
@@ -94,17 +90,24 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 {
                     var rooms = db.GameRooms
                         .Include(room => room.Players).Include(room => room.Players.Select(x => x.User))
+                        .Include(room => room.PlayerPoints)
                         .Include(room => room.Owner)
-                        .Include(room => room.Match)
                         .Where(x => x.RoomStatus == RoomStatus.Waiting);
 
                     if (rooms.Any(x => x.Players.Count < x.PlayersLimit))
                     {
                         var room = rooms.First(x => x.Players.Count < x.PlayersLimit);
+                        var idInMatch = room.Players.Last().IdInMatch + 1;
+                        var user = db.Users.Single(u => u.Id == id);
                         room.Players.Add(new Player(true)
                         {
-                            IdInMatch = room.Players.Last().IdInMatch + 1,
-                            User = db.Users.Single(u => u.Id == id)
+                            IdInMatch = idInMatch,
+                            User = user
+                        });
+                        room.PlayerPoints.Add(new PlayerPoints
+                        {
+                            IdInMatch = idInMatch,
+                            User = user
                         });
 
                         db.SaveChanges();
@@ -122,39 +125,31 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 }
             }
         }
-        #endregion
 
-        #region Check everybody
+        /// <summary>
+        /// Sprawdza czy wszyscy gracze w pokoju są gotowi // TODO RK: Chyba niepotrzebne
+        /// </summary>
+        /// <param name="id">ID pokoju</param>
         [HttpGet, Route("CheckIfEveryoneReady/Room/{id:int}")]
         public IHttpActionResult CheckIfEveryoneReady(int id)
         {
             var room = db.GameRooms
                 .Include(x => x.Players).Include(x => x.Players.Select(p => p.User))
                 .Include(x => x.Owner)
-                .Include(x => x.Match)
                 .SingleOrDefault(r => r.Id == id);
 
             if (room != null)
             {
-                if (room.Match != null)
-                {
-                    return Json(room);
-                }
-
-                return new ErrorResult(Request, HttpStatusCode.NoContent);
+                return Json(room);                
             }
 
             return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak szukanego pokoju");
         }
-        #endregion
 
         /// <summary>
         /// Ustawia gracza w tryb READY co oznacza, że jest gotowy do gry. Jak wszyscy przejdą w ten stan to można rozpocząć rozgrywkę.
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
-        /// 
-        #region Set me redy
         [HttpPut, Route("SetMeReady")]
         public IHttpActionResult SetMeReady(PutSetMeReadyModel model)
         {
@@ -176,11 +171,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 if (room.Players.Count == room.PlayersLimit && !room.Players.Any(p => p.User.Status != UserStatus.Ready))
                 {
                     room.RoomStatus = RoomStatus.Ready;
-                    room.Match = new Match
-                    {
-                        ActualPlayer = 0,
-                        Players = room.Players,
-                    };
                 }
 
                 db.SaveChanges();
@@ -191,14 +181,11 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak szukanego pokoju");
             }
         }
-        #endregion
 
         /// <summary>
         /// Ustawia flagę informującą, że każdy już dołączył do gry i czeka na ruch kolejnego gracza.
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
-        #region Set me in game 
         [HttpPut, Route("SetMeInGame")]
         public IHttpActionResult SetMeInGame(PutSetMeInGameModel model)
         {
@@ -222,10 +209,12 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 return new ErrorResult(Request, HttpStatusCode.NotFound, "Brak szukanego pokoju");
             }
         }
-        #endregion
-
-        #region Create room for owner. POST
-        [HttpPost, Route("CreateRoom/Owner/{id:int}/PlayersLimit/{limit:int}")]
+        
+        /// <summary>
+        /// Tworzenie pokoju dla gracza
+        /// </summary>
+        /// <param name="model"></param>
+        [HttpPost, ResponseType(typeof(GameRoom))]
         public IHttpActionResult CreateRoom(RoomModel model)
         {
             var user = db.Users.Include(x => x.TankInfo).Single(x => x.Id == model.Id);
@@ -239,27 +228,8 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                 {
                     IdInMatch = 0,
                     User = user
-                }}
-            });
-
-            db.SaveChanges();
-            return Json(Mapper.Map<GameRoomModel>(room));
-        }
-        #endregion
-
-        #region Create room for owner. POST
-        [HttpPost]
-        [ResponseType(typeof(GameRoom))]
-        public IHttpActionResult CreateRoom2(RoomModel model)
-        {
-            var user = db.Users.Include(x => x.TankInfo).Single(x => x.Id == model.Id);
-
-            var room = db.GameRooms.Add(new GameRoom
-            {
-                Owner = user,
-                PlayersLimit = model.Limit,
-                RoomStatus = RoomStatus.Waiting,
-                Players = new List<Player>() { new Player(true)
+                }},
+                PlayerPoints = new List<PlayerPoints>() { new PlayerPoints
                 {
                     IdInMatch = 0,
                     User = user
@@ -269,7 +239,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = room.Id }, room);
         }
-        #endregion
 
         #region Dispose
         protected override void Dispose(bool disposing)
@@ -281,19 +250,6 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             base.Dispose(disposing);
         }
         #endregion
-
-        /// <summary>
-        /// Usuwanie gracza z pokoju
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
-
-        /// <summary>
-        /// Usuwanie pokoju
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
 
         #region GameRoomExists?
         private bool GameRoomExists(int id)

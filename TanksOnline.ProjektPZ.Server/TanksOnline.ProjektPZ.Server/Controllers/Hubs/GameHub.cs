@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
-using TanksOnline.ProjektPZ.Server.Models.GameRoomModels;
 using TanksOnline.ProjektPZ.Server.Domain;
+using TanksOnline.ProjektPZ.Server.Domain.Enums;
+using TanksOnline.ProjektPZ.Server.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
 {
@@ -59,23 +61,25 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
         {
             using (var db = new Db())
             {
-                var room = db.GameRooms.Include(r => r.Players)
+                var room = db.GameRooms
+                    .Include(r => r.Players)
+                    .Include(r => r.PlayerPoints)
                     .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
 
                 if (room != null)
                 {
-                    room.Players.Single(p => p.IdInMatch == shootedMatchId).TankHP--;
+                    var shooter = room.Players.Single(p => p.Id == playerId);
+                    room.PlayerPoints.Single(p => p.IdInMatch == shooter.IdInMatch).DealedHits++;
+                    room.PlayerPoints.Single(p => p.IdInMatch == shootedMatchId).HitsTaken++;
                     db.SaveChanges();
-
-                    var player = room.Players.Single(p => p.Id == playerId);
-
-                    if (player.IdInMatch == (room.PlayersLimit - 1))
+                    
+                    if (shooter.IdInMatch == (room.PlayersLimit - 1))
                     {
                         Clients.OthersInGroup($"{room.Id}").BulletHitPlayer(shootedMatchId, 0);
                     }
                     else
                     {
-                        Clients.OthersInGroup($"{room.Id}").BulletHitPlayer(shootedMatchId, player.IdInMatch + 1);
+                        Clients.OthersInGroup($"{room.Id}").BulletHitPlayer(shootedMatchId, shooter.IdInMatch + 1);
                     }
                 }
             }
@@ -91,16 +95,15 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
             using (var db = new Db())
             {
                 var room = db.GameRooms
-                    .Include(r => r.Players).Include(r => r.Players.Select(p => p.User))
+                    .Include(r => r.Players)
+                    .Include(r => r.PlayerPoints)
+                    .Include(r => r.Players.Select(p => p.User))
+                    .Include(r => r.Players.Select(p => p.User.UserScore))
                     .SingleOrDefault(r => r.Players.Any(p => p.Id == playerId));
 
                 if (room != null)
                 {
-                    room.Players.Single(p => p.IdInMatch == killedMatchId).TankHP--;
-
-                    room.Players.ForEach(p => p.User.Status = Domain.Enums.UserStatus.Logged);
-                    db.SaveChanges();
-
+                    // Najpierw SignalR potem DB
                     var player = room.Players.Single(p => p.Id == playerId);
 
                     if (player.IdInMatch == (room.PlayersLimit - 1))
@@ -111,11 +114,46 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
                     {
                         Clients.OthersInGroup($"{room.Id}").BulletKilledPlayer(killedMatchId);
                     }
+
+                    // Ogarnięcie statystyk zabitego gracza
+                    room.Players.Single(p => p.IdInMatch == killedMatchId).TankHP--;
+                    var deadPlayer = room.PlayerPoints.Single(p => p.IdInMatch == killedMatchId);
+                    deadPlayer.Dead = true;
+                    deadPlayer.HitsTaken++;
+
+                    // Ogarnięcie statystyk zwycięskiego gracza
+                    var winner = room.Players.Single(p => p.Id == playerId);
+                    var points = room.PlayerPoints.Single(p => p.IdInMatch == winner.IdInMatch);
+                    points.Kills++;
+                    points.DealedHits++;
+
+                    // Przełączenie pokoju w tryb zakończonej gry
+                    room.Players.ForEach(p => p.User.Status = UserStatus.Logged);
+                    room.RoomStatus = RoomStatus.GameEnded;
+                    
+                    PushStatisticsToDB(db, room);
                 }
             }
         }
 
         #endregion
+
+        private void PushStatisticsToDB(Db db, GameRoom room)
+        {
+            foreach (var player in room.Players)
+            {
+                var p = room.PlayerPoints.Single(x => x.IdInMatch == player.IdInMatch);
+
+                var userScore = player.User.UserScore;
+                userScore.DealedHits += p.DealedHits;
+                userScore.HitsTaken += p.HitsTaken;
+                if (p.Dead) userScore.LostGames++;
+                else userScore.WonGames++;
+                userScore.PlayedGames++;
+            }
+
+            db.SaveChanges();
+        }
 
         public interface IGameHubModel
         {

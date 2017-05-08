@@ -221,8 +221,8 @@
     <Compile Include="Domain\Db.cs" />
     <Compile Include="Domain\Entities\Friends.cs" />
     <Compile Include="Domain\Entities\GameRoom.cs" />
-    <Compile Include="Domain\Entities\Match.cs" />
     <Compile Include="Domain\Entities\Player.cs" />
+    <Compile Include="Domain\Entities\PlayerPoints.cs" />
     <Compile Include="Domain\Entities\TankInfo.cs" />
     <Compile Include="Domain\Entities\User.cs" />
     <Compile Include="Domain\Entities\UserScore.cs" />
@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201704200146506_Friends.cs" />
     <Compile Include="Migrations\201704200146506_Friends.Designer.cs">
       <DependentUpon>201704200146506_Friends.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705081150384_UserScoreUpdates.cs" />
+    <Compile Include="Migrations\201705081150384_UserScoreUpdates.Designer.cs">
+      <DependentUpon>201705081150384_UserScoreUpdates.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
@@ -300,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704200146506_Friends.resx">
       <DependentUpon>201704200146506_Friends.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705081150384_UserScoreUpdates.resx">
+      <DependentUpon>201705081150384_UserScoreUpdates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

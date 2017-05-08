@@ -15,9 +15,9 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public int Id { get; set; }
         public int PlayersLimit { get; set; }
         public RoomStatus RoomStatus { get; set; }
-        public Match Match { get; set; }
         public User Owner { get; set; }
         public List<Player> Players { get; set; }
+        public List<PlayerPoints> PlayerPoints { get; set; }
     }
 
     public class GameRoomMap : EntityTypeConfiguration<GameRoom>
@@ -27,9 +27,9 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
             HasKey(x => x.Id);
             Property(x => x.PlayersLimit).IsRequired();
             Property(x => x.RoomStatus).IsRequired();
-            HasOptional(x => x.Match);
             HasRequired(x => x.Owner);
             HasMany(gr => gr.Players);
+            HasMany(gr => gr.PlayerPoints);
         }
     }
 }

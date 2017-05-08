@@ -68,34 +68,8 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             {
                 player.IdInMatch = model.IdInMatch;
                 player.TankHP = Consts.DEFAULT_TANK_HP;
-                player.TurretAngle = Consts.DEFAULT_TURRET_ANGLE;
             }
             throw new NotImplementedException();
-        }
-        
-        [HttpPut, Route("{id:int}/Turret/")]
-        public async Task<IHttpActionResult> PutTurretAngle([FromUri] int id, [FromBody] PutTurretAngleModel model)
-        {
-            var player = await db.Players.FindAsync(id);
-            player.TurretAngle = model.Angle;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlayerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // DELETE: api/Palyers/5
