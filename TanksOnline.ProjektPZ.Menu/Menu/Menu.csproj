@@ -87,6 +87,7 @@
     <Compile Include="GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\FriendsModel.cs" />
     <Compile Include="Models\GameRoomModel.cs" />
     <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />

@@ -21,7 +21,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
         // GET: api/Users
         public IQueryable<User> GetUsers()
         {
-            return db.Users.Include(x => x.TankInfo);
+            return db.Users.Include(x => x.TankInfo).Include(x => x.UserScore);
         }
 
         // GET: api/Users/5
@@ -38,8 +38,8 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
         }
 
         // GET: api/Users/5
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> GetUser(string name)
+        [HttpGet, Route("api/users/getuser/{name}"), ResponseType(typeof(User))]
+        public async Task<IHttpActionResult> GetUser([FromUri] string name)
         {
             User user = await db.Users.SingleOrDefaultAsync(u => u.Name == name);
             if (user == null)

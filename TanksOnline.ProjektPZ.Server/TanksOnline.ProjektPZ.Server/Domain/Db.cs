@@ -17,6 +17,7 @@ namespace TanksOnline.ProjektPZ.Server.Domain
         public DbSet<UserScore> UserScores { get; set; }
         public DbSet<GameRoom> GameRooms { get; set; }
         public DbSet<Player> Players { get; set; }
+		public DbSet<Friends> Friends {get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

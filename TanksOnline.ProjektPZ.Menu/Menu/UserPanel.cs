@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Windows.Forms;
 using Menu.Models;
-using Newtonsoft.Json;
 using Menu.Views;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace Menu
@@ -23,6 +23,8 @@ namespace Menu
         private readonly bool _gameDebugMode;
         static string filePath;
         static Bitmap MyImage;
+        ImageList imagelist;
+        Bitmap Image;
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user)
         {
@@ -34,6 +36,8 @@ namespace Menu
             {
                 this.listView1.Items[i] = tab[i];
             }*/
+            imagelist = new ImageList();
+            imagelist.ImageSize = new Size(50, 50);
         }
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user, bool gameDebugMode)
@@ -100,18 +104,37 @@ namespace Menu
 
         private void label1_Click(object sender, EventArgs e)
         {
-            Ranking form = new Ranking();
-            form.Show();
+            var createForm = new Ranking(url, client, user);
+            createForm.Show(this);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        static async Task<FriendsModel> GetFriend(int id)
         {
-            friendsList.View = View.Details;
-            friendsList.Columns.Add("Znajomi", 250);
-            ImageList list = new ImageList();
-            list.ImageSize = new Size(30, 30);
+            FriendsModel user = null;
+            HttpResponseMessage response = await client.GetAsync($"api/friends/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<FriendsModel>();
+            }
+            return user;
+        }
+
+        private async Task<UserModel> GetUserAsync(int id)
+        {
+            UserModel user = null;
+            HttpResponseMessage response = await client.GetAsync($"api/users/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<UserModel>();
+            }
+            return user;
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
             // dodanie obrazków z bazy danych
-            friendsList.SmallImageList = list;
+            friendsList.Items.Clear();
+            imagelist.Images.Clear();
             nicknameLabel.Text = user.Name;
             if (user.Photo != null)
             {
@@ -120,6 +143,55 @@ namespace Menu
                     MyImage = new Bitmap(ms);
                 }
                 avatarPB.Image = (Image)MyImage;
+            }
+            List<FriendsModel> l = new List<FriendsModel>();
+            var result = await client.GetStringAsync($"api/friends/");
+            l = JsonConvert.DeserializeObject<List<FriendsModel>>(result);
+            int x = 0;
+            UserModel u;
+            ListViewItem item1 = null;
+            for (int i = 0; i < l.Count; i++) 
+            {
+                if (l[i].UserId == user.Id)
+                {
+                    u = await GetUserAsync(l[i].FriendId);
+                    if (u.Photo != null)
+                    {
+                        using (var ms = new MemoryStream(u.Photo))
+                        {
+                            Image = new Bitmap(ms);
+                        }
+                        imagelist.Images.Add(Image);
+                        friendsList.SmallImageList = imagelist;
+                        item1 = new ListViewItem(u.Name);
+                        if (u.status == 0)
+                        {
+                            item1.SubItems.Add("Offline");
+                        }
+                        else
+                        {
+                            item1.SubItems.Add("Online");
+                        }
+                        item1.ImageIndex=x;
+                        friendsList.Items.Add(item1);
+                        x++;
+                    }
+                    else
+                    {
+                        item1 = new ListViewItem(u.Name);
+                        if (u.status == 0)
+                        {
+                            item1.SubItems.Add("Offline");
+                        }
+                        else
+                        {
+                            item1.SubItems.Add("Online");
+                        }
+                        friendsList.Items.Add(item1);
+                    }
+                    
+                }
+
             }
         }
 
@@ -294,7 +366,9 @@ namespace Menu
 
         private void addfriendButton_Click(object sender, EventArgs e)
         {
-
+            var createForm = new AddFriends(url, client, user);
+            createForm.FormClosed += new FormClosedEventHandler(Form1_Load);
+            createForm.Show(this);
         }
     }
 }

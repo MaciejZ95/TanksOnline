@@ -18,12 +18,6 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public TankInfo TankInfo { get; set; }
         public UserScore UserScore { get; set; }
         public string Password { get; set; }
-        public virtual List <User> Friends { get; set;}
-
-        public User()
-        {
-            Friends = new List<User>();
-        }
     }
 
     public class UserMap : EntityTypeConfiguration<User>
