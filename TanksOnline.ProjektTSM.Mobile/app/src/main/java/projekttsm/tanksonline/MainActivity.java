@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -39,23 +40,21 @@ public class MainActivity extends AppCompatActivity {
      * to duży baner
      */
 
-    String url = "http://192.168.0.19/";
+    String url = "http://192.168.0.19:3000/";
 
     JsonObjectRequest jsObjRequest = new JsonObjectRequest
-            (Request.Method.GET, url + "api/gamerooms/1014", null, new Response.Listener<JSONObject>() {
+            (Request.Method.GET, url + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
 
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.e("TESTY", "O, wyświetliło się");
+                    Log.e("ERROR", "Response " + response.toString());
                     ((TextView)findViewById(R.id.helloWorld)).setText("Response " + response.toString());
                 }
             }, new Response.ErrorListener() {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    // TODO Auto-generated method stub
-                    Log.e("ERROR", "NIe działa tak bardzo");
-                    Log.e("ERROR", error.toString());
+                    Log.e("ERROR", "KURWA ERROR", error);
                 }
             });
 
