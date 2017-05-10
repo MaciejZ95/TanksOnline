@@ -1,5 +1,6 @@
 package projekttsm.tanksonline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,9 +39,13 @@ public class MainActivity extends AppCompatActivity {
      *
      * ca-app-pub-4470162864889559/3758319020
      * to duży baner
+     *
+     *
+     * ca-app-pub-4470162864889559/5006002220
+     * duży baner tylko z reklamą video
      */
 
-    String url = "http://192.168.0.19:3000/";
+    String url = "http://192.168.43.75:3000/";
 
     JsonObjectRequest jsObjRequest = new JsonObjectRequest
             (Request.Method.GET, url + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
@@ -72,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(MainActivity.this, ActivityBigVideoAd.class);
+                i.putExtra("key", 1234);
+                MainActivity.this.startActivity(i);
             }
         });
 
