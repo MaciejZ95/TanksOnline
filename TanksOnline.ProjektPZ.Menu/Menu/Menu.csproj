@@ -87,6 +87,7 @@
     <Compile Include="GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Globals.cs" />
     <Compile Include="Models\FriendsModel.cs" />
     <Compile Include="Models\GameRoomModel.cs" />
     <Compile Include="Models\MatchModel.cs" />
@@ -98,12 +99,6 @@
     </Compile>
     <Compile Include="PublicRoom.Designer.cs">
       <DependentUpon>PublicRoom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PrivateRoom.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PrivateRoom.Designer.cs">
-      <DependentUpon>PrivateRoom.cs</DependentUpon>
     </Compile>
     <Compile Include="UserPanel.cs">
       <SubType>Form</SubType>
@@ -158,9 +153,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ranking.resx">
       <DependentUpon>Ranking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PrivateRoom.resx">
-      <DependentUpon>PrivateRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.cs</DependentUpon>

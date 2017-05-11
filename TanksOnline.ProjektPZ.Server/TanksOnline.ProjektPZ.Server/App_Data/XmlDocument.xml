@@ -554,6 +554,12 @@
             <param name="playerId"></param>
             <param name="killedMatchId"></param>
         </member>
+        <member name="M:TanksOnline.ProjektPZ.Server.Controllers.Hubs.GameHub.CloseRoom(System.Int32)">
+            <summary>
+            Zamyka pokój w razie wyjścia gracza i wyłącza resztę graczy
+            </summary>
+            <param name="roomId"></param>
+        </member>
         <member name="T:TanksOnline.ProjektPZ.Server.Domain.Entities.GameRoom">
             <summary>
             Pokój do którego dołączają gracze. Gdy wszyscy będą połączeni to przechodzą do rzeczywistej gry.

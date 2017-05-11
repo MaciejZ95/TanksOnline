@@ -136,6 +136,31 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
             }
         }
 
+        /// <summary>
+        /// Zamyka pokój w razie wyjścia gracza i wyłącza resztę graczy
+        /// </summary>
+        /// <param name="roomId"></param>
+        public void CloseRoom(int roomId)
+        {
+            using (var db = new Db())
+            {
+                var room = db.GameRooms
+                    .Include(r => r.Players)
+                    .Include(r => r.Players.Select(p => p.User))
+                    .Single(x => x.Id == roomId);
+
+                Clients.OthersInGroup($"{room.Id}").SomeOneLeaveRoom();
+
+                room.Players.ForEach(p =>
+                {
+                    p.User.Status = UserStatus.Logged;
+                });
+                room.RoomStatus = RoomStatus.Closed;
+
+                db.SaveChanges();
+            }
+        }
+
         #endregion
 
         private void PushStatisticsToDB(Db db, GameRoom room)
@@ -162,6 +187,7 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Hubs
             void BulletHitPlayer(int playerMatchId, int nextPlayerMatchId);
             void BulletKilledPlayer(int killedMatchId);
             void ThisPlayerTurn(int playerMatchId);
+            void SomeOneLeaveRoom();
         }
 
         #region Models

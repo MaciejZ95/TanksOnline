@@ -75,7 +75,7 @@ namespace Menu
                     }
                     ListViewItem item1 = new ListViewItem(usr.Name);
                     item1.ImageIndex = 0;
-                    if (usr.status == 0)
+                    if (usr.status == UserModel.UserStatus.Offline)
                     {
                         item1.SubItems.Add("Offline");
                     }
