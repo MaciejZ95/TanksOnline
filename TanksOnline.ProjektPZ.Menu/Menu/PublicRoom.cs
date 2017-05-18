@@ -34,10 +34,7 @@ namespace Menu
             try
             {
                 await DeleteProductAsync(player.Id);
-                this.Hide();
-                var createForm = new UserPanel(url, client, user);
-                createForm.Closed += (s, args) => this.Close();
-                createForm.Show();
+                this.Close();
             }
             catch (Exception excp)
             {

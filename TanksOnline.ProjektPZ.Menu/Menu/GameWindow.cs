@@ -56,6 +56,8 @@ namespace Menu.Views
 
             CreateRenderWindow();
             CreateSignalRRequestLoop();
+
+            this.FormClosed += (s, e) => CloseRoom();
         }
 
         public static async Task<GameWindow> Create(GameRoomModel room, PlayerModel player, HttpClient client)

@@ -207,6 +207,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseControllerWithHub.cs" />
     <Compile Include="Controllers\CustomActionResults\ErrorResult.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\Game\GameRoomsController.cs" />
     <Compile Include="Controllers\Game\PlayersController.cs" />
     <Compile Include="Controllers\Hubs\BulletPositionHub.cs" />
@@ -247,6 +248,10 @@
     <Compile Include="Migrations\201705081150384_UserScoreUpdates.Designer.cs">
       <DependentUpon>201705081150384_UserScoreUpdates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705092137584_Migration123.cs" />
+    <Compile Include="Migrations\201705092137584_Migration123.Designer.cs">
+      <DependentUpon>201705092137584_Migration123.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GameRoomModels\GameRoomModel.cs" />
     <Compile Include="Models\GameRoomModels\PutSetMeInGameModel.cs" />
@@ -257,6 +262,7 @@
     <Compile Include="Models\PlayerModels\PlayerModel.cs" />
     <Compile Include="Models\PlayerModels\PostPlayerModel.cs" />
     <Compile Include="Models\PlayerModels\PutTurretAngleModel.cs" />
+    <Compile Include="Models\UserModels\FriendsModel.cs" />
     <Compile Include="Models\UserModels\PostUserModel.cs" />
     <Compile Include="Models\UserModels\UserModel.cs" />
     <Compile Include="Models\UserModels\LoginModel.cs" />
@@ -307,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705081150384_UserScoreUpdates.resx">
       <DependentUpon>201705081150384_UserScoreUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705092137584_Migration123.resx">
+      <DependentUpon>201705092137584_Migration123.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

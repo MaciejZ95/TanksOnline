@@ -33,11 +33,9 @@ namespace Menu.Views
             gameHub.On<int>("BulletKilledPlayer", OnBulletKilledPlayerEvent);
             gameHub.On<int, int>("BulletHitPlayer", OnBulletHitPlayerEvent);
             gameHub.On<PlayerShootModel>("PlayerShooted", OnPlayerShootedEvent);
+            gameHub.On("SomeOneLeaveRoom", OnSomeOneLeaveRoomEvent);
 
             await hubConnection.Start();
-            // Czyszczenie tylko przez pierwszego gracza
-            //if (_player.IdInMatch == 0) await gameHub.Invoke("ClearDbAndConnect", _room.Id, _player.Id);
-            //else
             await gameHub.Invoke("Connect", _player.Id);
         }
 
@@ -101,12 +99,26 @@ namespace Menu.Views
                 }
             }));
         }
+
+        private void OnSomeOneLeaveRoomEvent()
+        {
+            Invoke(new Action(() =>
+            {
+                MessageBox.Show("UPS", "Gracz opuścił pokój!", MessageBoxButtons.OK);
+                Close();
+            }));
+        }
         #endregion
 
         #region Zdarzenia SignalR wywoływane przez użytkownika
         private async Task BulletFallDown()
         {
             await gameHub.Invoke("BulletFallDown", _player.Id);
+        }
+
+        private async Task CloseRoom()
+        {
+            await gameHub.Invoke("CloseRoom", _room.Id);
         }
 
         /// <summary>

@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Windows.Forms;
 using Menu.Models;
-using Newtonsoft.Json;
 using Menu.Views;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace Menu
@@ -23,6 +23,8 @@ namespace Menu
         private readonly bool _gameDebugMode;
         static string filePath;
         static Bitmap MyImage;
+        ImageList imagelist;
+        Bitmap Image;
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user)
         {
@@ -34,12 +36,8 @@ namespace Menu
             {
                 this.listView1.Items[i] = tab[i];
             }*/
-        }
-
-        public UserPanel(Uri logged, HttpClient clt, UserModel user, bool gameDebugMode)
-            : this(logged, clt, user)
-        {
-            _gameDebugMode = gameDebugMode;
+            imagelist = new ImageList();
+            imagelist.ImageSize = new Size(50, 50);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -100,18 +98,37 @@ namespace Menu
 
         private void label1_Click(object sender, EventArgs e)
         {
-            Ranking form = new Ranking();
-            form.Show();
+            var createForm = new Ranking(url, client, user);
+            createForm.Show(this);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        static async Task<FriendsModel> GetFriend(int id)
         {
-            friendsList.View = View.Details;
-            friendsList.Columns.Add("Znajomi", 250);
-            ImageList list = new ImageList();
-            list.ImageSize = new Size(30, 30);
+            FriendsModel user = null;
+            HttpResponseMessage response = await client.GetAsync($"api/friends/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<FriendsModel>();
+            }
+            return user;
+        }
+
+        private async Task<UserModel> GetUserAsync(int id)
+        {
+            UserModel user = null;
+            HttpResponseMessage response = await client.GetAsync($"api/users/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<UserModel>();
+            }
+            return user;
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
             // dodanie obrazków z bazy danych
-            friendsList.SmallImageList = list;
+            friendsList.Items.Clear();
+            imagelist.Images.Clear();
             nicknameLabel.Text = user.Name;
             if (user.Photo != null)
             {
@@ -121,110 +138,109 @@ namespace Menu
                 }
                 avatarPB.Image = (Image)MyImage;
             }
+            List<FriendsModel> l = new List<FriendsModel>();
+            var result = await client.GetStringAsync($"api/friends/");
+            l = JsonConvert.DeserializeObject<List<FriendsModel>>(result);
+            int x = 0;
+            UserModel u;
+            ListViewItem item1 = null;
+            for (int i = 0; i < l.Count; i++) 
+            {
+                if (l[i].UserId == user.Id)
+                {
+                    u = await GetUserAsync(l[i].FriendId);
+                    if (u.Photo != null)
+                    {
+                        using (var ms = new MemoryStream(u.Photo))
+                        {
+                            Image = new Bitmap(ms);
+                        }
+                        imagelist.Images.Add(Image);
+                        friendsList.SmallImageList = imagelist;
+                        item1 = new ListViewItem(u.Name);
+                        if (u.status == UserModel.UserStatus.Offline)
+                        {
+                            item1.SubItems.Add("Offline");
+                        }
+                        else
+                        {
+                            item1.SubItems.Add("Online");
+                        }
+                        item1.ImageIndex=x;
+                        friendsList.Items.Add(item1);
+                        x++;
+                    }
+                    else
+                    {
+                        item1 = new ListViewItem(u.Name);
+                        if (u.status == 0)
+                        {
+                            item1.SubItems.Add("Offline");
+                        }
+                        else
+                        {
+                            item1.SubItems.Add("Online");
+                        }
+                        friendsList.Items.Add(item1);
+                    }
+                    
+                }
+
+            }
         }
 
-        #region Create public room button 
         private async void startButton_Click(object sender, EventArgs e)
         {
-            if (_gameDebugMode)
+            if (false == await GetCheckRoomAsync())
             {
-                // Tryb testowy, nie ruszać - korzystam tu ze stałych wartości dla ułatwienia
-                var player = JsonConvert.DeserializeObject<PlayerModel>(await client.GetStringAsync($"api/Players/User/{user.Id}"));
-                var room = JsonConvert.DeserializeObject<GameRoomModel>(await client.GetStringAsync($"api/GameRooms/GetByPlayer/{player.Id}"));
+                this.Enabled = false;
+                try
+                {
+                    RoomModel model = new RoomModel()
+                    {
+                        Id = user.Id,
+                        Limit = 2
+                    };
+                    var room = await CreateRoomAsync(model);
+                    var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                    this.Hide();
+                    var createForm = new PublicRoom(url, room, client, user, player);
+                    createForm.Closed += (s, args) => this.Show();
+                    createForm.Show();
 
-                this.Hide();
-                var game = await GameWindow.Create(room, player, client);
-                game.Closed += (s, ev) => this.Close();
-                game.Show();
+                }
+                catch (Exception excep)
+                {
+                    MessageBox.Show(excep.Message);
+                }
+                finally
+                {
+                    this.Enabled = true;
+                }
             }
             else
             {
-                if (false == await GetCheckRoomAsync())
+                try
                 {
-                    //Todo --- gdy nie ma pokoju to tworzymy nowy pokój publiczny, a gdy istenieje to dochodzimy do istniejącego
-                    this.Enabled = false;
-                    try
-                    {
-                        RoomModel model = new RoomModel()
-                        {
-                            Id = user.Id,
-                            Limit = 2
-                        };
-                        var room = await CreateRoomAsync(model);
-                        var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
-                        this.Hide();
-                        var createForm = new PublicRoom(url, room, client, user, player);
-                        createForm.Closed += (s, args) => this.Close();
-                        createForm.Show();
+                    var room = await AddPlayerToRoomAsync(user.Id);
+                    var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                    this.Hide();
+                    var createForm = new PublicRoom(url, room, client, user, player);
+                    createForm.Closed += (s, args) => this.Close();
+                    createForm.Show();
 
-                    }
-                    catch (Exception excep)
-                    {
-                        MessageBox.Show(excep.Message);
-                    }
-                    finally
-                    {
-                        this.Enabled = true;
-                    }
                 }
-                else
+                catch (Exception excep)
                 {
-                    MessageBox.Show("SĄ WOLNE MIEJSCA!!");
-                    try
-                    {
-                        var room = await AddPlayerToRoomAsync(user.Id);
-                        var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
-                        this.Hide();
-                        var createForm = new PublicRoom(url, room, client, user, player);
-                        createForm.Closed += (s, args) => this.Close();
-                        createForm.Show();
-
-                    }
-                    catch (Exception excep)
-                    {
-                        MessageBox.Show(excep.Message);
-                    }
-                    finally
-                    {
-                        this.Enabled = true;
-                    }
+                    MessageBox.Show(excep.Message);
+                }
+                finally
+                {
+                    this.Enabled = true;
                 }
             }
         }
-        #endregion
 
-        #region Create Private room button
-        private async void CreatePrivateRoom_Click(object sender, EventArgs e)
-        {
-
-            this.Enabled = false;
-            try
-            {
-                RoomModel model = new RoomModel()
-                {
-                    Id = user.Id,
-                    Limit = 2
-                };
-                var room = await CreateRoomAsync(model);
-                var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
-
-                this.Hide();
-                var createForm = new PrivateRoom(url, room, client, user, player);
-                createForm.Closed += (s, args) => this.Close();
-                createForm.Show();
-            }
-            catch (Exception excep)
-            {
-                MessageBox.Show(excep.Message);
-            }
-            finally
-            {
-                this.Enabled = true;
-            }
-        }
-        #endregion
-
-        #region POST ROOM
         static async Task<GameRoomModel> CreateRoomAsync(RoomModel model)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync($"api/GameRooms", model);
@@ -232,22 +248,7 @@ namespace Menu
             // return URI of the created resource.
             return JsonConvert.DeserializeObject<GameRoomModel>(await response.Content.ReadAsStringAsync());
         }
-        #endregion
-
-        #region Check rooms exists    
-        private async Task<PlayerModel> GetPlayerAsync()
-        {
-            PlayerModel player = null;
-            HttpResponseMessage response = await client.GetAsync($"api/GameRooms");
-            if (response.IsSuccessStatusCode)
-            {
-                player = await response.Content.ReadAsAsync<PlayerModel>();
-            }
-            return player;
-        }
-        #endregion
-
-        #region Check rooms exists    
+  
         private async Task<bool> GetCheckRoomAsync()
         {
             bool room = false;
@@ -258,9 +259,8 @@ namespace Menu
             }
             return room;
         }
-        #endregion
 
-        #region Add player to room 
+
         private async Task<GameRoomModel> AddPlayerToRoomAsync(int id)
         {
             GameRoomModel room = null;
@@ -272,9 +272,9 @@ namespace Menu
             }
             return room;
         }
-        #endregion
 
-        #region Get player room 
+
+
         private async Task<GameRoomModel> GetRoomAsync(string path)
         {
             GameRoomModel room = null;
@@ -286,15 +286,13 @@ namespace Menu
             return room;
         }
 
-        #endregion
-
-        #region Get player 
-
-        #endregion
+       
 
         private void addfriendButton_Click(object sender, EventArgs e)
         {
-
+            var createForm = new AddFriends(url, client, user);
+            createForm.FormClosed += new FormClosedEventHandler(Form1_Load);
+            createForm.Show(this);
         }
     }
 }
