@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -17,8 +18,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONObject;
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     String url = "http://192.168.43.75:3000/";
 
+    InterstitialAd mInterstitialAd;
+    FloatingActionButton btnFabulous;
+
     JsonObjectRequest jsObjRequest = new JsonObjectRequest
             (Request.Method.GET, url + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
 
@@ -67,11 +73,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/5006002220");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+        requestNewInterstitial();
+
+        btnFabulous = (FloatingActionButton)findViewById(R.id.fabulous);
+        btnFabulous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+            }
+        });
+
+        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +130,16 @@ public class MainActivity extends AppCompatActivity {
                     .build();
             mAdView.loadAd(adRequest);
         }
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .setGender(AdRequest.GENDER_MALE)
+                .setBirthday(new GregorianCalendar(1985, 1, 1).getTime())
+                .addKeyword("game").addKeyword("tanks").addKeyword("arcade").addKeyword("multiplayer")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override

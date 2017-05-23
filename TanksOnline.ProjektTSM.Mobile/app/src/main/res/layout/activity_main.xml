@@ -45,4 +45,15 @@
         android:layout_above="@+id/adView"
         android:layout_alignEnd="@+id/adView" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabulous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_dialog_email"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignTop="@+id/fab"
+        android:layout_alignStart="@+id/adView" />
+
 </RelativeLayout>
