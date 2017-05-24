@@ -10,7 +10,7 @@ namespace TanksOnline.ProjektPZ.Server.Domain
 {
     public class Db : DbContext
     {
-        public Db() : base("DB") { }
+        public Db() : base("DB_tanks") { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<TankInfo> TankInfoes { get; set; }
