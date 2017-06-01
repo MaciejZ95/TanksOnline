@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityBigVideoAd"></activity>
+        <activity android:name=".ActivityBigVideoAd" />
+        <activity android:name=".Ranking"></activity>
     </application>
 
 </manifest>

@@ -52,13 +52,11 @@ public class MainActivity extends AppCompatActivity {
      * reklama video z nagrodą
      */
 
-    String url = "http://192.168.43.75:3000/";
-
     InterstitialAd mInterstitialAd;
     FloatingActionButton btnFabulous;
 
     JsonObjectRequest jsObjRequest = new JsonObjectRequest
-            (Request.Method.GET, url + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
+            (Request.Method.GET, R.string.apiUrl + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
 
                 @Override
                 public void onResponse(JSONObject response) {
