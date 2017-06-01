@@ -3,30 +3,20 @@ package projekttsm.tanksonline;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
-import org.json.JSONObject;
-
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,22 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     InterstitialAd mInterstitialAd;
     FloatingActionButton btnFabulous;
-
-    JsonObjectRequest jsObjRequest = new JsonObjectRequest
-            (Request.Method.GET, R.string.apiUrl + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
-
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.e("ERROR", "Response " + response.toString());
-                    ((TextView)findViewById(R.id.helloWorld)).setText("Response " + response.toString());
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("ERROR", "KURWA ERROR", error);
-                }
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +76,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        Button btn = (Button) findViewById(R.id.buttonBzdura) ;
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, Ranking.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -10,7 +10,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appBarLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -55,5 +56,14 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_alignTop="@+id/fab"
         android:layout_alignStart="@+id/adView" />
+
+    <Button
+        android:id="@+id/buttonBzdura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="92dp"
+        android:text="Button" />
 
 </RelativeLayout>

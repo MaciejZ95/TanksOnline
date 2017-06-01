@@ -37,6 +37,23 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
             return Ok(user);
         }
 
+        [HttpGet, Route("api/Users/GetTop10Ranking"), ResponseType(typeof(User[]))]
+        public IHttpActionResult GetRankingTop10()
+        {
+            var users = db.Users
+                .Include(u => u.UserScore)
+                .Select(obj => new
+                {
+                    obj.Id,
+                    obj.Name,
+                    obj.UserScore,
+                })
+                .OrderByDescending(u => new { u.UserScore.WonGames, u.UserScore.DealedHits })
+                .Take(10);
+            
+            return Json(users);
+        }
+
         // GET: api/Users/5
         [HttpGet, Route("api/users/getuser/{name}"), ResponseType(typeof(User))]
         public async Task<IHttpActionResult> GetUser([FromUri] string name)
