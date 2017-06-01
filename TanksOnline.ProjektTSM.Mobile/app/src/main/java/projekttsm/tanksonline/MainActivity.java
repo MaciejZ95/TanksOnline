@@ -41,11 +41,15 @@ public class MainActivity extends AppCompatActivity {
      *
      *
      * ca-app-pub-4470162864889559/3758319020
-     * to duży baner
+     * to duży baner ze wszystkim
      *
      *
      * ca-app-pub-4470162864889559/5006002220
      * duży baner tylko z reklamą video
+     *
+     *
+     * ca-app-pub-4470162864889559/5865346227
+     * reklama video z nagrodą
      */
 
     String url = "http://192.168.43.75:3000/";
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/5006002220");
+        mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/3758319020");
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override

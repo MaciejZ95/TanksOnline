@@ -12,6 +12,15 @@ namespace TanksOnline.ProjektPZ.Game.Controls
 {
     public partial class PauseMenu : UserControl
     {
+        public string DisplayText {
+            get { return PauseMenuLabel.Text; }
+            set {
+                PauseMenuLabel.Text = value;
+                this.Visible = false;
+                this.GoBack.Visible = false;
+            }
+        }
+
         public PauseMenu()
         {
             InitializeComponent();

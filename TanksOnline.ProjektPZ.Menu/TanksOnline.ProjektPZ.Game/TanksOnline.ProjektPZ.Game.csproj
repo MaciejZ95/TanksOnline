@@ -99,6 +99,7 @@
     <Compile Include="Drawables\Explosion.cs" />
     <Compile Include="Drawables\Tank\Tank.cs" />
     <Compile Include="Drawables\Tank\TankCabin.cs" />
+    <Compile Include="Drawables\Tank\TankHp.cs" />
     <Compile Include="Drawables\Tank\TankTurret.cs" />
     <Compile Include="Drawables\Tank\TankWheel.cs" />
     <Compile Include="Drawables\Tank\TankWheelInner.cs" />

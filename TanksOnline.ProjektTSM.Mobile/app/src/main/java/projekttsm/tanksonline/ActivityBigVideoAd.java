@@ -46,7 +46,7 @@ public class ActivityBigVideoAd extends AppCompatActivity implements RewardedVid
     }
 
     private void loadRewardedVideoAd() {
-        mAd.loadAd("ca-app-pub-4470162864889559/5006002220", new AdRequest.Builder()
+        mAd.loadAd("ca-app-pub-4470162864889559/5865346227", new AdRequest.Builder()
                 .setGender(AdRequest.GENDER_MALE)
                 .setBirthday(new GregorianCalendar(1985, 1, 1).getTime())
                 .addKeyword("game").addKeyword("tanks").addKeyword("arcade").addKeyword("multiplayer")

@@ -29,6 +29,12 @@ namespace TanksOnline.ProjektPZ.Game.Collision
             {
                 x.FillColor = new Color(160, 160, 160);
             });
+
+            frame.Add(new RectangleShape(new Vector2f(1000f, 200f))
+            {
+                Position = new Vector2f(0f, 430f),
+                FillColor = new Color(76, 150, 49),
+            });
         }
 
         public bool CheckCol(Bullet obj)
