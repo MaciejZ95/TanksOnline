@@ -14,6 +14,7 @@ namespace TanksOnline.ProjektPZ.Server.Domain.Entities
         public User User { get; set; }
         public int FriendId { get; set; }
         public User Friend { get; set; }
+        public Nullable<DateTime> Date { get; set; }
     }
 
     public class FriendsMap : EntityTypeConfiguration<Friends>

@@ -143,7 +143,6 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(411, 425);
             this.tableLayoutPanel3.TabIndex = 0;
-            this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
             // nicknameLabel
             // 
@@ -231,7 +230,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 338F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(411, 425);
             this.tableLayoutPanel2.TabIndex = 0;
-            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
             // emailLabel
             // 
@@ -275,7 +273,6 @@
             this.passwordconfirmInput.Size = new System.Drawing.Size(139, 22);
             this.passwordconfirmInput.TabIndex = 5;
             this.passwordconfirmInput.UseSystemPasswordChar = true;
-            this.passwordconfirmInput.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // passwordInput
             // 
@@ -288,7 +285,6 @@
             this.passwordInput.Size = new System.Drawing.Size(139, 22);
             this.passwordInput.TabIndex = 3;
             this.passwordInput.UseSystemPasswordChar = true;
-            this.passwordInput.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // emailInput
             // 
@@ -300,7 +296,6 @@
             this.emailInput.Name = "emailInput";
             this.emailInput.Size = new System.Drawing.Size(173, 22);
             this.emailInput.TabIndex = 2;
-            this.emailInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tableLayoutPanel4
             // 

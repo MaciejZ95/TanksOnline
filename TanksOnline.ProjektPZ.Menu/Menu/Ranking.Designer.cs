@@ -35,6 +35,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnHeader0 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listView1
@@ -42,6 +43,7 @@
             this.listView1.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ColumnHeader0,
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
@@ -57,7 +59,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Gracz";
-            this.columnHeader1.Width = 78;
+            this.columnHeader1.Width = 59;
             // 
             // columnHeader2
             // 
@@ -66,17 +68,22 @@
             // columnHeader3
             // 
             this.columnHeader3.Text = "Ilość wygranych";
-            this.columnHeader3.Width = 91;
+            this.columnHeader3.Width = 89;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Ilość przegranych";
-            this.columnHeader4.Width = 101;
+            this.columnHeader4.Width = 95;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Ilość wyrzuceń z gry";
-            this.columnHeader5.Width = 113;
+            this.columnHeader5.Width = 115;
+            // 
+            // ColumnHeader0
+            // 
+            this.ColumnHeader0.Text = "Nr";
+            this.ColumnHeader0.Width = 25;
             // 
             // Ranking
             // 
@@ -102,5 +109,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader ColumnHeader0;
     }
 }

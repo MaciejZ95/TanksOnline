@@ -44,6 +44,14 @@ namespace Menu
             }
        }
 
+        static async Task<Uri> PutUser(int id, UserModel user)
+        {
+            HttpResponseMessage response = await client.PutAsJsonAsync($"api/users/" + id, user);
+            response.EnsureSuccessStatusCode();
+            // return URI of the created resource.
+            return response.Headers.Location;
+        }
+
         private async void loginButton_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
@@ -56,10 +64,19 @@ namespace Menu
                 //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
                 var url = await CheckUser(new LoginModel() { Email = emailInput.Text, Password = passwordInput.Text });
                 var user = await GetUserAsync(url.PathAndQuery);
-                this.Hide();
-                var createForm = new UserPanel(url, client, user);
-                createForm.Closed += (s, args) => this.Close();
-                createForm.Show();
+                if (user.status != UserModel.UserStatus.Offline)
+                {
+                    MessageBox.Show("Ten użytkownik jest obecnie zalogowany.", "Informacja");
+                }
+                else
+                {
+                    user.status = UserModel.UserStatus.Logged;
+                    await PutUser(user.Id, user);
+                    this.Hide();
+                    var createForm = new UserPanel(url, client, user);
+                    createForm.Closed += (s, args) => this.Close();
+                    createForm.Show();
+                }
             }
             catch (Exception)
             {

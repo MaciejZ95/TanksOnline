@@ -25,6 +25,7 @@ namespace Menu
         static Bitmap MyImage;
         ImageList imagelist;
         Bitmap Image;
+        List<FriendsModel> l;
 
         public UserPanel(Uri logged, HttpClient clt, UserModel user)
         {
@@ -70,9 +71,36 @@ namespace Menu
             }
         }
 
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (friendsList.FocusedItem.Bounds.Contains(e.Location) == true && friendsList.FocusedItem.Group.Header == "Znajomi")
+                {
+                    contextMenuStrip1.Items[1].Visible = false;
+                    contextMenuStrip1.Items[4].Text = "Usuń znajomego";
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+                else if (friendsList.FocusedItem.Bounds.Contains(e.Location) == true && friendsList.FocusedItem.Group.Header == "Zaproszenia")
+                    {
+                    contextMenuStrip1.Items[1].Visible = true;
+                    contextMenuStrip1.Items[4].Text = "Usuń zaproszenie";
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+            }
+        }
+
         static async Task<Uri> PutUser(int id, UserModel user)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync($"api/users/" + id, user);
+            response.EnsureSuccessStatusCode();
+            // return URI of the created resource.
+            return response.Headers.Location;
+        }
+
+        static async Task<Uri> PutFriend(int id, FriendsModel friend)
+        {
+            HttpResponseMessage response = await client.PutAsJsonAsync($"api/friends/" + id, friend);
             response.EnsureSuccessStatusCode();
             // return URI of the created resource.
             return response.Headers.Location;
@@ -130,6 +158,8 @@ namespace Menu
             return user;
         }
 
+
+
         private async void Form1_Load(object sender, EventArgs e)
         {
             // dodanie obrazków z bazy danych
@@ -144,10 +174,11 @@ namespace Menu
                 }
                 avatarPB.Image = (Image)MyImage;
             }
-            List<FriendsModel> l = new List<FriendsModel>();
+            l = new List<FriendsModel>();
             var result = await client.GetStringAsync($"api/friends/");
             l = JsonConvert.DeserializeObject<List<FriendsModel>>(result);
             int x = 0;
+            int y = 0;
             UserModel u;
             ListViewItem item1 = null;
             for (int i = 0; i < l.Count; i++) 
@@ -164,9 +195,13 @@ namespace Menu
                         imagelist.Images.Add(Image);
                         friendsList.SmallImageList = imagelist;
                         item1 = new ListViewItem(u.Name);
-                        if (u.status == 0)
+                        if (u.status == UserModel.UserStatus.Offline)
                         {
                             item1.SubItems.Add("Offline");
+                        }
+                        else if (u.status == UserModel.UserStatus.Ready)
+                        {
+                            item1.SubItems.Add("Czeka na przeciwnika");
                         }
                         else
                         {
@@ -174,20 +209,42 @@ namespace Menu
                         }
                         item1.ImageIndex=x;
                         friendsList.Items.Add(item1);
+                        if (l[i].Date != null)
+                        {
+                            friendsList.Items[y].Group = friendsList.Groups[0];
+                        }
+                        else
+                        {
+                            friendsList.Items[y].Group = friendsList.Groups[1];
+                        }
                         x++;
+                        y++;
                     }
                     else
                     {
                         item1 = new ListViewItem(u.Name);
-                        if (u.status == 0)
+                        if (u.status == UserModel.UserStatus.Offline)
                         {
                             item1.SubItems.Add("Offline");
+                        }
+                        else if (u.status == UserModel.UserStatus.Ready)
+                        {
+                            item1.SubItems.Add("Czeka na przeciwnika");
                         }
                         else
                         {
                             item1.SubItems.Add("Online");
                         }
                         friendsList.Items.Add(item1);
+                        if (l[i].Date != null)
+                        {
+                            friendsList.Items[y].Group = friendsList.Groups[0];
+                        }
+                        else
+                        {
+                            friendsList.Items[y].Group = friendsList.Groups[1];
+                        }
+                        y++;
                     }
                     
                 }
@@ -366,9 +423,106 @@ namespace Menu
 
         private void addfriendButton_Click(object sender, EventArgs e)
         {
-            var createForm = new AddFriends(url, client, user);
+            var createForm = new AddFriends(url, client, user, l);
             createForm.FormClosed += new FormClosedEventHandler(Form1_Load);
             createForm.Show(this);
+        }
+
+        private async Task<UserModel> GetUserAsync(string name)
+        {
+            UserModel user = null;
+            HttpResponseMessage response = await client.GetAsync($"api/users/getuser/" + name);
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<UserModel>();
+            }
+            return user;
+        }
+
+        private async void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            string txt = friendsList.FocusedItem.Text;
+            contextMenuStrip1.Hide();
+            UserModel usr = new UserModel();
+            FriendsModel f1, f2, f3;
+            switch (e.ClickedItem.Text)
+            {
+                case "Dołącz do gry":
+                    MessageBox.Show("Doł");
+                    break;
+                case "Dodaj znajomego":
+                    usr = await GetUserAsync(txt);
+                    f1 = new FriendsModel();
+                    f1.UserId = user.Id;
+                    f1.FriendId = usr.Id;
+                    f1.Date = DateTime.Now;
+                    for(int i=0; i<l.Count();i++)
+                    {
+                        if(f1.UserId == l[i].UserId && f1.FriendId == l[i].FriendId)
+                        {
+                            f1.RelationId = l[i].RelationId;
+                        }
+                    }
+                    await PutFriend(f1.RelationId, f1);
+                    Form1_Load(this, null);
+                    break;
+                case "Czat":
+                    usr = await GetUserAsync(txt);
+                    var createForm = new Form1(url, client, user, usr);
+                    createForm.Show(this);
+                    break;
+                case "Statystyki znajomego":
+                    MessageBox.Show("sta");
+                    break;
+                case "Usuń znajomego":
+                    usr = await GetUserAsync(txt);
+                    f2 = new FriendsModel();
+                    f3 = new FriendsModel();
+                    f3.FriendId = f2.UserId = user.Id;
+                    f3.UserId = f2.FriendId = usr.Id;
+                    for (int i = 0; i < l.Count(); i++)
+                    {
+                        if (f2.UserId == l[i].UserId && f2.FriendId == l[i].FriendId)
+                        {
+                            f2.RelationId = l[i].RelationId;
+                        }
+                        else if (f3.UserId == l[i].UserId && f3.FriendId == l[i].FriendId)
+                        {
+                            f3.RelationId = l[i].RelationId;
+                        }
+                    }
+                    await client.DeleteAsync($"api/friends/" + f2.RelationId);
+                    await client.DeleteAsync($"api/friends/" + f3.RelationId);
+                    Form1_Load(this, null);
+                    break;
+                case "Usuń zaproszenie":
+                    usr = await GetUserAsync(txt);
+                    f2 = new FriendsModel();
+                    f3 = new FriendsModel();
+                    f3.FriendId = f2.UserId = user.Id;
+                    f3.UserId = f2.FriendId = usr.Id;
+                    for (int i = 0; i < l.Count(); i++)
+                    {
+                        if (f2.UserId == l[i].UserId && f2.FriendId == l[i].FriendId)
+                        {
+                            f2.RelationId = l[i].RelationId;
+                        }
+                        else if (f3.UserId == l[i].UserId && f3.FriendId == l[i].FriendId)
+                        {
+                            f3.RelationId = l[i].RelationId;
+                        }
+                    }
+                    await client.DeleteAsync($"api/friends/" + f2.RelationId);
+                    await client.DeleteAsync($"api/friends/" + f3.RelationId);
+                    Form1_Load(this, null);
+                    break;
+            }
+        }
+
+        private async void UserPanel_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            user.status = UserModel.UserStatus.Offline;
+            await PutUser(user.Id, user);
         }
     }
 }

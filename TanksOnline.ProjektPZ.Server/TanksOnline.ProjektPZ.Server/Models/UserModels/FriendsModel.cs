@@ -12,5 +12,6 @@ namespace TanksOnline.ProjektPZ.Server.Models.UserModels
         public UserModel User { get; set; }
         public int FriendId { get; set; }
         public UserModel Friend { get; set; }
+        public Nullable<DateTime> Date { get; set; }
     }
 }

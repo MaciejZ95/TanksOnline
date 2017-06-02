@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net.Http;
 using Menu.Models;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Menu
 {
@@ -20,13 +21,16 @@ namespace Menu
         Bitmap Image;
         ImageList imagelist;
         UserModel usr;
-        public AddFriends(Uri logged, HttpClient clt, UserModel user)
+        List<FriendsModel> l;
+
+        public AddFriends(Uri logged, HttpClient clt, UserModel user, List<FriendsModel> l)
         {
             InitializeComponent();
             client = clt;
             this.user = user;
             imagelist = new ImageList();
             imagelist.ImageSize = new Size(50, 50);
+            this.l = l;
         }
 
         static async Task<Uri> CheckUser(UserModel model)
@@ -75,7 +79,7 @@ namespace Menu
                     }
                     ListViewItem item1 = new ListViewItem(usr.Name);
                     item1.ImageIndex = 0;
-                    if (usr.status == 0)
+                    if (usr.status == UserModel.UserStatus.Offline)
                     {
                         item1.SubItems.Add("Offline");
                     }
@@ -94,7 +98,6 @@ namespace Menu
 
         private void listView1_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
-
             e.Cancel = true;
             e.NewWidth = listView1.Columns[e.ColumnIndex].Width;
         }
@@ -114,10 +117,25 @@ namespace Menu
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            FriendsModel f = new FriendsModel();
-            f.FriendId = usr.Id;
-            f.UserId = user.Id;
-            await PostFriend(f);
+            for(int i=0;i<l.Count();i++)
+            {
+                if(l[i].UserId == user.Id && l[i].FriendId == usr.Id)
+                {
+                    MessageBox.Show("Ten użytkownik jest już twoim znajomym.", "Informacja");
+                    return;
+                }
+            }
+            FriendsModel f1 = new FriendsModel();
+            FriendsModel f2 = new FriendsModel();
+            f2.UserId = f1.FriendId = usr.Id;
+            f2.FriendId = f1.UserId = user.Id;
+            f1.Date = DateTime.Now;
+            f2.Date = null;
+            await PostFriend(f1);
+            await PostFriend(f2);
+            l = new List<FriendsModel>();
+            var result = await client.GetStringAsync($"api/friends/");
+            l = JsonConvert.DeserializeObject<List<FriendsModel>>(result);
             MessageBox.Show("Dodano znajomego", "Informacja");
         }
     }

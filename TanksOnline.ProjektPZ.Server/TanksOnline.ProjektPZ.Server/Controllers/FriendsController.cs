@@ -45,5 +45,61 @@ namespace TanksOnline.ProjektPZ.Server.Controllers
 
             return CreatedAtRoute("DefaultApi", new { RelationId = friend.RelationId }, friend);
         }
+
+        // PUT: api/Friends/5
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutUser(int id, Friends friend)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != friend.RelationId)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(friend).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // DELETE: api/Friends/5
+        [ResponseType(typeof(Friends))]
+        public async Task<IHttpActionResult> DeleteFriend(int id)
+        {
+            Friends friend = await db.Friends.FindAsync(id);
+            if (friend == null)
+            {
+                return NotFound();
+            }
+
+            db.Friends.Remove(friend);
+            await db.SaveChangesAsync();
+
+            return Ok(friend);
+        }
+
+        private bool UserExists(int id)
+        {
+            return db.Friends.Count(e => e.RelationId == id) > 0;
+        }
     }
 }

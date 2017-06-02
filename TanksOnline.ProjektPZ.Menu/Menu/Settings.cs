@@ -36,16 +36,6 @@ namespace Menu
             user1 = user;
         }
 
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private async void pictureBox1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -100,24 +90,9 @@ namespace Menu
             }
         }
 
-        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void Form2_Load(object sender, EventArgs e)
         {
             viewsList.Items[0].Selected = true;
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
