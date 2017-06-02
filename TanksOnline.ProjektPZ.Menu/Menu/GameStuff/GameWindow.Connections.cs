@@ -33,11 +33,9 @@ namespace Menu.Views
             gameHub.On<int>("BulletKilledPlayer", OnBulletKilledPlayerEvent);
             gameHub.On<int, int>("BulletHitPlayer", OnBulletHitPlayerEvent);
             gameHub.On<PlayerShootModel>("PlayerShooted", OnPlayerShootedEvent);
+            gameHub.On("SomeOneLeaveRoom", OnSomeOneLeaveRoomEvent);
 
             await hubConnection.Start();
-            // Czyszczenie tylko przez pierwszego gracza
-            //if (_player.IdInMatch == 0) await gameHub.Invoke("ClearDbAndConnect", _room.Id, _player.Id);
-            //else
             await gameHub.Invoke("Connect", _player.Id);
         }
 
@@ -66,12 +64,14 @@ namespace Menu.Views
             this.Invoke(new Action(() =>
             {
                 _tanks[killedMatchId].Dead = true;
+                _tanks[killedMatchId].TankHp--;
 
                 var player = _room.Players.Single(p => p.IdInMatch == killedMatchId);
-                var message = $"Czołg gracza {player.User.Name} został zniszczony!";
-                MessageBox.Show(message, "Gracz został pokonany!", MessageBoxButtons.OK);
+                var message = $"Twój czołg został zniszczony! Przegrałeś!";
+                //MessageBox.Show(message, "Gracz został pokonany!", MessageBoxButtons.OK);
 
-                // TODO RK: Na razie gra powinna stać jak debil, potem powinny być akcje na zakończenie
+                PauseMenu.DisplayText = message;
+                PauseMenu.Visible = true;
             }));
         }
 
@@ -101,12 +101,25 @@ namespace Menu.Views
                 }
             }));
         }
+
+        private void OnSomeOneLeaveRoomEvent()
+        {
+            Invoke(new Action(() =>
+            {
+                Close();
+            }));
+        }
         #endregion
 
         #region Zdarzenia SignalR wywoływane przez użytkownika
         private async Task BulletFallDown()
         {
             await gameHub.Invoke("BulletFallDown", _player.Id);
+        }
+
+        private async Task CloseRoom()
+        {
+            await gameHub.Invoke("CloseRoom", _room.Id);
         }
 
         /// <summary>
@@ -121,6 +134,8 @@ namespace Menu.Views
 
         private async Task BulletKilledPlayer(int killedMatchId)
         {
+            PauseMenu.DisplayText = "Czołg przeciwnika został zniszczony! Wygrałeś!";
+            PauseMenu.Visible = true;
             await gameHub.Invoke("BulletKilledPlayer", _player.Id, killedMatchId);
         }
 

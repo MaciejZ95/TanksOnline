@@ -37,16 +37,12 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cancelButton = new System.Windows.Forms.Button();
             this.loginButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_user2 = new System.Windows.Forms.Button();
-            this.btn_user1 = new System.Windows.Forms.Button();
             this.createLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.createButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,7 +102,6 @@
             this.tableLayoutPanel1.Controls.Add(this.passwordLabel, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.passwordInput, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
@@ -158,49 +153,6 @@
             this.loginButton.Text = "ZALOGUJ";
             this.loginButton.UseVisualStyleBackColor = false;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.btn_user2, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.btn_user1, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 74);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(112, 81);
-            this.tableLayoutPanel4.TabIndex = 9;
-            // 
-            // btn_user2
-            // 
-            this.btn_user2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_user2.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.btn_user2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_user2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_user2.Location = new System.Drawing.Point(7, 49);
-            this.btn_user2.Name = "btn_user2";
-            this.btn_user2.Size = new System.Drawing.Size(98, 23);
-            this.btn_user2.TabIndex = 11;
-            this.btn_user2.Text = "LOGIN-USER2";
-            this.btn_user2.UseVisualStyleBackColor = false;
-            this.btn_user2.Click += new System.EventHandler(this.test2);
-            // 
-            // btn_user1
-            // 
-            this.btn_user1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_user1.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.btn_user1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_user1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_user1.Location = new System.Drawing.Point(9, 8);
-            this.btn_user1.Name = "btn_user1";
-            this.btn_user1.Size = new System.Drawing.Size(94, 23);
-            this.btn_user1.TabIndex = 10;
-            this.btn_user1.Text = "LOGIN-USER1";
-            this.btn_user1.UseVisualStyleBackColor = false;
-            this.btn_user1.Click += new System.EventHandler(this.test1);
             // 
             // createLabel
             // 
@@ -269,7 +221,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
@@ -290,9 +241,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button createButton;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btn_user1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Button btn_user2;
     }
 }
 

@@ -16,6 +16,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
     /// </summary>
     public class Tank : Drawable, IMoveAble, ICollidable
     {
+        private TankHp _tankHp;
         private Vector2f _pos;
         private TankTurret _turret;
         private TankWheel _wheels;
@@ -28,7 +29,10 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
         public bool Dead { get; set; }
         public int IdInMatch { get; private set; }
         public bool ChangedColor { get; set; }
-        public int TankHp { get; set; }
+        public int TankHp {
+            get { return _tankHp.HP; }
+            set { _tankHp.HP = value; }
+        }
 
         /// <summary>
         /// Wartość jest przesunięta o 180 stopni. Wynika to z charakterystyki widoku w SFMl. 
@@ -51,6 +55,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
                 _turret.Position = value;
                 _wheels.Position = value + new Vector2f(-1.5f * Rad, 2.25f * Rad);
                 _box.Position = value;
+                _tankHp.Position = value;
             }
         }
 
@@ -58,6 +63,7 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
         {
             IdInMatch = idInMatch;
             Rad = radius;
+            _tankHp = new TankHp(Rad);
             _col = Color.Green;
             _turret = new TankTurret(Rad * 1.5f);
             _wheels = new TankWheel(Rad)
@@ -95,6 +101,8 @@ namespace TanksOnline.ProjektPZ.Game.Drawables.TankNs
                 };
                 ChangedColor = true;
             }
+
+            target.Draw(_tankHp);
 
             // rysowanie w zależności czy nie jest martwy
             if (Dead) {

@@ -110,6 +110,11 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
                             User = user
                         });
 
+                        if (room.Players.Count == room.PlayersLimit)
+                        {
+                            room.RoomStatus = RoomStatus.Ready;
+                        }
+
                         db.SaveChanges();
                         trans.Commit();
 

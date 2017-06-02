@@ -131,9 +131,10 @@
             // 
             // PauseMenu
             // 
-            this.PauseMenu.Location = new System.Drawing.Point(304, 182);
+            this.PauseMenu.DisplayText = "Pause Menu";
+            this.PauseMenu.Location = new System.Drawing.Point(237, 172);
             this.PauseMenu.Name = "PauseMenu";
-            this.PauseMenu.Size = new System.Drawing.Size(150, 125);
+            this.PauseMenu.Size = new System.Drawing.Size(313, 167);
             this.PauseMenu.TabIndex = 5;
             this.PauseMenu.Visible = false;
             // 

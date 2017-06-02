@@ -66,29 +66,29 @@ namespace Menu.Views
             window.Text += $" - player {player.IdInMatch}";
             return window;
         }
-        
+
         #region Główne Metody
         private void MainLoop(object sender, EventArgs e)
         {
+            _renderWindow.DispatchEvents();
+
             if (!PauseMenu.Visible)
             {
-                _renderWindow.DispatchEvents();
-
                 // Sprawdzanie istotnych przycisków
                 GetKeys();
-
-                // Kolizje pocisków ze ścianami/czołgami
-                CalcBulletCollisions();
-
-                // Przesuwanie pocisków
-                _bullets.ForEach(bullet => bullet.Move());
-
-                // Usuwanie "wypalonych" wybuchów
-                _explosions.RemoveAll(x => x.Dead);
-
-                // Rysowanie modeli
-                DrawModels();
             }
+
+            // Kolizje pocisków ze ścianami/czołgami
+            CalcBulletCollisions();
+
+            // Przesuwanie pocisków
+            _bullets.ForEach(bullet => bullet.Move());
+
+            // Usuwanie "wypalonych" wybuchów
+            _explosions.RemoveAll(x => x.Dead);
+
+            // Rysowanie modeli
+            DrawModels();
             AdditionalInfo();
             _renderWindow.Display();
         }
@@ -172,7 +172,7 @@ namespace Menu.Views
 
         private void DrawModels()
         {
-            _renderWindow.Clear(new Color(50, 50, 50));
+            _renderWindow.Clear(new Color(60, 130, 255));
             _renderWindow.Draw(_colBox);
 
             _bullets.ForEach(x => _renderWindow.Draw(x));

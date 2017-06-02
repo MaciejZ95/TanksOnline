@@ -1,28 +1,22 @@
 package projekttsm.tanksonline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
-import org.json.JSONObject;
-
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,43 +31,68 @@ public class MainActivity extends AppCompatActivity {
      *
      *
      * ca-app-pub-4470162864889559/3758319020
-     * to duży baner
+     * to duży baner ze wszystkim
+     *
+     *
+     * ca-app-pub-4470162864889559/5006002220
+     * duży baner tylko z reklamą video
+     *
+     *
+     * ca-app-pub-4470162864889559/5865346227
+     * reklama video z nagrodą
      */
 
-    String url = "http://192.168.0.19:3000/";
-
-    JsonObjectRequest jsObjRequest = new JsonObjectRequest
-            (Request.Method.GET, url + "api/GameRooms/1014", null, new Response.Listener<JSONObject>() {
-
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.e("ERROR", "Response " + response.toString());
-                    ((TextView)findViewById(R.id.helloWorld)).setText("Response " + response.toString());
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("ERROR", "KURWA ERROR", error);
-                }
-            });
+    InterstitialAd mInterstitialAd;
+    FloatingActionButton btnFabulous;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/3758319020");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+        requestNewInterstitial();
+
+        btnFabulous = (FloatingActionButton)findViewById(R.id.fabulous);
+        btnFabulous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+            }
+        });
+
+        Button btn = (Button) findViewById(R.id.buttonBzdura) ;
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, Ranking.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(MainActivity.this, ActivityBigVideoAd.class);
+                i.putExtra("key", 1234);
+                MainActivity.this.startActivity(i);
             }
         });
 
@@ -95,6 +114,16 @@ public class MainActivity extends AppCompatActivity {
                     .build();
             mAdView.loadAd(adRequest);
         }
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .setGender(AdRequest.GENDER_MALE)
+                .setBirthday(new GregorianCalendar(1985, 1, 1).getTime())
+                .addKeyword("game").addKeyword("tanks").addKeyword("arcade").addKeyword("multiplayer")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override

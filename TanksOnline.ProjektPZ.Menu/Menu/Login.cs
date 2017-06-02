@@ -31,7 +31,7 @@ namespace Menu
             {
                 this.Hide();
                 var createForm = new Register();
-                createForm.Closed += (s, args) => this.Close();
+                createForm.Closed += (s, args) => this.Show();
                 createForm.Show();
             }
             catch (Exception)
@@ -110,60 +110,6 @@ namespace Menu
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private async void test1(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:21021/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            try
-            {
-                //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
-                var url = await CheckUser(new LoginModel() { Email = "t1", Password = "t" });
-                var user = await GetUserAsync(url.PathAndQuery);
-                this.Hide();
-                var createForm = new UserPanel(url, client, user, true);
-                createForm.Closed += (s, args) => this.Close();
-                createForm.Show();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Podano złe dane logowania", "Uwaga!");
-            }
-            finally
-            {
-                this.Enabled = true;
-            }
-        }
-
-        private async void test2(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:21021/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            try
-            {
-                //utworzenie uzytkownika z modelu oraz przesłanie go do funkcji CheckUser
-                var url = await CheckUser(new LoginModel() { Email = "t2", Password = "t" });
-                var user = await GetUserAsync(url.PathAndQuery);
-                this.Hide();
-                var createForm = new UserPanel(url, client, user, true);
-                createForm.Closed += (s, args) => this.Close();
-                createForm.Show();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Podano złe dane logowania", "Uwaga!");
-            }
-            finally
-            {
-                this.Enabled = true;
-            }
         }
     }
 }
