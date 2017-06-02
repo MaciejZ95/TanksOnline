@@ -19,36 +19,65 @@ namespace Menu
         static HttpClient client;
         UserModel user;
         ImageList imagelist;
-
-        public Ranking(Uri logged, HttpClient clt, UserModel user)
+        bool getFriendsScore;
+        int id;
+        public Ranking(Uri logged, HttpClient clt, UserModel user, bool getFriendsScore, int id)
         {
             InitializeComponent();
             client = clt;
             this.user = user;
+            this.getFriendsScore = getFriendsScore;
+            this.id = id;
         }
 
         private async void Ranking_Load(object sender, EventArgs e)
         {
-            var result = await client.GetStringAsync($"api/users/");
-            var us = JsonConvert.DeserializeObject<List<UserModel>>(result);
-            for (int i = 0; i < us.Count; i++)
+            if (getFriendsScore == false)
             {
-                ListViewItem item1 = new ListViewItem((i + 1).ToString());
-                item1.SubItems.Add(us[i].Name);
-                item1.SubItems.Add(us[i].UserScore.PlayedGames.ToString());
-                item1.SubItems.Add(us[i].UserScore.WonGames.ToString());
-                item1.SubItems.Add(us[i].UserScore.LostGames.ToString());
-                item1.SubItems.Add(us[i].UserScore.AFK_kicks.ToString());
-                listView1.Items.Add(item1);
+                var result = await client.GetStringAsync($"api/users/");
+                var us = JsonConvert.DeserializeObject<List<UserModel>>(result);
+                for (int i = 0; i < us.Count; i++)
+                {
+                    ListViewItem item1 = new ListViewItem((i + 1).ToString());
+                    item1.SubItems.Add(us[i].Name);
+                    item1.SubItems.Add(us[i].UserScore.PlayedGames.ToString());
+                    item1.SubItems.Add(us[i].UserScore.WonGames.ToString());
+                    item1.SubItems.Add(us[i].UserScore.LostGames.ToString());
+                    item1.SubItems.Add(us[i].UserScore.AFK_kicks.ToString());
+                    listView1.Items.Add(item1);
+                }
+            }
+            else
+            {
+                var result = await client.GetStringAsync($"api/users/");
+                var us = JsonConvert.DeserializeObject<List<UserModel>>(result);
+                    ListViewItem item1 = new ListViewItem((1).ToString());
+                    item1.SubItems.Add(us[id].Name);
+                    item1.SubItems.Add(us[id].UserScore.PlayedGames.ToString());
+                    item1.SubItems.Add(us[id].UserScore.WonGames.ToString());
+                    item1.SubItems.Add(us[id].UserScore.LostGames.ToString());
+                    item1.SubItems.Add(us[id].UserScore.AFK_kicks.ToString());
+                    listView1.Items.Add(item1);
             }
             Sort();
+        }
+
+        private async Task<UserModel> GetUserAsync(int id)
+        {
+            UserModel user = null;
+            HttpResponseMessage response = await client.GetAsync($"api/users/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<UserModel>();
+            }
+            return user;
         }
 
         private void Sort()
         {
             for (int i = 0; i < listView1.Items.Count; i++)
             {
-                if (Convert.ToInt32(listView1.Items[i].SubItems[2].Text) > 0 && Convert.ToInt32(listView1.Items[i+1].SubItems[2].Text) > 0)
+                if (Convert.ToInt32(listView1.Items[i].SubItems[2].Text) > 0 && Convert.ToInt32(listView1.Items[i + 1].SubItems[2].Text) > 0)
                 {
                     if (Convert.ToInt32(listView1.Items[i].SubItems[3].Text) / Convert.ToInt32(listView1.Items[i].SubItems[2].Text) + Convert.ToInt32(listView1.Items[i].SubItems[3].Text) < Convert.ToInt32(listView1.Items[i + 1].SubItems[3].Text) / Convert.ToInt32(listView1.Items[i + 1].SubItems[2].Text) + Convert.ToInt32(listView1.Items[i + 1].SubItems[3].Text))
                     {

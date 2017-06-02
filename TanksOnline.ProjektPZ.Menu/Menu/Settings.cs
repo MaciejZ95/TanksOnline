@@ -34,6 +34,7 @@ namespace Menu
             }
             client = clt;
             user1 = user;
+            tankPreview1.RunPreview();
         }
 
         private async void pictureBox1_Click(object sender, EventArgs e)
@@ -116,9 +117,26 @@ namespace Menu
             {
                 user1.Password = passwordInput.Text;
             }
-
+            user1.TankInfo.ColorR = trackBar1.Value;
+            user1.TankInfo.ColorG = trackBar2.Value;
+            user1.TankInfo.ColorB = trackBar3.Value;
             await PutUser(user1.Id, user1);
             this.Close();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            tankPreview1.RED = (byte)trackBar1.Value;
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            tankPreview1.GREEN = (byte)trackBar2.Value;
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            tankPreview1.BLUE = (byte)trackBar3.Value;
         }
     }
 }

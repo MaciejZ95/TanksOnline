@@ -66,7 +66,7 @@ namespace TanksOnline.ProjektPZ.Game.Controls
             this._tank = new Tank(20f)
             {
                 FillColor = _tankColor,
-                Position = new Vector2f(40f, 30f),
+                Position = new Vector2f(65f, 50f),
                 TurretAngle = 90
             };
         }

@@ -33,12 +33,10 @@ namespace Menu
             this.url = logged;
             this.user = user;
             client = clt;
-            /*for (int i = 0; i < tab.Length; i++)
-            {
-                this.listView1.Items[i] = tab[i];
-            }*/
+
             imagelist = new ImageList();
             imagelist.ImageSize = new Size(50, 50);
+            this.ControlBox = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -126,7 +124,7 @@ namespace Menu
 
         private void label1_Click(object sender, EventArgs e)
         {
-            var createForm = new Ranking(url, client, user);
+            var createForm = new Ranking(url, client, user, false, 0);
             createForm.Show(this);
         }
 
@@ -242,7 +240,6 @@ namespace Menu
                     }
                     
                 }
-
             }
         }
 
@@ -372,7 +369,6 @@ namespace Menu
             switch (e.ClickedItem.Text)
             {
                 case "Dołącz do gry":
-                    MessageBox.Show("Doł");
                     break;
                 case "Dodaj znajomego":
                     usr = await GetUserAsync(txt);
@@ -396,7 +392,9 @@ namespace Menu
                     createForm.Show(this);
                     break;
                 case "Statystyki znajomego":
-                    MessageBox.Show("sta");
+                    usr = await GetUserAsync(txt);
+                    Ranking createForm1 = new Ranking(url, client, user, true, usr.Id);
+                    createForm1.Show(this);
                     break;
                 case "Usuń znajomego":
                     usr = await GetUserAsync(txt);
@@ -443,10 +441,14 @@ namespace Menu
             }
         }
 
-        private async void UserPanel_FormClosing(object sender, FormClosingEventArgs e)
+        private async void button1_Click_1(object sender, EventArgs e)
         {
             user.status = UserModel.UserStatus.Offline;
             await PutUser(user.Id, user);
+            this.Hide();
+            var createForm = new Login();
+            createForm.Closed += (s, args) => this.Close();
+            createForm.Show();
         }
     }
 }

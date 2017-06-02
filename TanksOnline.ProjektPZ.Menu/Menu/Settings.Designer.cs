@@ -39,8 +39,6 @@
             this.nicknameLabel = new System.Windows.Forms.Label();
             this.avatarPB = new System.Windows.Forms.PictureBox();
             this.nicknameInput = new System.Windows.Forms.TextBox();
-            this.tankPB = new System.Windows.Forms.PictureBox();
-            this.tankSelect = new System.Windows.Forms.DomainUpDown();
             this.avatarLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.emailLabel = new System.Windows.Forms.Label();
@@ -52,14 +50,22 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.tankPreview1 = new TanksOnline.ProjektPZ.Game.Controls.TankPreview();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tankPB)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -131,9 +137,9 @@
             this.tableLayoutPanel3.Controls.Add(this.nicknameLabel, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.avatarPB, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.nicknameInput, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.tankPB, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.tankSelect, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.avatarLabel, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tankPreview1, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 1, 2);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
@@ -177,27 +183,6 @@
             this.nicknameInput.Name = "nicknameInput";
             this.nicknameInput.Size = new System.Drawing.Size(128, 22);
             this.nicknameInput.TabIndex = 3;
-            // 
-            // tankPB
-            // 
-            this.tankPB.BackColor = System.Drawing.Color.Gray;
-            this.tankPB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tankPB.Location = new System.Drawing.Point(3, 169);
-            this.tankPB.Name = "tankPB";
-            this.tankPB.Size = new System.Drawing.Size(199, 200);
-            this.tankPB.TabIndex = 4;
-            this.tankPB.TabStop = false;
-            // 
-            // tankSelect
-            // 
-            this.tankSelect.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.tankSelect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tankSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tankSelect.Location = new System.Drawing.Point(208, 169);
-            this.tankSelect.Name = "tankSelect";
-            this.tankSelect.Size = new System.Drawing.Size(120, 22);
-            this.tankSelect.TabIndex = 5;
-            this.tankSelect.Text = "domainUpDown1";
             // 
             // avatarLabel
             // 
@@ -339,6 +324,62 @@
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.trackBar1, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.trackBar2, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.trackBar3, 0, 2);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(208, 169);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 3;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(200, 224);
+            this.tableLayoutPanel5.TabIndex = 7;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.trackBar1.Location = new System.Drawing.Point(3, 14);
+            this.trackBar1.Maximum = 255;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(194, 45);
+            this.trackBar1.TabIndex = 0;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.trackBar2.Location = new System.Drawing.Point(3, 88);
+            this.trackBar2.Maximum = 255;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(194, 45);
+            this.trackBar2.TabIndex = 1;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            // 
+            // trackBar3
+            // 
+            this.trackBar3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.trackBar3.Location = new System.Drawing.Point(3, 163);
+            this.trackBar3.Maximum = 255;
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Size = new System.Drawing.Size(194, 45);
+            this.trackBar3.TabIndex = 2;
+            this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
+            // 
+            // tankPreview1
+            // 
+            this.tankPreview1.BLUE = ((byte)(0));
+            this.tankPreview1.GREEN = ((byte)(0));
+            this.tankPreview1.Location = new System.Drawing.Point(3, 169);
+            this.tankPreview1.Name = "tankPreview1";
+            this.tankPreview1.RED = ((byte)(0));
+            this.tankPreview1.Size = new System.Drawing.Size(199, 199);
+            this.tankPreview1.TabIndex = 6;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -358,10 +399,14 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tankPB)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -376,8 +421,6 @@
         private System.Windows.Forms.Label nicknameLabel;
         private System.Windows.Forms.PictureBox avatarPB;
         private System.Windows.Forms.TextBox nicknameInput;
-        private System.Windows.Forms.PictureBox tankPB;
-        private System.Windows.Forms.DomainUpDown tankSelect;
         private System.Windows.Forms.Label avatarLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label emailLabel;
@@ -389,5 +432,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
+        private TanksOnline.ProjektPZ.Game.Controls.TankPreview tankPreview1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar trackBar3;
     }
 }
