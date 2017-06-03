@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PublicRoom));
             this.label3 = new System.Windows.Forms.Label();
             this.playerListText = new System.Windows.Forms.TextBox();
             this.leaveRoomButton = new System.Windows.Forms.Button();
@@ -91,11 +92,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 456);
+            this.ControlBox = false;
             this.Controls.Add(this.refresh);
             this.Controls.Add(this.leaveRoomButton);
             this.Controls.Add(this.enterToGameButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.playerListText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PublicRoom";
             this.Text = "PublicRoom";
             this.ResumeLayout(false);
