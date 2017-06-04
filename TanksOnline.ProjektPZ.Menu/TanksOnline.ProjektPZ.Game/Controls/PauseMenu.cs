@@ -29,10 +29,10 @@ namespace TanksOnline.ProjektPZ.Game.Controls
         private void ExitGame_Click(object sender, EventArgs e)
         {
             // TODO RK: Docelowo ma to przerzucać do okien od Maćka
-            var createForm = new UserPanel(url, room, client, user, player);
-            createForm.Closed += (s, args) => this.Show();
-            createForm.Show();
-            Application.Exit();
+            //var createForm = new UserPanel(url, room, client, user, player);
+            //createForm.Closed += (s, args) => this.Show();
+            //createForm.Show();
+            //Application.Exit();
         }
 
         private void GoBack_Click(object sender, EventArgs e)

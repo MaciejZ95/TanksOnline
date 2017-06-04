@@ -30,10 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PublicRoom));
             this.label3 = new System.Windows.Forms.Label();
-            this.playerListText = new System.Windows.Forms.TextBox();
             this.leaveRoomButton = new System.Windows.Forms.Button();
             this.enterToGameButton = new System.Windows.Forms.Button();
-            this.refresh = new System.Windows.Forms.Button();
+            this.playerListLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label3
@@ -44,16 +43,6 @@
             this.label3.Size = new System.Drawing.Size(109, 13);
             this.label3.TabIndex = 10;
             this.label3.Text = "Lista graczy w pokoju";
-            // 
-            // playerListText
-            // 
-            this.playerListText.Location = new System.Drawing.Point(316, 39);
-            this.playerListText.Multiline = true;
-            this.playerListText.Name = "playerListText";
-            this.playerListText.ReadOnly = true;
-            this.playerListText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.playerListText.Size = new System.Drawing.Size(200, 198);
-            this.playerListText.TabIndex = 9;
             // 
             // leaveRoomButton
             // 
@@ -77,15 +66,13 @@
             this.enterToGameButton.UseVisualStyleBackColor = true;
             this.enterToGameButton.Click += new System.EventHandler(this.enterToGameButton_Click);
             // 
-            // refresh
+            // playerListLabel
             // 
-            this.refresh.Location = new System.Drawing.Point(407, 243);
-            this.refresh.Name = "refresh";
-            this.refresh.Size = new System.Drawing.Size(109, 23);
-            this.refresh.TabIndex = 13;
-            this.refresh.Text = "Odśwież listę";
-            this.refresh.UseVisualStyleBackColor = true;
-            this.refresh.Click += new System.EventHandler(this.refresh_Click);
+            this.playerListLabel.Location = new System.Drawing.Point(313, 33);
+            this.playerListLabel.Name = "playerListLabel";
+            this.playerListLabel.Size = new System.Drawing.Size(203, 207);
+            this.playerListLabel.TabIndex = 14;
+            this.playerListLabel.Text = "playerListLabel";
             // 
             // PublicRoom
             // 
@@ -93,11 +80,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 456);
             this.ControlBox = false;
-            this.Controls.Add(this.refresh);
+            this.Controls.Add(this.playerListLabel);
             this.Controls.Add(this.leaveRoomButton);
             this.Controls.Add(this.enterToGameButton);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.playerListText);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -111,9 +97,8 @@
         #endregion
 
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox playerListText;
         private System.Windows.Forms.Button leaveRoomButton;
         private System.Windows.Forms.Button enterToGameButton;
-        private System.Windows.Forms.Button refresh;
+        private System.Windows.Forms.Label playerListLabel;
     }
 }

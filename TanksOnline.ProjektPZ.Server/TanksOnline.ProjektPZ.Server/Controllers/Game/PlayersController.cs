@@ -73,10 +73,10 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
         }
 
         // DELETE: api/Palyers/5
-        [ResponseType(typeof(Player))]
+        [ResponseType(typeof(PlayerModel))]
         public async Task<IHttpActionResult> DeletePlayer(int id)
         {
-            Player player = await db.Players.FindAsync(id);
+            var player = await db.Players.FindAsync(id);
             if (player == null)
             {
                 return NotFound();
