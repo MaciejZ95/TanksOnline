@@ -20,7 +20,6 @@ namespace Menu
         static HttpClient client = null;
         private Uri url = null;
         private UserModel user = null;
-        private readonly bool _gameDebugMode;
         static string filePath;
         static Bitmap MyImage;
         ImageList imagelist;
