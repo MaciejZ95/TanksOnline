@@ -655,6 +655,11 @@
             Pokój jest pełen
             </summary>
         </member>
+        <member name="F:TanksOnline.ProjektPZ.Server.Domain.Enums.RoomStatus.InGame">
+            <summary>
+            W grze
+            </summary>
+        </member>
         <member name="F:TanksOnline.ProjektPZ.Server.Models.GameRoomModels.RoomModel.Id">
             <summary>
             ID użytkownika dla którego będize tworzony pokój

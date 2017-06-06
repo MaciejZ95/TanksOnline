@@ -72,6 +72,7 @@ namespace Menu
                 {
                     user.status = UserModel.UserStatus.Logged;
                     await PutUser(user.Id, user);
+                    user = await GetUserAsync(url.PathAndQuery);
                     this.Hide();
                     var createForm = new UserPanel(url, client, user);
                     createForm.Closed += (s, args) => this.Close();

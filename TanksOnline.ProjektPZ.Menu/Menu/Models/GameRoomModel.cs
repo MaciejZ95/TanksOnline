@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Menu.Models.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,6 @@ namespace Menu.Models
         public MatchModel Match { get; set; }
         public UserModel Owner { get; set; }
         public List<PlayerModel> Players { get; set; }
+        public RoomStatus Status { get; set; }
     }
 }
