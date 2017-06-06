@@ -29,7 +29,7 @@ public class Ranking extends AppCompatActivity {
 
         jsObjRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                Ranking.this.getString(R.string.apiUrl) + "api/Users/GetTop10Ranking",
+                Ranking.this.getString(R.string.apiiUrl) + "api/Users/GetTop10Ranking",
                 null, new Response.Listener<JSONArray>() {
 
                     @Override

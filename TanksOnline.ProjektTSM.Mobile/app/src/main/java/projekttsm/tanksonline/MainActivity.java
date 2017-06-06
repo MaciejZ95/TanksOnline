@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.gson.JsonObject.*;
 
 import java.util.GregorianCalendar;
 
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     InterstitialAd mInterstitialAd;
     FloatingActionButton btnFabulous;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/3758319020");
+        mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/5006002220");
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
