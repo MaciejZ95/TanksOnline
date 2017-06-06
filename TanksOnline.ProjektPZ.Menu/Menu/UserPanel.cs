@@ -20,7 +20,6 @@ namespace Menu
         static HttpClient client = null;
         private Uri url = null;
         private UserModel user = null;
-        private readonly bool _gameDebugMode;
         static string filePath;
         static Bitmap MyImage;
         ImageList imagelist;
@@ -257,6 +256,9 @@ namespace Menu
                     };
                     var room = await CreateRoomAsync(model);
                     var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                    user.status = UserModel.UserStatus.Ready;
+                    await PutUser(user.Id, user);
+                    user = await GetUserAsync(user.Id);
                     this.Hide();
                     var createForm = new PublicRoom(url, room, client, user, player);
                     createForm.Closed += (s, args) => this.Show();
@@ -276,8 +278,12 @@ namespace Menu
             {
                 try
                 {
+                    
                     var room = await AddPlayerToRoomAsync(user.Id);
                     var player = room.Players.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                    user.status = UserModel.UserStatus.Ready;
+                    await PutUser(user.Id, user);
+                    user = await GetUserAsync(user.Id);
                     this.Hide();
                     var createForm = new PublicRoom(url, room, client, user, player);
                     createForm.Closed += (s, args) => this.Close();

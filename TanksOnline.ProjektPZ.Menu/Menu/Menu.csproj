@@ -94,6 +94,7 @@
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Globals.cs" />
+    <Compile Include="Models\Enum\RoomStatus.cs" />
     <Compile Include="Models\FriendsModel.cs" />
     <Compile Include="Models\GameRoomModel.cs" />
     <Compile Include="Models\MatchModel.cs" />

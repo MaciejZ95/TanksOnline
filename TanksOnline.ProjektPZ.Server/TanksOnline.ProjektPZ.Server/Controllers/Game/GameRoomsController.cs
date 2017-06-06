@@ -245,6 +245,8 @@ namespace TanksOnline.ProjektPZ.Server.Controllers.Game
             return CreatedAtRoute("DefaultApi", new { id = room.Id }, room);
         }
 
+
+        
         #region Dispose
         protected override void Dispose(bool disposing)
         {
