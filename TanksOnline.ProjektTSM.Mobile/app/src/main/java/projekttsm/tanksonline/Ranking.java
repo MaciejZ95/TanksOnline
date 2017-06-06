@@ -36,7 +36,7 @@ public class Ranking extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         if (response != null) {
                             Gson gson = new Gson();
-                            Log.e("BULLSHIT", response.toString());
+                            Log.e("RAFAL", response.toString());
                             data = gson.fromJson(response.toString(), UserModel[].class);
 
                             RankingListAdapter adapter = new RankingListAdapter(Ranking.this, data);
@@ -47,7 +47,7 @@ public class Ranking extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("ERROR", "KURWA ERROR", error);
+                        Log.e("ERROR", "RAFAL ERROR", error);
                     }
                 });
 
