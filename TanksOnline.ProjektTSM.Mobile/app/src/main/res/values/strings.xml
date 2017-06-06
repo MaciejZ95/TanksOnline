@@ -1,8 +1,11 @@
-<resources>
+﻿<resources>
     <string name="app_name">TanksOnline</string>
     <string name="action_settings">Settings</string>
     <string name="banner_ad_unit_id">ca-app-pub-4470162864889559/8328119424</string>
     <string name="somethin">Somethin</string>
-    <string name="apiUrl">http://192.168.43.75:3000/</string>
+    <string name="apiiUrl">http://192.168.43.75:3000/</string>
     <string name="user_data">Dane użytkownika</string>
+    <string name="apiUrl"></string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
 </resources>
