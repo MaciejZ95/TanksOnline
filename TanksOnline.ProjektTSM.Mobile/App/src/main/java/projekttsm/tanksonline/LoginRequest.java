@@ -10,14 +10,13 @@ import  java.util.Map;
  * Created by Gabriel on 24.05.2017.
  */
 
-public class RegisterRequest extends StringRequest {
-    private static final String url = "http://150.254.146.142:3000/api/Register";
+public class LoginRequest extends StringRequest {
+    private static final String url = "http://150.254.146.142:3000/api/Login";
     private Map<String, String> params;
 
-    public RegisterRequest(String email, String name, String pass, Response.Listener<String> listener){
+    public LoginRequest(String email, String pass, Response.Listener<String> listener){
         super(Request.Method.POST, url, listener, null);
         params = new HashMap<>();
-        params.put("name", name);
         params.put("email", email);
         params.put("password", pass);
     }

@@ -33,7 +33,7 @@ public class ActivityBigVideoAd extends AppCompatActivity implements RewardedVid
         loadRewardedVideoAd();
 
         btnRewardedVideo = (Button) findViewById(R.id.buttonRewardedVideo);
-        btnRewardedVideo.setOnClickListener(new View.OnClickListener() {
+        btnRewardedVideo.setOnClickListener(    new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mAd.isLoaded()) {

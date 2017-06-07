@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
     InterstitialAd mInterstitialAd;
     FloatingActionButton btnFabulous;
+    TextView sayHi;
+    TextView emailEd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sayHi = (TextView) findViewById(R.id.helloWorld);
+        emailEd = (TextView) findViewById(R.id.helloWorld);
 
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("Name");
+        String email = intent.getStringExtra("Email");
+
+        String message = name + " witaj w panelu!";
+
+        sayHi.setText(message);
+        emailEd.setText("Email kontaktowy: " + email);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-4470162864889559/5006002220");
 

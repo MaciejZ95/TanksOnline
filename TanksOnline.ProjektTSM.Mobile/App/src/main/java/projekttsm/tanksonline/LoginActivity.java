@@ -1,5 +1,6 @@
 package projekttsm.tanksonline;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,12 +12,18 @@ import android.widget.EditText;
 import android.content.Intent;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import projekttsm.tanksonline.Models.UserModel;
 
@@ -43,32 +50,46 @@ public class LoginActivity extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jsObjRequest = new JsonArrayRequest(
-                        Request.Method.GET,
-                        LoginActivity.this.getString(R.string.apiiUrl) + "api/Users/",
-                        null, new Response.Listener<JSONArray>() {
+                final String emailEd = ed1.getText().toString();
+                final String passwordEd = ed2.getText().toString();
 
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        if (response != null) {
-                            Gson gson = new Gson();
-                            Log.e("RAFAL", response.toString());
-                            data = gson.fromJson(response.toString(), UserModel[].class);
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            String email = jsonResponse.getString("Email");
+                            String name = jsonResponse.getString("Name");
+                            String pass = jsonResponse.getString("Password");
 
-                            RankingListAdapter adapter = new RankingListAdapter(LoginActivity.this, data);
-                            ((ListView) LoginActivity.this.findViewById(R.id.list)).setAdapter(adapter);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+                            //if(emailEd == email && passwordEd == pass){
+                                                           builder.setMessage("Udało Ci się zalogować!")
+                                        .setNegativeButton("Zatwierdz", null)
+                                        .show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("Email", email);
+                                intent.putExtra("Name", name);
+                                startActivity(intent);
+                            //}
+                            //else
+                            //{
+                                //builder.setMessage("Błędny login lub hasło")
+                                 //       .setNegativeButton("Ponów", null)
+                                  //      .create()
+                                    //    .show();
+                            //}
+
+                        }
+                        catch (JSONException e){
+
                         }
                     }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("ERROR", "RAFAL ERROR", error);
-                    }
-                });
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                };
+                LoginRequest loginRequest = new LoginRequest(emailEd, passwordEd, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                queue.add(loginRequest);
             }
         });
 
